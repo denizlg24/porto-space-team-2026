@@ -1,0 +1,11 @@
+
+version = 1
+project_id = "d000f751-e0ea-4e84-9284-697152f2f896"
+name = "porto-space-team-2026"
+
+default_remote = "origin"
+
+[remotes]
+origin = "https://envoy-cli.vercel.app/api"
+
+
