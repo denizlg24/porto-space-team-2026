@@ -7,6 +7,7 @@ import { getIntlayer, getMultilingualUrls } from "intlayer";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Header } from "@/components/header/header";
+import { Footer } from "@/components/footer";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -56,7 +57,7 @@ const LocaleLayout: NextLayoutIntlayer = async ({ children, params }) => {
       dir={getHTMLTextDir(locale)}
     >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen sm:pt-24 pt-20 w-full`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen sm:pt-24 pt-20 w-full flex flex-col`}
       >
         <ThemeProvider
           attribute="class"
@@ -66,7 +67,8 @@ const LocaleLayout: NextLayoutIntlayer = async ({ children, params }) => {
         >
           <IntlayerClientProvider locale={locale}>
             <Header />
-            {children}
+            <main className="flex-1">{children}</main>
+            <Footer />
           </IntlayerClientProvider>
         </ThemeProvider>
       </body>

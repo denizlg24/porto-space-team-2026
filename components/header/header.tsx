@@ -41,8 +41,12 @@ export function Header() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-md supports-backdrop-filter:bg-background/60">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
-          <Link href="/" className="relative z-10 flex items-center">
+          <Link href="/" className="relative z-10 flex items-center gap-1">
             <Image src={logo} className="h-12 w-auto aspect-square object-contain" alt="Logo Porto Space Team"/>
+            <div className="sm:flex hidden flex-col items-start justify-center text-left text-foreground font-sans h-full mt-1">
+              <h1 className="text-sm leading-none">Porto Space Team</h1>
+              <h2 className="text-xs"><span className="text-primary">FEUP</span> Universidade do Porto</h2>
+            </div>
           </Link>
 
           <div className="hidden items-center gap-1 lg:flex">

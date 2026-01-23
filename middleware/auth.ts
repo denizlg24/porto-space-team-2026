@@ -9,7 +9,8 @@ export const authProxy = async (req: NextRequest) => {
   });
 
   if (!session) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
+    const localeCookie = req.cookies.get("INTLAYER_LOCALE")?.value ?? "en";
+    return NextResponse.redirect(new URL(`/${localeCookie}/sign-in`, req.url));
   }
 
   return NextResponse.next();

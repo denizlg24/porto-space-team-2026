@@ -35,7 +35,7 @@ const NotFoundPage: NextPageIntlayer = async ({ params }) => {
 
   return (
     <IntlayerServerProvider locale={locale}>
-      <main className="px-4 pt-16 sm:pt-24 md:pt-32">
+      <main className="px-4 pt-16 sm:pt-24 md:pt-32 min-h-screen pb-12">
         <GridBackground className="-z-10 mask-[radial-gradient(ellipse_at_center,black_30%,transparent_70%)]" />
         <div className="relative mx-auto max-w-2xl">
           <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 sm:-top-12">
