@@ -16,8 +16,6 @@ if (!MONGO_URI) {
   throw new Error("DATABASE_URL is not defined in environment variables.");
 }
 
-const DB_URI: string = MONGO_URI;
-
 let cached = global._mongooseConnection;
 
 if (!cached) {
@@ -29,12 +27,8 @@ async function connectDB() {
 
   if (!cached?.promise) {
     cached!.promise = mongoose
-      .connect(DB_URI, {
-        dbName: process.env.DB_NAME,
-        maxPoolSize: 10,
-      })
+      .connect(MONGO_URI,{bufferCommands:false, dbName:env.DB_NAME})
       .then((mongooseInstance) => {
-        console.log("Database connected");
         return mongooseInstance;
       })
       .catch((err) => {
@@ -49,5 +43,5 @@ async function connectDB() {
 
 export async function getClient() {
   const conn = await connectDB();
-  return conn.connection.getClient().db(process.env.DB_NAME);
+  return conn.connection.getClient().db(env.DB_NAME);
 }

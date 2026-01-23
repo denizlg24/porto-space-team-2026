@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { getClient } from "./db";
+import { nextCookies } from "better-auth/next-js";
 
 /* 
 * Cliente do mongoDB, cached para evitar
@@ -19,4 +20,5 @@ export const auth = betterAuth({
   emailAndPassword: { 
     enabled: true, 
   }, 
+  plugins:[nextCookies()]
 });
