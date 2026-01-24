@@ -74,8 +74,7 @@ export function SignInForm({ className }: { className?: string }) {
           return;
         }
 
-        router.push("/");
-        router.refresh();
+        router.push(`/${locale.locale}/admin`);
       } catch {
         setError(content.errors.genericError.value);
       } finally {

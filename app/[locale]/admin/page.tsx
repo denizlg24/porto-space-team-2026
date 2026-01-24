@@ -1,4 +1,3 @@
-import { cacheTag } from "next/cache";
 import type { Metadata } from "next";
 import { LocalPromiseParams, NextPageIntlayer } from "next-intlayer";
 import { getIntlayer, getMultilingualUrls } from "intlayer";
@@ -27,9 +26,7 @@ export const generateMetadata = async ({
 };
 
 const AdminDashboardPage: NextPageIntlayer = async ({ params }) => {
-  "use cache";
   const { locale } = await params;
-  cacheTag(`admin-dashboard-${locale}`);
   const content = getIntlayer("admin-sidebar", locale);
 
   return (

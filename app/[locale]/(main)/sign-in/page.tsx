@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { cacheTag } from "next/cache";
 import { getIntlayer, getMultilingualUrls } from "intlayer";
 import { LocalPromiseParams, NextPageIntlayer } from "next-intlayer";
 import { IntlayerServerProvider } from "next-intlayer/server";
@@ -31,9 +30,7 @@ export const generateMetadata = async ({
 };
 
 const Page: NextPageIntlayer = async ({ params }) => {
-  "use cache";
   const { locale } = await params;
-  cacheTag(`sign-in-page-${locale}`);
   const content = getIntlayer("sign-in-page", locale);
 
   return (
