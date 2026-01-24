@@ -5,10 +5,13 @@ import { AdminHeader } from "./_components/admin-header";
 import { auth } from "@/lib/auth";
 import { headers, cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { unstable_noStore as noStore } from "next/cache";
 
-export const dynamic = "force-dynamic"; 
+export const dynamic = "force-dynamic";
 
 const AdminLayout: NextLayoutIntlayer = async ({ children, params }) => {
+  noStore();
+
   const { locale } = await params;
 
   const cookieStore = await cookies();

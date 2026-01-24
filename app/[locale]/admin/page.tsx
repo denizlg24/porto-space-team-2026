@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { LocalPromiseParams, NextPageIntlayer } from "next-intlayer";
 import { getIntlayer, getMultilingualUrls } from "intlayer";
 
+export const dynamic = "force-dynamic";
+
 export const generateMetadata = async ({
   params,
 }: LocalPromiseParams): Promise<Metadata> => {
