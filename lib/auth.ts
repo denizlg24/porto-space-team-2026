@@ -3,6 +3,7 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { getClient } from "./db";
 import { nextCookies } from "better-auth/next-js";
 import { APIError, createAuthMiddleware } from "better-auth/api";
+import { env } from "@/lib/env";
 
 /*
  * Cliente do mongoDB, cached para evitar
@@ -15,6 +16,8 @@ const db = await getClient();
  * https://www.better-auth.com/docs
  */
 export const auth = betterAuth({
+  baseURL: env.BETTER_AUTH_URL,
+  trustedOrigins: [env.BETTER_AUTH_URL],
   database: mongodbAdapter(db, {
     client: db.client,
   }),

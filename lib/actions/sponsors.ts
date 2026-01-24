@@ -369,15 +369,20 @@ export type PublicSponsorData = {
 };
 
 export async function getPublicSponsorsData(): Promise<PublicSponsorData> {
-  await connectDB();
+  try {
+    await connectDB();
 
-  const [categories, sponsors] = await Promise.all([
-    SponsorCategories.find().sort({ order: 1 }),
-    Sponsors.find().sort({ categoryId: 1, order: 1 }),
-  ]);
+    const [categories, sponsors] = await Promise.all([
+      SponsorCategories.find().sort({ order: 1 }),
+      Sponsors.find().sort({ categoryId: 1, order: 1 }),
+    ]);
 
-  return {
-    categories: categories.map(transformCategory),
-    sponsors: sponsors.map(transformSponsor),
-  };
+    return {
+      categories: categories.map(transformCategory),
+      sponsors: sponsors.map(transformSponsor),
+    };
+  } catch (error) {
+    console.error("Error fetching public sponsors data:", error);
+    return { categories: [], sponsors: [] };
+  }
 }
