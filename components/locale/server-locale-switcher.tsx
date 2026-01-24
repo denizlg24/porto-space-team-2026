@@ -1,9 +1,8 @@
 "use client";
 
 import type { FC } from "react";
-import { getLocaleName, getLocalizedUrl, Locales } from "intlayer";
+import { getLocaleName, Locales } from "intlayer";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { changeLocale } from "@/lib/actions/locale";
 
 interface LocaleSwitcherProps {
   locale: string;
@@ -28,6 +28,11 @@ export const ServerLocaleSwitcher: FC<LocaleSwitcherProps> = ({
   const pathname = usePathname();
 
   const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, "") || "/";
+
+  const handleLocaleChange = async (newLocale: string) => {
+    if (newLocale === locale) return;
+    await changeLocale(pathWithoutLocale, newLocale);
+  };
 
   return (
     <DropdownMenu modal={false}>
@@ -46,22 +51,20 @@ export const ServerLocaleSwitcher: FC<LocaleSwitcherProps> = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-35">
         {availableLocales.map((localeItem) => (
-          <DropdownMenuItem key={localeItem} asChild>
-            <Link
-              href={getLocalizedUrl(pathWithoutLocale, localeItem)}
-              replace
-              className={cn(
-                "flex w-full cursor-pointer items-center justify-between gap-3",
-                locale === localeItem && "bg-muted"
-              )}
-            >
-              <span className="text-xs tracking-wide capitalize">
-                {getLocaleName(localeItem, locale)}
-              </span>
-              <span className="text-[10px] uppercase text-muted-foreground">
-                {localeItem}
-              </span>
-            </Link>
+          <DropdownMenuItem
+            key={localeItem}
+            onClick={() => handleLocaleChange(localeItem)}
+            className={cn(
+              "flex w-full cursor-pointer items-center justify-between gap-3",
+              locale === localeItem && "bg-muted"
+            )}
+          >
+            <span className="text-xs tracking-wide capitalize">
+              {getLocaleName(localeItem, locale)}
+            </span>
+            <span className="text-[10px] uppercase text-muted-foreground">
+              {localeItem}
+            </span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
