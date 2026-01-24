@@ -8,7 +8,7 @@ const robots = (): MetadataRoute.Robots => ({
   rules: {
     userAgent: "*",
     allow: ["/"],
-    disallow: getAllMultilingualUrls(["/login", "/register","/admin*"]),
+    disallow: getAllMultilingualUrls(["/admin*"]),
   },
   host: "https://portospaceteam.pt",
   sitemap: `https://portospaceteam.pt/sitemap.xml`,

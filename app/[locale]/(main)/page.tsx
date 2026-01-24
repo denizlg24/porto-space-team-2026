@@ -8,7 +8,9 @@ const Page: NextPageIntlayer = async ({ params }) => {
 
   return (
     <IntlayerServerProvider locale={locale}>
-      <h1>{content.title}</h1>
+      <main className="min-h-screen lg:text-7xl md:text-6xl sm:text-4xl text-3xl font-black uppercase text-center">
+        <h1 className="mt-12">{content.welcome}</h1>
+      </main>
     </IntlayerServerProvider>
   );
 };

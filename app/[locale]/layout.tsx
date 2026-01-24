@@ -1,13 +1,12 @@
 import "../globals.css";
+import { Suspense } from "react";
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import type { LocalPromiseParams, NextLayoutIntlayer } from "next-intlayer";
-import { IntlayerClientProvider } from "next-intlayer";
 import { getHTMLTextDir } from "intlayer";
 import { getIntlayer, getMultilingualUrls } from "intlayer";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { Header } from "@/components/header/header";
-import { Footer } from "@/components/footer";
+
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -57,20 +56,18 @@ const LocaleLayout: NextLayoutIntlayer = async ({ children, params }) => {
       dir={getHTMLTextDir(locale)}
     >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen sm:pt-24 pt-20 w-full flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen w-full flex flex-col`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <IntlayerClientProvider locale={locale}>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </IntlayerClientProvider>
-        </ThemeProvider>
+        <Suspense>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </Suspense>
       </body>
     </html>
   );

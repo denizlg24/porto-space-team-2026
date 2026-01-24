@@ -1,15 +1,14 @@
-"use client";
-
-import { useIntlayer } from "next-intlayer";
-import { Link } from "@/components/locale/link";
+import { getIntlayer } from "intlayer";
+import { ServerLink } from "@/components/locale/server-link";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { Instagram, LogIn, Mail } from "lucide-react";
-
 import logo from "@/public/logo-black.png";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
+import { CurrentYear } from "./current-year";
 
-const navLinks = [
+const navLinkKeys = [
   { key: "about", href: "/about" },
   { key: "project", href: "/project" },
   { key: "sponsors", href: "/sponsors" },
@@ -31,16 +30,19 @@ const socialLinks = [
   },
 ];
 
-export function Footer() {
-  const content = useIntlayer("footer");
-  const currentYear = new Date().getFullYear();
+interface ServerFooterProps {
+  locale: string;
+}
+
+export function ServerFooter({ locale }: ServerFooterProps) {
+  const content = getIntlayer("footer", locale);
 
   return (
     <footer className="border-t border-border/40 bg-background">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-2">
+            <ServerLink href="/" locale={locale} className="flex items-center gap-2">
               <Image
                 src={logo}
                 className="h-12 w-auto aspect-square object-contain"
@@ -55,7 +57,7 @@ export function Footer() {
                   Porto
                 </h2>
               </div>
-            </Link>
+            </ServerLink>
             <p className="mt-4 max-w-md text-sm text-muted-foreground">
               {content.description}
             </p>
@@ -81,14 +83,15 @@ export function Footer() {
               {content.sections.navigation}
             </h3>
             <ul className="mt-4 space-y-3">
-              {navLinks.map((link) => (
+              {navLinkKeys.map((link) => (
                 <li key={link.key}>
-                  <Link
+                  <ServerLink
                     href={link.href}
+                    locale={locale}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {content.nav[link.key as keyof typeof content.nav]}
-                  </Link>
+                  </ServerLink>
                 </li>
               ))}
             </ul>
@@ -100,20 +103,22 @@ export function Footer() {
             </h3>
             <ul className="mt-4 space-y-3">
               <li>
-                <Link
+                <ServerLink
                   href="/privacy"
+                  locale={locale}
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {content.legal.privacy}
-                </Link>
+                </ServerLink>
               </li>
               <li>
-                <Link
+                <ServerLink
                   href="/terms"
+                  locale={locale}
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {content.legal.terms}
-                </Link>
+                </ServerLink>
               </li>
             </ul>
           </div>
@@ -123,12 +128,16 @@ export function Footer() {
 
         <div className="flex flex-col sm:items-center items-start justify-between gap-4 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            &copy; {currentYear} Porto Space Team. {content.copyright}
+            &copy;{" "}
+            <Suspense fallback="2026">
+              <CurrentYear />
+            </Suspense>{" "}
+            Porto Space Team. {content.copyright}
           </p>
           <Button asChild variant={"link"} className="h-fit! p-0!">
-            <Link href={"/admin/dashboard"} className="text-xs">
+            <ServerLink href={"/admin"} locale={locale} className="text-xs">
               Admin <LogIn />
-            </Link>
+            </ServerLink>
           </Button>
         </div>
       </div>

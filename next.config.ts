@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   experimental: {
     authInterrupts: true,
   },
+  cacheComponents: true,
 };
 
 export default withIntlayer(nextConfig);

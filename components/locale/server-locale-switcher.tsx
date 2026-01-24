@@ -1,8 +1,8 @@
 "use client";
 
 import type { FC } from "react";
-import { getLocaleName, getLocalizedUrl } from "intlayer";
-import { useLocale } from "next-intlayer";
+import { getLocaleName, getLocalizedUrl, Locales } from "intlayer";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,9 +14,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-export const LocaleSwitcher: FC<{ className?: string }> = ({ className }) => {
-  const { locale, pathWithoutLocale, availableLocales, setLocale } =
-    useLocale();
+interface LocaleSwitcherProps {
+  locale: string;
+  className?: string;
+}
+
+const availableLocales = [Locales.ENGLISH, Locales.PORTUGUESE];
+
+export const ServerLocaleSwitcher: FC<LocaleSwitcherProps> = ({
+  locale,
+  className,
+}) => {
+  const pathname = usePathname();
+
+  const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, "") || "/";
 
   return (
     <DropdownMenu modal={false}>
@@ -38,7 +49,6 @@ export const LocaleSwitcher: FC<{ className?: string }> = ({ className }) => {
           <DropdownMenuItem key={localeItem} asChild>
             <Link
               href={getLocalizedUrl(pathWithoutLocale, localeItem)}
-              onClick={() => setLocale(localeItem)}
               replace
               className={cn(
                 "flex w-full cursor-pointer items-center justify-between gap-3",

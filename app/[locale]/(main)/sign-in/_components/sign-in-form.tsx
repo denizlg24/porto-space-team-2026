@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useForm } from "@tanstack/react-form";
 import { z } from "zod";
-import { useIntlayer } from "next-intlayer";
+import { useIntlayer, useLocale } from "next-intlayer";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ export function SignInForm({ className }: { className?: string }) {
   const router = useRouter();
   const [error, setError] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-
+  const locale = useLocale();
   const formSchema = React.useMemo(
     () =>
       z.object({
@@ -55,6 +55,7 @@ export function SignInForm({ className }: { className?: string }) {
         const result = await authClient.signIn.email({
           email: value.email,
           password: value.password,
+          callbackURL: `/${locale.locale}/admin`,
         });
 
         if (result.error) {
