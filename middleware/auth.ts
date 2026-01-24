@@ -7,6 +7,8 @@ export const authProxy = async (req: NextRequest) => {
     cookiePrefix:"porto_space_team",
   })
 
+  console.log("MIDDLEWARE SESSION COOKIE: ",session);
+
   if (!session) {
     const localeCookie = req.cookies.get("INTLAYER_LOCALE")?.value ?? "en";
     return NextResponse.redirect(new URL(`/${localeCookie}/sign-in`, req.url));
