@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -9,10 +10,48 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 import type {
   SponsorCategoryItem,
   SponsorItem,
 } from "@/lib/actions/sponsors";
+
+interface SponsorImageProps {
+  src: string;
+  alt: string;
+  size: number;
+}
+
+function SponsorImage({ src, alt, size }: SponsorImageProps) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  return (
+    <div
+      className="relative"
+      style={{
+        width: size,
+        height: size,
+      }}
+    >
+      {isLoading && (
+        <Skeleton className="absolute inset-0 rounded-md" />
+      )}
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className={cn(
+          "object-contain transition-all duration-300 group-hover:scale-105",
+          isLoading ? "opacity-0" : "opacity-100"
+        )}
+        sizes={`${size}px`}
+        unoptimized
+        onLoad={() => setIsLoading(false)}
+      />
+    </div>
+  );
+}
 
 interface SponsorsDisplayProps {
   categories: SponsorCategoryItem[];
@@ -81,22 +120,11 @@ function CategorySection({
       className="group flex flex-col items-center gap-1 p-2 rounded-lg transition-all hover:bg-muted/50"
       title={`${sponsor.name} - ${visitWebsiteLabel}`}
     >
-      <div
-        className="relative"
-        style={{
-          width: logoSize,
-          height: logoSize,
-        }}
-      >
-        <Image
-          src={sponsor.imageUrl}
-          alt={sponsor.name}
-          fill
-          className="object-contain transition-transform group-hover:scale-105"
-          sizes={`${logoSize}px`}
-          unoptimized
-        />
-      </div>
+      <SponsorImage
+        src={sponsor.imageUrl}
+        alt={sponsor.name}
+        size={logoSize}
+      />
       <span className="text-xs text-muted-foreground text-center truncate w-full">
         {sponsor.name}
       </span>

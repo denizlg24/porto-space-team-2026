@@ -15,25 +15,11 @@ const AdminLayout: NextLayoutIntlayer = async ({ children, params }) => {
   const { locale } = await params;
 
   const cookieStore = await cookies();
-  const allCookies = cookieStore.getAll();
-  console.log("=== ADMIN LAYOUT DEBUG ===");
-  console.log("BETTER_AUTH_URL:", process.env.BETTER_AUTH_URL);
-  console.log("All cookies:", allCookies.map(c => c.name));
-
-  const sessionCookie = cookieStore.get("porto_space_team.session_token");
-  console.log("Session cookie exists:", !!sessionCookie);
-
+  
   const reqHeaders = await headers();
-  console.log("Cookie header:", reqHeaders.get("cookie")?.substring(0, 100));
 
-  let session = await auth.api.getSession({ headers: reqHeaders });
-  console.log("Session with headers:", session ? "found" : "null");
+  const session = await auth.api.getSession({ headers: reqHeaders });
 
-  if (!session) {
-    session = await auth.api.getSession();
-    console.log("Session without headers:", session ? "found" : "null");
-  }
-  console.log("=== END DEBUG ===");
 
   if (!session || session.user.approvalStatus !== "APPROVED") {
     redirect(`/${locale}/sign-in`);
