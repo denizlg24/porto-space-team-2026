@@ -6,13 +6,10 @@ import { auth } from "@/lib/auth";
 import { headers, cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-
 const AdminLayout: NextLayoutIntlayer = async ({ children, params }) => {
   const { locale } = await params;
   const cookieStore = await cookies();
 
-  // Debug: log the auth cookie
   const authCookie = cookieStore.get("porto_space_team.session_token");
   console.log("LAYOUT AUTH COOKIE:", authCookie?.value ? "exists" : "missing");
 
