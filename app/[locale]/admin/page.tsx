@@ -1,8 +1,11 @@
+import { cacheTag } from "next/cache";
 import { NextPageIntlayer } from "next-intlayer";
 import { getIntlayer } from "intlayer";
 
 const AdminDashboardPage: NextPageIntlayer = async ({ params }) => {
+  "use cache";
   const { locale } = await params;
+  cacheTag(`admin-dashboard-${locale}`);
   const content = getIntlayer("admin-sidebar", locale);
 
   return (

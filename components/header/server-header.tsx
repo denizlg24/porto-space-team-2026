@@ -1,3 +1,4 @@
+import { cacheTag } from "next/cache";
 import { getIntlayer } from "intlayer";
 import { ServerLink } from "@/components/locale/server-link";
 import { ServerNavLink } from "@/components/ui/server-nav-link";
@@ -21,7 +22,9 @@ interface ServerHeaderProps {
   locale: string;
 }
 
-export function ServerHeader({ locale }: ServerHeaderProps) {
+export async function ServerHeader({ locale }: ServerHeaderProps) {
+  "use cache";
+  cacheTag(`header-${locale}`);
   const content = getIntlayer("header", locale);
 
   const navLinks = navLinkKeys.map((link) => ({
