@@ -12,6 +12,7 @@ const AdminLayout: NextLayoutIntlayer = async ({ children, params }) => {
 
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session || session.user.approvalStatus !== "APPROVED") {
+    console.log("NO SESSION REDIRECTING TO SIGN IN");
     redirect(`/${locale}/sign-in`);
   }
 
