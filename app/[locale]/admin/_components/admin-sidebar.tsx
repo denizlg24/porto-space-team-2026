@@ -25,6 +25,7 @@ import {
   ArrowLeft,
   LogOut,
   Handshake,
+  FolderOpen,
 } from "lucide-react";
 import { authClient } from "@/lib/authClient";
 import Image from "next/image";
@@ -37,6 +38,7 @@ const mainNavItems = [
 const managementNavItems = [
   { key: "users", href: "/admin/users", icon: Users },
   { key: "approvals", href: "/admin/approvals", icon: UserCheck },
+  { key: "files", href: "/admin/files", icon: FolderOpen },
   { key: "sponsors", href: "/admin/sponsors", icon: Handshake },
   { key: "newsletter", href: "/admin/newsletter", icon: Mail },
 ] as const;

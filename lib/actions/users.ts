@@ -27,7 +27,7 @@ export type ActionResult<T = void> =
 /**
  * Get the current authenticated admin session
  */
-async function getAdminSession() {
+export async function getAdminSession() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session || session.user.approvalStatus !== "APPROVED") {
     return null;

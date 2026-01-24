@@ -1,6 +1,30 @@
 import { cacheTag } from "next/cache";
-import { NextPageIntlayer } from "next-intlayer";
-import { getIntlayer } from "intlayer";
+import type { Metadata } from "next";
+import { LocalPromiseParams, NextPageIntlayer } from "next-intlayer";
+import { getIntlayer, getMultilingualUrls } from "intlayer";
+
+export const generateMetadata = async ({
+  params,
+}: LocalPromiseParams): Promise<Metadata> => {
+  const { locale } = await params;
+
+  const metadata = getIntlayer("admin-metadata", locale);
+
+  const multilingualUrls = getMultilingualUrls("/admin");
+  const localizedUrl =
+    multilingualUrls[locale as keyof typeof multilingualUrls];
+
+  return {
+    ...metadata,
+    alternates: {
+      canonical: localizedUrl,
+      languages: { ...multilingualUrls, "x-default": "/admin" },
+    },
+    openGraph: {
+      url: localizedUrl,
+    },
+  };
+};
 
 const AdminDashboardPage: NextPageIntlayer = async ({ params }) => {
   "use cache";
