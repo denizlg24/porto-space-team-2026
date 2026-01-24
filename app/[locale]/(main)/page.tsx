@@ -1,12 +1,11 @@
-import { cacheTag } from "next/cache";
 import { NextPageIntlayer } from "next-intlayer";
 import { IntlayerServerProvider } from "next-intlayer/server";
 import { getIntlayer } from "intlayer";
 
+export const revalidate = 604800;
+
 const Page: NextPageIntlayer = async ({ params }) => {
-  "use cache";
   const { locale } = await params;
-  cacheTag(`home-page-${locale}`);
   const content = getIntlayer("home-page", locale);
 
   return (

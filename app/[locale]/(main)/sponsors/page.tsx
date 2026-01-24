@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { cacheTag } from "next/cache";
 import type { Metadata } from "next";
 import { LocalPromiseParams, NextPageIntlayer } from "next-intlayer";
 import { IntlayerServerProvider } from "next-intlayer/server";
@@ -8,6 +7,8 @@ import { getPublicSponsorsData } from "@/lib/actions/sponsors";
 import { SponsorsDisplay } from "./_components/sponsors-display";
 import { SponsorsDisplaySkeleton } from "./_components/sponsors-display-skeleton";
 import { GridBackground } from "@/components/ui/grid-background";
+
+export const revalidate = 604800;
 
 export const generateMetadata = async ({
   params,
@@ -33,9 +34,6 @@ export const generateMetadata = async ({
 };
 
 async function SponsorsContent({ locale }: { locale: string }) {
-  "use cache";
-  cacheTag(`sponsors-page-${locale}`);
-
   const content = getIntlayer("sponsors-page", locale);
   const data = await getPublicSponsorsData();
 

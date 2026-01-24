@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { cacheTag } from "next/cache";
 import { getIntlayer, getLocalizedUrl, getMultilingualUrls } from "intlayer";
 import { LocalPromiseParams, NextPageIntlayer } from "next-intlayer";
 import { IntlayerServerProvider } from "next-intlayer/server";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { GridBackground } from "@/components/ui/grid-background";
+
+export const revalidate = 604800;
 
 export const generateMetadata = async ({
   params,
@@ -31,9 +32,7 @@ export const generateMetadata = async ({
 };
 
 const NotFoundPage: NextPageIntlayer = async ({ params }) => {
-  "use cache";
   const { locale } = await params;
-  cacheTag(`admin-not-found-page-${locale}`);
   const content = getIntlayer("not-found-page", locale);
 
   return (

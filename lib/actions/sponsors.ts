@@ -4,7 +4,7 @@ import { connectDB } from "@/lib/db";
 import { SponsorCategories, type ISponsorCategory } from "@/models/SponsorCategory";
 import { Sponsors, type ISponsor } from "@/models/Sponsor";
 import { getAdminSession, type ActionResult } from "./users";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 export type CategoryTitleStyle = {
   fontSize: string;
@@ -65,14 +65,14 @@ function transformSponsor(doc: ISponsor): SponsorItem {
 }
 
 function revalidateSponsors() {
+  // Revalidate admin pages
   revalidatePath("/admin/sponsors", "page");
   revalidatePath("/en/admin/sponsors", "page");
   revalidatePath("/pt/admin/sponsors", "page");
+  // Revalidate public sponsors pages
   revalidatePath("/sponsors", "page");
   revalidatePath("/en/sponsors", "page");
   revalidatePath("/pt/sponsors", "page");
-  revalidateTag("sponsors-page-en", "default");
-  revalidateTag("sponsors-page-pt", "default");
 }
 
 export async function getCategories(): Promise<ActionResult<SponsorCategoryItem[]>> {

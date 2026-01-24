@@ -1,4 +1,3 @@
-import { cacheTag } from "next/cache";
 import { getIntlayer } from "intlayer";
 import { ServerLink } from "@/components/locale/server-link";
 import { Separator } from "@/components/ui/separator";
@@ -36,8 +35,6 @@ interface ServerFooterProps {
 }
 
 export async function ServerFooter({ locale }: ServerFooterProps) {
-  "use cache";
-  cacheTag(`footer-${locale}`);
   const content = getIntlayer("footer", locale);
 
   return (
