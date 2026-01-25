@@ -27,6 +27,7 @@ import {
   Handshake,
   FolderOpen,
   FileText,
+  Building2,
 } from "lucide-react";
 import { authClient } from "@/lib/authClient";
 import Image from "next/image";
@@ -39,6 +40,7 @@ const mainNavItems = [
 const managementNavItems = [
   { key: "users", href: "/admin/users", icon: Users },
   { key: "approvals", href: "/admin/approvals", icon: UserCheck },
+  { key: "departments", href: "/admin/departments", icon: Building2 },
   { key: "files", href: "/admin/files", icon: FolderOpen },
   { key: "content", href: "/admin/content", icon: FileText },
   { key: "sponsors", href: "/admin/sponsors", icon: Handshake },

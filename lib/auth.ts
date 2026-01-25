@@ -4,6 +4,10 @@ import { getClient } from "./db";
 import { nextCookies } from "better-auth/next-js";
 import { APIError, createAuthMiddleware } from "better-auth/api";
 import { env } from "@/lib/env";
+import { Resend } from "resend";
+import { getVerificationEmailTemplate } from "@/lib/email-templates";
+
+const resend = new Resend(env.RESEND_API_KEY);
 
 /*
  * Cliente do mongoDB, cached para evitar
@@ -78,6 +82,23 @@ export const auth = betterAuth({
     requireEmailVerification: true,
     minPasswordLength: 6,
     maxPasswordLength: 32,
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: false,
+    sendVerificationEmail: async ({ user, url, token }) => {
+      const verificationUrl = `${env.BETTER_AUTH_URL}/verify-email?token=${token}`;
+
+      await resend.emails.send({
+        from: env.EMAIL_FROM,
+        to: user.email,
+        subject: "Verify your email - Porto Space Team",
+        html: getVerificationEmailTemplate({
+          url: verificationUrl,
+          name: user.name,
+        }),
+      });
+    },
   },
   plugins: [nextCookies()],
 });

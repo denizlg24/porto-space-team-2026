@@ -23,7 +23,11 @@ const adminSidebarContent = {
       }),
       approvals: t({
         en: "Approvals",
-        pt: "Aprovações",
+        pt: "Aprovacoes",
+      }),
+      departments: t({
+        en: "Departments",
+        pt: "Departamentos",
       }),
       files: t({
         en: "Files",
@@ -31,7 +35,7 @@ const adminSidebarContent = {
       }),
       content: t({
         en: "Content",
-        pt: "Conteúdo",
+        pt: "Conteudo",
       }),
       sponsors: t({
         en: "Sponsors",
@@ -43,7 +47,7 @@ const adminSidebarContent = {
       }),
       settings: t({
         en: "Settings",
-        pt: "Definições",
+        pt: "Definicoes",
       }),
     },
     sections: {

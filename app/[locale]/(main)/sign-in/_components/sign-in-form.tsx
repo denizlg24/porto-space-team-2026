@@ -25,7 +25,11 @@ export function SignInForm({ className }: { className?: string }) {
   const content = useIntlayer("sign-in-page");
   const router = useRouter();
   const [error, setError] = React.useState<string | null>(null);
+  const [showResendOption, setShowResendOption] = React.useState(false);
+  const [resendEmail, setResendEmail] = React.useState<string>("");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [isResending, setIsResending] = React.useState(false);
+  const [resendSuccess, setResendSuccess] = React.useState(false);
   const locale = useLocale();
   const formSchema = React.useMemo(
     () =>
@@ -61,15 +65,21 @@ export function SignInForm({ className }: { className?: string }) {
         if (result.error) {
           if (result.error.code === "INVALID_EMAIL_OR_PASSWORD") {
             setError(content.errors.invalidCredentials.value);
+            setShowResendOption(false);
           } else if (result.error.code === "EMAIL_NOT_VERIFIED") {
             setError(content.errors.emailNotVerified.value);
+            setShowResendOption(true);
+            setResendEmail(value.email);
+            setResendSuccess(false);
           } else if (
             result.error.code === "ACCOUNT_NOT_APPROVED" &&
             result.error.message === "ACCOUNT_NOT_APPROVED"
           ) {
             setError(content.errors.accountNotApproved.value);
+            setShowResendOption(false);
           } else {
             setError(content.errors.genericError.value);
+            setShowResendOption(false);
           }
           return;
         }
@@ -77,11 +87,30 @@ export function SignInForm({ className }: { className?: string }) {
         router.push(`/${locale.locale}/admin`);
       } catch {
         setError(content.errors.genericError.value);
+        setShowResendOption(false);
       } finally {
         setIsSubmitting(false);
       }
     },
   });
+
+  const handleResendVerification = async () => {
+    if (!resendEmail || isResending) return;
+
+    setIsResending(true);
+    try {
+      await authClient.sendVerificationEmail({
+        email: resendEmail,
+        callbackURL: `/${locale.locale}/verify-email`,
+      });
+      setResendSuccess(true);
+      setError(null);
+    } catch {
+      setError(content.errors.resendFailed.value);
+    } finally {
+      setIsResending(false);
+    }
+  };
 
   return (
     <div className={cn("w-full flex flex-col gap-6", className)}>
@@ -169,6 +198,13 @@ export function SignInForm({ className }: { className?: string }) {
             content.form.submitButton
           )}
         </Button>
+        {resendSuccess && (
+          <Alert className="animate-in fade-in-0 slide-in-from-top-1 duration-200 py-3 border-primary/30 bg-primary/5">
+            <AlertDescription className="leading-none text-primary">
+              {content.resend.success}
+            </AlertDescription>
+          </Alert>
+        )}
         {error && (
           <Alert
             variant="destructive"
@@ -178,6 +214,24 @@ export function SignInForm({ className }: { className?: string }) {
               {error}
             </AlertDescription>
           </Alert>
+        )}
+        {showResendOption && !resendSuccess && (
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full h-12"
+            onClick={handleResendVerification}
+            disabled={isResending}
+          >
+            {isResending ? (
+              <>
+                <Spinner className="mr-2" />
+                {content.resend.sending}
+              </>
+            ) : (
+              content.resend.button
+            )}
+          </Button>
         )}
       </form>
       <div className="w-full h-px bg-muted relative flex items-center justify-center">

@@ -14,9 +14,11 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Link } from "@/components/locale/link";
 import { MoveRight } from "lucide-react";
+import { getPublicDepartments, type DepartmentItem } from "@/lib/actions/departments";
 
 export function IdentityForm({
   className,
@@ -40,18 +42,19 @@ export function IdentityForm({
   moveStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const content = useIntlayer("register-page");
+  const [departments, setDepartments] = React.useState<DepartmentItem[]>([]);
+  const [isLoadingDepartments, setIsLoadingDepartments] = React.useState(true);
 
-  const departments = React.useMemo(
-    () => [
-      { id: "propulsion", name: content.departments.propulsion, code: "PRO" },
-      { id: "structures", name: content.departments.structures, code: "STR" },
-      { id: "avionics", name: content.departments.avionics, code: "AVI" },
-      { id: "recovery", name: content.departments.recovery, code: "REC" },
-      { id: "operations", name: content.departments.operations, code: "OPS" },
-      { id: "business", name: content.departments.business, code: "BIZ" },
-    ],
-    [content.departments]
-  );
+  React.useEffect(() => {
+    const fetchDepartments = async () => {
+      const result = await getPublicDepartments();
+      if (result.success) {
+        setDepartments(result.data);
+      }
+      setIsLoadingDepartments(false);
+    };
+    fetchDepartments();
+  }, []);
 
   const formSchema = React.useMemo(
     () =>
@@ -170,23 +173,35 @@ export function IdentityForm({
                   >
                     {content.identityForm.departmentLabel}
                   </FieldLabel>
-                  {departments.map((dept) => (
-                    <button
-                      key={dept.id}
-                      type="button"
-                      onClick={() => field.handleChange(dept.id)}
-                      className={`p-3 border text-left transition-all ${
-                        field.state.value === dept.id
-                          ? "border-primary bg-primary/10"
-                          : "border-border bg-secondary hover:border-muted-foreground"
-                      }`}
-                    >
-                      <div className="font-mono text-xs text-primary">
-                        {dept.code}
-                      </div>
-                      <div className="text-sm text-foreground">{dept.name}</div>
-                    </button>
-                  ))}
+                  {isLoadingDepartments ? (
+                    <>
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        <Skeleton key={i} className="h-16 w-full" />
+                      ))}
+                    </>
+                  ) : departments.length === 0 ? (
+                    <p className="col-span-2 text-sm text-muted-foreground py-4 text-center">
+                      {content.identityForm.noDepartments}
+                    </p>
+                  ) : (
+                    departments.map((dept) => (
+                      <button
+                        key={dept.id}
+                        type="button"
+                        onClick={() => field.handleChange(dept.id)}
+                        className={`p-3 border text-left transition-all ${
+                          field.state.value === dept.id
+                            ? "border-primary bg-primary/10"
+                            : "border-border bg-secondary hover:border-muted-foreground"
+                        }`}
+                      >
+                        <div className="font-mono text-xs text-primary">
+                          {dept.code}
+                        </div>
+                        <div className="text-sm text-foreground">{dept.name}</div>
+                      </button>
+                    ))
+                  )}
                   {isInvalid && (
                     <FieldError
                       className="w-full col-span-2"

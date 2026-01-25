@@ -1,7 +1,7 @@
 "use client";
 
 import { useIntlayer } from "next-intlayer";
-import { useState, useTransition, useOptimistic } from "react";
+import { useState, useTransition, useOptimistic, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -50,6 +50,7 @@ import {
   X,
   Trash2,
   Building2,
+  Loader2,
 } from "lucide-react";
 import type { User } from "@/lib/actions/users";
 import {
@@ -58,15 +59,10 @@ import {
   deleteUser,
   updateUserDepartment,
 } from "@/lib/actions/users";
-
-const departments = [
-  "propulsion",
-  "structures",
-  "avionics",
-  "recovery",
-  "operations",
-  "business",
-] as const;
+import {
+  getDepartments,
+  type DepartmentItem,
+} from "@/lib/actions/departments";
 
 type OptimisticAction =
   | { type: "approve"; userId: string }
@@ -86,6 +82,19 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
   const [departmentFilter, setDepartmentFilter] = useState<string>("all");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
+  const [departments, setDepartments] = useState<DepartmentItem[]>([]);
+  const [isLoadingDepartments, setIsLoadingDepartments] = useState(true);
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      const result = await getDepartments();
+      if (result.success) {
+        setDepartments(result.data);
+      }
+      setIsLoadingDepartments(false);
+    };
+    fetchDepartments();
+  }, []);
 
   const [optimisticUsers, addOptimisticUpdate] = useOptimistic(
     initialUsers,
@@ -196,10 +205,9 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
     }
   };
 
-  const getDepartmentLabel = (dept: string) => {
-    return (
-      content.departments[dept as keyof typeof content.departments] ?? dept
-    );
+  const getDepartmentLabel = (deptId: string) => {
+    const dept = departments.find((d) => d.id === deptId);
+    return dept?.name ?? deptId;
   };
 
   const getInitials = (name: string) => {
@@ -247,11 +255,17 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
               <SelectItem value="all">
                 {content.filters.allDepartments}
               </SelectItem>
-              {departments.map((dept) => (
-                <SelectItem key={dept} value={dept}>
-                  {getDepartmentLabel(dept)}
+              {isLoadingDepartments ? (
+                <SelectItem value="loading" disabled>
+                  <Loader2 className="size-4 animate-spin" />
                 </SelectItem>
-              ))}
+              ) : (
+                departments.map((dept) => (
+                  <SelectItem key={dept.id} value={dept.id}>
+                    {dept.name}
+                  </SelectItem>
+                ))
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -334,20 +348,30 @@ export function UsersTable({ initialUsers }: UsersTableProps) {
                             {content.actions.changeDepartment}
                           </DropdownMenuSubTrigger>
                           <DropdownMenuSubContent>
-                            {departments.map((dept) => (
-                              <DropdownMenuItem
-                                key={dept}
-                                onClick={() =>
-                                  handleDepartmentChange(user, dept)
-                                }
-                                disabled={user.department === dept}
-                              >
-                                {getDepartmentLabel(dept)}
-                                {user.department === dept && (
-                                  <Check className="ml-auto size-4" />
-                                )}
+                            {isLoadingDepartments ? (
+                              <DropdownMenuItem disabled>
+                                <Loader2 className="size-4 animate-spin" />
                               </DropdownMenuItem>
-                            ))}
+                            ) : departments.length === 0 ? (
+                              <DropdownMenuItem disabled>
+                                {content.noDepartments}
+                              </DropdownMenuItem>
+                            ) : (
+                              departments.map((dept) => (
+                                <DropdownMenuItem
+                                  key={dept.id}
+                                  onClick={() =>
+                                    handleDepartmentChange(user, dept.id)
+                                  }
+                                  disabled={user.department === dept.id}
+                                >
+                                  {dept.name}
+                                  {user.department === dept.id && (
+                                    <Check className="ml-auto size-4" />
+                                  )}
+                                </DropdownMenuItem>
+                              ))
+                            )}
                           </DropdownMenuSubContent>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />

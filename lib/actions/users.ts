@@ -5,6 +5,11 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { ObjectId } from "mongodb";
+import { Resend } from "resend";
+import { env } from "@/lib/env";
+import { getApprovalEmailTemplate } from "@/lib/email-templates";
+
+const resend = new Resend(env.RESEND_API_KEY);
 
 export type User = {
   id: string;
@@ -157,10 +162,22 @@ export async function approveUser(
       return { success: false, error: "User not found" };
     }
 
+    const approvedUser = transformUser(result);
+
+    await resend.emails.send({
+      from: env.EMAIL_FROM,
+      to: approvedUser.email,
+      subject: "Your account has been approved - Porto Space Team",
+      html: getApprovalEmailTemplate({
+        name: approvedUser.name,
+        signInUrl: `${env.BETTER_AUTH_URL}/sign-in`,
+      }),
+    });
+
     revalidatePath("/admin/users", "page");
     revalidatePath("/admin/approvals", "page");
 
-    return { success: true, data: transformUser(result) };
+    return { success: true, data: approvedUser };
   } catch (error) {
     console.error("Error approving user:", error);
     return { success: false, error: "Failed to approve user" };

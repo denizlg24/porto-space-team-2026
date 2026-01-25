@@ -70,32 +70,10 @@ const usersPageContent = {
         pt: "Rejeitado",
       }),
     },
-    departments: {
-      propulsion: t({
-        en: "Propulsion",
-        pt: "Propulsão",
-      }),
-      structures: t({
-        en: "Structures",
-        pt: "Estruturas",
-      }),
-      avionics: t({
-        en: "Avionics",
-        pt: "Aviónica",
-      }),
-      recovery: t({
-        en: "Recovery",
-        pt: "Recuperação",
-      }),
-      operations: t({
-        en: "Operations",
-        pt: "Operações",
-      }),
-      business: t({
-        en: "Business",
-        pt: "Negócios",
-      }),
-    },
+    noDepartments: t({
+      en: "No departments available",
+      pt: "Nenhum departamento disponivel",
+    }),
     actions: {
       approve: t({
         en: "Approve",

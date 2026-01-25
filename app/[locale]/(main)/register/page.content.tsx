@@ -78,6 +78,10 @@ const pageContent = {
         en: "Please choose a department",
         pt: "Por favor, escolha um departamento",
       }),
+      noDepartments: t({
+        en: "No departments available. Please contact an administrator.",
+        pt: "Nenhum departamento disponivel. Por favor contacte um administrador.",
+      }),
       continueButton: t({
         en: "Continue",
         pt: "Continuar",
@@ -151,32 +155,6 @@ const pageContent = {
       signIn: t({
         en: "Sign-In",
         pt: "Entrar",
-      }),
-    },
-    departments: {
-      propulsion: t({
-        en: "Propulsion",
-        pt: "Propulsão",
-      }),
-      structures: t({
-        en: "Structures",
-        pt: "Estruturas",
-      }),
-      avionics: t({
-        en: "Avionics",
-        pt: "Aviónica",
-      }),
-      recovery: t({
-        en: "Recovery",
-        pt: "Recuperação",
-      }),
-      operations: t({
-        en: "Operations",
-        pt: "Operações",
-      }),
-      business: t({
-        en: "Business",
-        pt: "Negócios",
       }),
     },
     errors: {
