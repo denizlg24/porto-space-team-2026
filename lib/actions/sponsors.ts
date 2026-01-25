@@ -73,6 +73,10 @@ function revalidateSponsors() {
   revalidatePath("/sponsors", "page");
   revalidatePath("/en/sponsors", "page");
   revalidatePath("/pt/sponsors", "page");
+  // Revalidate homepage (for top sponsors section)
+  revalidatePath("/", "page");
+  revalidatePath("/en", "page");
+  revalidatePath("/pt", "page");
 }
 
 export async function getCategories(): Promise<ActionResult<SponsorCategoryItem[]>> {
@@ -384,5 +388,34 @@ export async function getPublicSponsorsData(): Promise<PublicSponsorData> {
   } catch (error) {
     console.error("Error fetching public sponsors data:", error);
     return { categories: [], sponsors: [] };
+  }
+}
+
+export type TopSponsorsData = {
+  category: SponsorCategoryItem | null;
+  sponsors: SponsorItem[];
+};
+
+export async function getTopSponsors(): Promise<TopSponsorsData> {
+  try {
+    await connectDB();
+
+    const topCategory = await SponsorCategories.findOne().sort({ order: 1 });
+
+    if (!topCategory) {
+      return { category: null, sponsors: [] };
+    }
+
+    const sponsors = await Sponsors.find({ categoryId: topCategory._id }).sort({
+      order: 1,
+    });
+
+    return {
+      category: transformCategory(topCategory),
+      sponsors: sponsors.map(transformSponsor),
+    };
+  } catch (error) {
+    console.error("Error fetching top sponsors:", error);
+    return { category: null, sponsors: [] };
   }
 }

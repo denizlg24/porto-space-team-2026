@@ -8,15 +8,11 @@ export const authProxy = async (req: NextRequest) => {
     cookiePrefix: "porto_space_team",
   });
 
-  console.log("MIDDLEWARE SESSION COOKIE:", session);
-  console.log("MIDDLEWARE ALL COOKIES:", req.cookies.getAll().map(c => c.name));
-
   if (!session) {
     const localeCookie = req.cookies.get("INTLAYER_LOCALE")?.value ?? "en";
     return NextResponse.redirect(new URL(`/${localeCookie}/sign-in`, req.url));
   }
 
-  // Explicitly forward the request with headers to ensure cookies are passed
   const response = NextResponse.next({
     request: {
       headers: req.headers,

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "intlayer watch --with 'next dev --webpack'",
+    "next:dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

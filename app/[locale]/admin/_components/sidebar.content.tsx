@@ -29,6 +29,10 @@ const adminSidebarContent = {
         en: "Files",
         pt: "Ficheiros",
       }),
+      content: t({
+        en: "Content",
+        pt: "Conteúdo",
+      }),
       sponsors: t({
         en: "Sponsors",
         pt: "Patrocinadores",
