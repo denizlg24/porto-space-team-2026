@@ -88,9 +88,9 @@ export async function getCompetitionData(): Promise<{
     ]);
 
     return {
-      enabled: enabledDoc?.value === true,
+      enabled: (enabledDoc?.value as unknown as boolean) === true,
       name: nameDoc?.value ? String(nameDoc.value) : null,
-      date: dateDoc?.value ? new Date(dateDoc.value as string) : null,
+      date: dateDoc?.value ? new Date(dateDoc.value as unknown as string) : null,
     };
   } catch (error) {
     console.error("Error fetching competition data:", error);
@@ -235,7 +235,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
       ]);
 
     return {
-      countdownEnabled: enabledDoc?.value === true,
+      countdownEnabled: (enabledDoc?.value as unknown as boolean) === true,
       competitionName: nameDoc?.value ? String(nameDoc.value) : null,
       competitionDate: dateDoc?.value ? String(dateDoc.value) : null,
       teamMembers:
