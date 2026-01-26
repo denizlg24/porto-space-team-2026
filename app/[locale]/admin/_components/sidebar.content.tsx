@@ -37,6 +37,10 @@ const adminSidebarContent = {
         en: "Content",
         pt: "Conteudo",
       }),
+      timeline: t({
+        en: "Timeline",
+        pt: "Cronologia",
+      }),
       sponsors: t({
         en: "Sponsors",
         pt: "Patrocinadores",

@@ -63,7 +63,7 @@ interface SponsorsDisplayProps {
 const LOGO_SIZES: Record<number, number> = {
   0: 140,
   1: 100,
-  2: 72,
+  2: 96,
 };
 
 const CAROUSEL_ITEM_CLASSES: Record<number, string> = {
@@ -118,6 +118,7 @@ function CategorySection({
       target="_blank"
       rel="noopener noreferrer"
       className="group flex flex-col items-center gap-1 p-2 rounded-lg transition-all hover:bg-muted/50"
+      style={{ width: logoSize + 16 }}
       title={`${sponsor.name} - ${visitWebsiteLabel}`}
     >
       <SponsorImage
@@ -125,7 +126,7 @@ function CategorySection({
         alt={sponsor.name}
         size={logoSize}
       />
-      <span className="text-xs text-muted-foreground text-center truncate w-full">
+      <span className="text-xs text-muted-foreground text-center break-after-all mx-auto w-full">
         {sponsor.name}
       </span>
     </Link>

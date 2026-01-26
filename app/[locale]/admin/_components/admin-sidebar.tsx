@@ -28,6 +28,7 @@ import {
   FolderOpen,
   FileText,
   Building2,
+  Clock,
 } from "lucide-react";
 import { authClient } from "@/lib/authClient";
 import Image from "next/image";
@@ -43,6 +44,7 @@ const managementNavItems = [
   { key: "departments", href: "/admin/departments", icon: Building2 },
   { key: "files", href: "/admin/files", icon: FolderOpen },
   { key: "content", href: "/admin/content", icon: FileText },
+  { key: "timeline", href: "/admin/timeline", icon: Clock },
   { key: "sponsors", href: "/admin/sponsors", icon: Handshake },
   { key: "newsletter", href: "/admin/newsletter", icon: Mail },
 ] as const;

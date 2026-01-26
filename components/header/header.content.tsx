@@ -10,8 +10,8 @@ const headerContent = {
         pt: "Sobre",
       }),
       project: t({
-        en: "Project",
-        pt: "Projeto",
+        en: "Projects",
+        pt: "Projetos",
       }),
       sponsors: t({
         en: "Sponsors",

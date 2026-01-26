@@ -8,15 +8,14 @@ import { GridBackground } from "@/components/ui/grid-background";
 import { Link } from "@/components/locale/link";
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import heroTeamPhoto from "@/public/hero-team.png";
-import team2025Photo from "@/public/2025-team.webp";
 import { CountdownCompetitionWrapper } from "./_components/countdown-to-competition-wrapper";
 import { QuickStats } from "./_components/quick-stats";
 import { TopSponsors } from "./_components/top-sponsors";
+import { TeamPictureFrame } from "./_components/team-picture-frame";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
-
+import { ImageFrame } from "@/components/ui/image-frame";
 export const revalidate = 3600;
 
 export const generateMetadata = async ({
@@ -106,35 +105,24 @@ const Page: NextPageIntlayer = async ({ params }) => {
                 variant={"outline"}
                 className="flex-1 grow h-12 uppercase group"
               >
-                <Link href="/projects">{content.hero.ourMission}</Link>
+                <Link href="/about">{content.hero.ourMission}</Link>
               </Button>
             </div>
           </div>
 
-          <div className="relative w-full mx-auto max-w-lg h-fit">
-            <div className="absolute -inset-3 border border-primary/20 pointer-events-none" />
-            <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-primary" />
-            <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-primary" />
-            <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-primary" />
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-primary" />
-
-            <div className="relative aspect-4/5 overflow-hidden">
-              <Image
-                src={heroTeamPhoto}
-                alt={content.image.alt}
-                className="object-cover h-full"
-                priority
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-background via-background/20 to-transparent" />
-
-              <div className="absolute top-4 left-4 font-mono text-xs text-primary/80 bg-background/80 px-2 py-1 border border-primary/30">
-                {content.image.badge}
-              </div>
-              <div className="absolute top-4 right-4 font-mono text-xs text-muted-foreground bg-background/80 px-2 py-1 border border-border">
-                {content.image.event}
-              </div>
+          <ImageFrame
+            src={heroTeamPhoto}
+            alt={content.image.alt}
+            aspectRatio="4/5"
+            priority
+            overlay
+          >
+            <div className="absolute top-4 left-4 font-mono text-xs text-primary/80 bg-background/80 px-2 py-1 border border-primary/30">
+              {content.image.badge}
             </div>
-
+            <div className="absolute top-4 right-4 font-mono text-xs text-muted-foreground bg-background/80 px-2 py-1 border border-border">
+              {content.image.event}
+            </div>
             <div className="absolute bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border">
               <div className="grid grid-cols-4 gap-4">
                 <Suspense fallback={<CountdownSkeleton />}>
@@ -142,7 +130,7 @@ const Page: NextPageIntlayer = async ({ params }) => {
                 </Suspense>
               </div>
             </div>
-          </div>
+          </ImageFrame>
         </section>
         <Separator />
         <section className="w-full max-w-3xl mb-4 mt-4 mx-auto">
@@ -186,21 +174,14 @@ const Page: NextPageIntlayer = async ({ params }) => {
               {content.about.paragraph3}
             </p>
           </div>
-          <div className="relative w-full mx-auto max-w-lg h-fit md:order-2 order-1">
-            <div className="absolute -inset-3 border border-primary/20 pointer-events-none" />
-            <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-primary" />
-            <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-primary" />
-            <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-primary" />
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-primary" />
-            <div className="relative aspect-video overflow-hidden">
-              <Image
-                src={team2025Photo}
-                alt={content.about.imageAlt}
-                className="object-cover h-full"
-                priority
-              />
-            </div>
-          </div>
+          <Suspense
+            fallback={<Skeleton className="aspect-video w-full md:order-2 order-1" />}
+          >
+            <TeamPictureFrame
+              alt={content.about.imageAlt}
+              className="md:order-2 order-1"
+            />
+          </Suspense>
         </section>
         <Separator />
         <Suspense

@@ -20,6 +20,7 @@ export type HomePageContent = {
   competitionDate: string | null;
   teamMembers: number | null;
   projectsCount: number | null;
+  teamPictureUrl: string | null;
 };
 
 function transformContent(doc: ISiteContent): SiteContentItem {
@@ -37,6 +38,9 @@ function revalidateContent() {
   revalidatePath("/", "page");
   revalidatePath("/en", "page");
   revalidatePath("/pt", "page");
+  revalidatePath("/about", "page");
+  revalidatePath("/en/about", "page");
+  revalidatePath("/pt/about", "page");
   revalidatePath("/admin/content", "page");
   revalidatePath("/en/admin/content", "page");
   revalidatePath("/pt/admin/content", "page");
@@ -211,6 +215,16 @@ export async function updateHomePageContent(
       );
     }
 
+    if (data.teamPictureUrl !== undefined) {
+      updates.push(
+        SiteContent.findOneAndUpdate(
+          { page: "home", key: "teamPictureUrl" },
+          { $set: { value: data.teamPictureUrl } },
+          { upsert: true }
+        )
+      );
+    }
+
     await Promise.all(updates);
     revalidateContent();
 
@@ -225,13 +239,14 @@ export async function updateHomePageContent(
 export async function getHomePageContent(): Promise<HomePageContent> {
   try {
     await connectDB();
-    const [enabledDoc, nameDoc, dateDoc, membersDoc, projectsDoc] =
+    const [enabledDoc, nameDoc, dateDoc, membersDoc, projectsDoc, pictureDoc] =
       await Promise.all([
         SiteContent.findOne({ page: "home", key: "countdownEnabled" }),
         SiteContent.findOne({ page: "home", key: "competitionName" }),
         SiteContent.findOne({ page: "home", key: "competitionDate" }),
         SiteContent.findOne({ page: "home", key: "teamMembers" }),
         SiteContent.findOne({ page: "home", key: "projectsCount" }),
+        SiteContent.findOne({ page: "home", key: "teamPictureUrl" }),
       ]);
 
     return {
@@ -242,6 +257,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
         membersDoc?.value !== undefined ? Number(membersDoc.value) : null,
       projectsCount:
         projectsDoc?.value !== undefined ? Number(projectsDoc.value) : null,
+      teamPictureUrl: pictureDoc?.value ? String(pictureDoc.value) : null,
     };
   } catch (error) {
     console.error("Error fetching home page content:", error);
@@ -251,6 +267,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
       competitionDate: null,
       teamMembers: null,
       projectsCount: null,
+      teamPictureUrl: null,
     };
   }
 }
@@ -278,5 +295,16 @@ export async function getQuickStats(): Promise<{
       teamMembers: null,
       projectsCount: null,
     };
+  }
+}
+
+export async function getTeamPictureUrl(): Promise<string | null> {
+  try {
+    await connectDB();
+    const doc = await SiteContent.findOne({ page: "home", key: "teamPictureUrl" });
+    return doc?.value ? String(doc.value) : null;
+  } catch (error) {
+    console.error("Error fetching team picture URL:", error);
+    return null;
   }
 }

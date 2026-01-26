@@ -95,6 +95,24 @@ const contentPageContent = {
           }),
         },
       },
+      teamPicture: {
+        title: t({
+          en: "Team Picture",
+          pt: "Foto da Equipa",
+        }),
+        description: t({
+          en: "Upload the team photo displayed on the home and about pages.",
+          pt: "Carregar a foto da equipa exibida nas páginas inicial e sobre.",
+        }),
+        label: t({
+          en: "Image URL",
+          pt: "URL da Imagem",
+        }),
+        placeholder: t({
+          en: "https://example.com/team-photo.jpg or upload a file",
+          pt: "https://exemplo.com/foto-equipa.jpg ou carregue um ficheiro",
+        }),
+      },
     },
     form: {
       save: t({
