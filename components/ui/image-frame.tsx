@@ -9,6 +9,7 @@ type Props = {
   aspectRatio?: AspectRatio;
   priority?: boolean;
   className?: string;
+  imageClassName?: string;
   overlay?: boolean;
   children?: React.ReactNode;
 };
@@ -27,6 +28,7 @@ export function ImageFrame({
   aspectRatio = "video",
   priority = false,
   className,
+  imageClassName,
   overlay = false,
   children,
 }: Props) {
@@ -42,7 +44,7 @@ export function ImageFrame({
           src={src}
           alt={alt}
           fill
-          className="object-cover"
+          className={cn("object-cover", imageClassName)}
           priority={priority}
           sizes="(max-width: 768px) 100vw, 512px"
           unoptimized={typeof src === "string"}

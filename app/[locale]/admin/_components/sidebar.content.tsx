@@ -45,6 +45,10 @@ const adminSidebarContent = {
         en: "Sponsors",
         pt: "Patrocinadores",
       }),
+      competitions: t({
+        en: "Competitions",
+        pt: "Competições",
+      }),
       newsletter: t({
         en: "Newsletter",
         pt: "Newsletter",
