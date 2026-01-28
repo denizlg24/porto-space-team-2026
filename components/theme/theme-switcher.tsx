@@ -12,6 +12,8 @@ export function ThemeSwitcher({ className }: { className?: string }) {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    // This pattern is intentional for handling SSR hydration with next-themes
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 

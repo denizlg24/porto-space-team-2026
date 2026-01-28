@@ -123,9 +123,8 @@ export function SignInForm({ className }: { className?: string }) {
         }}
       >
         <FieldGroup>
-          <form.Field
-            name="email"
-            children={(field) => {
+          <form.Field name="email">
+            {(field) => {
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
@@ -151,10 +150,9 @@ export function SignInForm({ className }: { className?: string }) {
                 </Field>
               );
             }}
-          />
-          <form.Field
-            name="password"
-            children={(field) => {
+          </form.Field>
+          <form.Field name="password">
+            {(field) => {
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
@@ -186,7 +184,7 @@ export function SignInForm({ className }: { className?: string }) {
                 </Field>
               );
             }}
-          />
+          </form.Field>
         </FieldGroup>
         <Button type="submit" className="w-full h-12" disabled={isSubmitting}>
           {isSubmitting ? (

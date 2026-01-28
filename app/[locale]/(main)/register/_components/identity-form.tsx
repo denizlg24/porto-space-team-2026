@@ -101,9 +101,8 @@ export function IdentityForm({
         }}
       >
         <FieldGroup>
-          <form.Field
-            name="name"
-            children={(field) => {
+          <form.Field name="name">
+            {(field) => {
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
@@ -128,10 +127,9 @@ export function IdentityForm({
                 </Field>
               );
             }}
-          />
-          <form.Field
-            name="email"
-            children={(field) => {
+          </form.Field>
+          <form.Field name="email">
+            {(field) => {
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
@@ -159,10 +157,9 @@ export function IdentityForm({
                 </Field>
               );
             }}
-          />
-          <form.Field
-            name="department"
-            children={(field) => {
+          </form.Field>
+          <form.Field name="department">
+            {(field) => {
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
@@ -211,7 +208,7 @@ export function IdentityForm({
                 </div>
               );
             }}
-          />
+          </form.Field>
         </FieldGroup>
         <Button type="submit" className="w-full h-12">
           {content.identityForm.continueButton} <MoveRight />

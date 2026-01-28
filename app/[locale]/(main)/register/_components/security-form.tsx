@@ -125,9 +125,8 @@ export function SecurityForm({
         }}
       >
         <FieldGroup>
-          <form.Field
-            name="password"
-            children={(field) => {
+          <form.Field name="password">
+            {(field) => {
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
@@ -154,10 +153,9 @@ export function SecurityForm({
                 </Field>
               );
             }}
-          />
-          <form.Field
-            name="confirmPassword"
-            children={(field) => {
+          </form.Field>
+          <form.Field name="confirmPassword">
+            {(field) => {
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
@@ -183,7 +181,7 @@ export function SecurityForm({
                 </Field>
               );
             }}
-          />
+          </form.Field>
         </FieldGroup>
         <div className="w-full grid sm:grid-cols-2 grid-cols-1 gap-x-2 gap-y-1">
           <Button

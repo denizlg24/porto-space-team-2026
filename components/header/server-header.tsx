@@ -11,7 +11,7 @@ import logo from "@/public/logo-black.png";
 
 const navLinkKeys = [
   { key: "about", href: "/about" },
-  { key: "project", href: "/project" },
+  { key: "project", href: "/projects" },
   { key: "sponsors", href: "/sponsors" },
   { key: "competitions", href: "/competitions" },
   { key: "newsletter", href: "/newsletter" },

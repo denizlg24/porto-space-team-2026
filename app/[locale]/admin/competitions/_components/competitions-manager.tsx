@@ -219,8 +219,7 @@ function getDefaultBlock(blockType: ContentBlockType): ContentBlock {
 
 export function CompetitionsManager({ initialSections }: Props) {
   const intlayerContent = useIntlayer("admin-competitions-page");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const content = intlayerContent as any;
+  const content = intlayerContent;
   const [isPending, startTransition] = useTransition();
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
