@@ -16,7 +16,7 @@ export function ProjectHero({ project, locale }: Props) {
     <section className="w-full relative max-w-5xl mx-auto py-12">
       <GridBackground className="-z-10 mask-[radial-gradient(ellipse_at_center,black_25%,transparent_75%)] opacity-7" />
       <div className="flex flex-col items-center gap-8 w-full">
-        <div className="relative h-32 w-32 md:h-40 md:w-40 shrink-0 overflow-hidden bg-muted rounded-lg md:mr-auto">
+        <div className="relative h-32 w-32 md:h-40 md:w-40 shrink-0 overflow-hidden bg-muted md:mr-auto">
           <Image
             src={project.logo}
             alt={name}
