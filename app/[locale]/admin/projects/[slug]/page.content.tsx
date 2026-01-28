@@ -267,6 +267,14 @@ const projectContentPageContent = {
         en: "Uploading...",
         pt: "A carregar...",
       }),
+      unsavedChanges: t({
+        en: "You have unsaved changes",
+        pt: "Tem alteracoes por guardar",
+      }),
+      noChanges: t({
+        en: "No changes to save",
+        pt: "Sem alteracoes para guardar",
+      }),
     },
     toast: {
       saveSuccess: t({

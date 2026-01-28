@@ -111,16 +111,21 @@ function transformProject(doc: IProject): ProjectData {
 }
 
 function revalidateProjects(slug?: string) {
-  revalidatePath("/projects", "page");
-  revalidatePath("/en/projects", "page");
-  revalidatePath("/pt/projects", "page");
-  revalidatePath("/admin/projects", "page");
-  revalidatePath("/en/admin/projects", "page");
-  revalidatePath("/pt/admin/projects", "page");
+  revalidatePath("/en/projects", "layout");
+  revalidatePath("/pt/projects", "layout");
+  revalidatePath("/en/admin/projects", "layout");
+  revalidatePath("/pt/admin/projects", "layout");
   if (slug) {
     revalidatePath(`/projects/${slug}`, "page");
     revalidatePath(`/en/projects/${slug}`, "page");
     revalidatePath(`/pt/projects/${slug}`, "page");
+    revalidatePath(`/en/admin/projects/${slug}`, "page");
+    revalidatePath(`/pt/admin/projects/${slug}`, "page");
+    revalidatePath(`/projects/${slug}`, "layout");
+    revalidatePath(`/en/projects/${slug}`, "layout");
+    revalidatePath(`/pt/projects/${slug}`, "layout");
+    revalidatePath(`/en/admin/projects/${slug}`, "layout");
+    revalidatePath(`/pt/admin/projects/${slug}`, "layout");
   }
 }
 

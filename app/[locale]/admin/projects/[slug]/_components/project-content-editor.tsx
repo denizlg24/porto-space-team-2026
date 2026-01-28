@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useRef } from "react";
+import { useState, useTransition, useRef, useMemo, useCallback } from "react";
 import { useIntlayer } from "next-intlayer";
 import { toast } from "sonner";
 import {
@@ -81,24 +81,82 @@ export function ProjectContentEditor({ project }: Props) {
   const [media, setMedia] = useState<ProjectMediaData[]>(project.media);
   const [uploadingMediaId, setUploadingMediaId] = useState<string | null>(null);
 
-  const handleSave = () => {
+  const [savedState, setSavedState] = useState(() => ({
+    heroDescriptionEn: project.heroDescription.en,
+    heroDescriptionPt: project.heroDescription.pt,
+    stats: project.stats,
+    projectImage: project.projectImage,
+    projectImageAltEn: project.projectImageAlt.en,
+    projectImageAltPt: project.projectImageAlt.pt,
+    departments: project.departments,
+    media: project.media,
+  }));
+
+  const hasChanges = useMemo(() => {
+    if (heroDescriptionEn !== savedState.heroDescriptionEn) return true;
+    if (heroDescriptionPt !== savedState.heroDescriptionPt) return true;
+    if (projectImage !== savedState.projectImage) return true;
+    if (projectImageAltEn !== savedState.projectImageAltEn) return true;
+    if (projectImageAltPt !== savedState.projectImageAltPt) return true;
+    if (JSON.stringify(stats) !== JSON.stringify(savedState.stats)) return true;
+    if (JSON.stringify(departments) !== JSON.stringify(savedState.departments)) return true;
+    if (JSON.stringify(media) !== JSON.stringify(savedState.media)) return true;
+    return false;
+  }, [
+    heroDescriptionEn,
+    heroDescriptionPt,
+    stats,
+    projectImage,
+    projectImageAltEn,
+    projectImageAltPt,
+    departments,
+    media,
+    savedState,
+  ]);
+
+  const handleSave = useCallback(() => {
     startTransition(async () => {
+      const currentDepartments = departments.map((d, i) => ({ ...d, order: i }));
+      const currentMedia = media.map((m, i) => ({ ...m, order: i }));
+      
       const result = await updateProjectContent(project.id, {
         heroDescription: { en: heroDescriptionEn, pt: heroDescriptionPt },
         stats,
         projectImage,
         projectImageAlt: { en: projectImageAltEn, pt: projectImageAltPt },
-        departments: departments.map((d, i) => ({ ...d, order: i })),
-        media: media.map((m, i) => ({ ...m, order: i })),
+        departments: currentDepartments,
+        media: currentMedia,
       });
 
       if (result.success) {
+        setSavedState({
+          heroDescriptionEn,
+          heroDescriptionPt,
+          stats,
+          projectImage,
+          projectImageAltEn,
+          projectImageAltPt,
+          departments: currentDepartments,
+          media: currentMedia,
+        });
         toast.success(content.toast.saveSuccess.value);
       } else {
         toast.error(content.toast.saveError.value);
       }
     });
-  };
+  }, [
+    project.id,
+    heroDescriptionEn,
+    heroDescriptionPt,
+    stats,
+    projectImage,
+    projectImageAltEn,
+    projectImageAltPt,
+    departments,
+    media,
+    content.toast.saveSuccess.value,
+    content.toast.saveError.value,
+  ]);
 
   const handleProjectImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -1148,8 +1206,19 @@ export function ProjectContentEditor({ project }: Props) {
         </TabsContent>
       </Tabs>
 
-      <div className="flex justify-end pt-6 border-t">
-        <Button onClick={handleSave} disabled={isPending}>
+      <div className="flex items-center justify-between pt-6 border-t">
+        <div className="text-sm">
+          {hasChanges ? (
+            <span className="text-amber-600 dark:text-amber-500">
+              {content.form.unsavedChanges}
+            </span>
+          ) : (
+            <span className="text-muted-foreground">
+              {content.form.noChanges}
+            </span>
+          )}
+        </div>
+        <Button onClick={handleSave} disabled={isPending || !hasChanges}>
           {isPending ? (
             <>
               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
