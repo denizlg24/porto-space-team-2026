@@ -7,9 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { SubscribeDialog } from "./subscribe-dialog";
-import { unsubscribeFromNewsletter } from "@/lib/actions/newsletter";
-import type { SubscriberData } from "@/app/api/newsletter/subscriber/route";
+import { apiClient } from "@/lib/api-client";
+import type {
+  SubscriberData,
+  UnsubscribeRoute,
+} from "@/app/api/newsletter/subscriber/route";
 import { Skeleton } from "@/components/ui/skeleton";
+
+const unsubscribeApi = apiClient<UnsubscribeRoute>("/api/newsletter/subscriber");
 
 type SubscribeToNewsletterButtonProps = {
   locale: string;
@@ -50,7 +55,7 @@ export function SubscribeToNewsletterButton({
     startTransition(async () => {
       setOptimisticState({ subscriber: null, isSubscribed: false });
 
-      const result = await unsubscribeFromNewsletter();
+      const result = await unsubscribeApi.delete();
 
       if (result.success) {
         toast.success(content.messages.unsubscribeSuccess);
@@ -59,7 +64,7 @@ export function SubscribeToNewsletterButton({
           subscriber: initialSubscriber,
           isSubscribed: true,
         });
-        toast.error(result.error || content.messages.error);
+        toast.error(result.error.message || content.messages.error);
       }
     });
   };

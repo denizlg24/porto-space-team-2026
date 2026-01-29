@@ -23,8 +23,13 @@ import {
 import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
-import { subscribeToNewsletter } from "@/lib/actions/newsletter";
-import type { SubscriberData } from "@/app/api/newsletter/subscriber/route";
+import { apiClient } from "@/lib/api-client";
+import type {
+  SubscriberData,
+  SubscribeRoute,
+} from "@/app/api/newsletter/subscriber/route";
+
+const subscribeApi = apiClient<SubscribeRoute>("/api/newsletter/subscriber");
 
 type SubscribeDialogProps = {
   locale: string;
@@ -99,10 +104,12 @@ export function SubscribeDialog({
     if (!validateForm() || !dateOfBirth) return;
 
     startTransition(async () => {
-      const result = await subscribeToNewsletter({
-        email,
-        name,
-        dateOfBirth: dateOfBirth.toISOString().split("T")[0],
+      const result = await subscribeApi.post({
+        input: {
+          email,
+          name,
+          dateOfBirth: dateOfBirth.toISOString().split("T")[0],
+        },
       });
 
       if (result.success) {
@@ -113,7 +120,7 @@ export function SubscribeDialog({
         setDateOfBirth(undefined);
         setErrors({});
       } else {
-        onError(result.error);
+        onError(result.error.message);
       }
     });
   };
