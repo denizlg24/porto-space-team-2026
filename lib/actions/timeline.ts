@@ -34,7 +34,7 @@ function transformTimelineItem(doc: ITimelineItem): TimelineItemData {
 }
 
 function revalidateTimeline() {
-  revalidatePath('/(main)/[locale]/about', 'page')
+  revalidatePath('/[locale]/(main)/about', 'page')
 }
 
 export async function getTimelineItems(): Promise<

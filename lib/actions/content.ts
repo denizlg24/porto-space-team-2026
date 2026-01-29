@@ -35,8 +35,8 @@ function transformContent(doc: ISiteContent): SiteContentItem {
 }
 
 function revalidateContent() {
-  revalidatePath('/(main)/[locale]', 'page')
-  revalidatePath('/(main)/[locale]/about', 'page');
+  revalidatePath('/[locale]/(main)', 'page')
+  revalidatePath('/[locale]/(main)/about', 'page');
 }
 
 export async function getPageContent(

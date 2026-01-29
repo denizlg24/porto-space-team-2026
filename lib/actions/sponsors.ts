@@ -65,8 +65,8 @@ function transformSponsor(doc: ISponsor): SponsorItem {
 }
 
 function revalidateSponsors() {
-  revalidatePath('/(main)/[locale]', 'page');
-  revalidatePath('/(main)/[locale]/sponsors', 'page');
+  revalidatePath('/[locale]/(main)', 'page');
+  revalidatePath('/[locale]/(main)/sponsors', 'page');
 }
 
 export async function getCategories(): Promise<ActionResult<SponsorCategoryItem[]>> {

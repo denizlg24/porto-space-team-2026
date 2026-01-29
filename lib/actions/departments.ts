@@ -26,7 +26,7 @@ function transformDepartment(doc: IDepartment): DepartmentItem {
 }
 
 function revalidateDepartments() {
-  revalidatePath('/(main)/[locale]/register', 'page')
+  revalidatePath('/[locale]/(main)/register', 'page')
 }
 
 export async function getDepartments(): Promise<ActionResult<DepartmentItem[]>> {

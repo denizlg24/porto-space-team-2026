@@ -275,9 +275,9 @@ function transformProjectAdmin(doc: IProject): ProjectData {
 }
 
 function revalidateProjects(slug?: string) {
-  revalidatePath("/(main)/[locale]/projects", "page");
+  revalidatePath("/[locale]/(main)/projects", "page");
   if (slug) {
-    revalidatePath(`/(main)/[locale]/projects/${slug}`, "page");
+    revalidatePath(`/[locale]/(main)/projects/${slug}`, "page");
   }
 }
 
