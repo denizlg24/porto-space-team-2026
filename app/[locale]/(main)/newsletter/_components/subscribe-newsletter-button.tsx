@@ -7,10 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { SubscribeDialog } from "./subscribe-dialog";
-import {
-  unsubscribeFromNewsletter,
-  type SubscriberData,
-} from "@/lib/actions/newsletter";
+import { unsubscribeFromNewsletter } from "@/lib/actions/newsletter";
+import type { SubscriberData } from "@/app/api/newsletter/subscriber/route";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type SubscribeToNewsletterButtonProps = {

@@ -23,10 +23,8 @@ import {
 import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
-import {
-  subscribeToNewsletter,
-  type SubscriberData,
-} from "@/lib/actions/newsletter";
+import { subscribeToNewsletter } from "@/lib/actions/newsletter";
+import type { SubscriberData } from "@/app/api/newsletter/subscriber/route";
 
 type SubscribeDialogProps = {
   locale: string;
