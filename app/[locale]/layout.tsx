@@ -6,6 +6,7 @@ import { getHTMLTextDir } from "intlayer";
 import { getIntlayer, getMultilingualUrls } from "intlayer";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 
 const jetbrainsMono = JetBrains_Mono({
@@ -66,6 +67,7 @@ const LocaleLayout: NextLayoutIntlayer = async ({ children, params }) => {
             disableTransitionOnChange
           >
             {children}
+            <Toaster />
           </ThemeProvider>
         </Suspense>
       </body>

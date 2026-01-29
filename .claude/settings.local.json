@@ -6,7 +6,8 @@
       "Bash(bun run tsc:*)",
       "mcp__ide__getDiagnostics",
       "Bash(ls:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(xargs -I {} bash -c \"echo ''=== {} ==='' && head -30 ''{}''\")"
     ]
   }
 }

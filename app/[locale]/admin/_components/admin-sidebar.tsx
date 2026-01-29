@@ -21,7 +21,6 @@ import {
   Users,
   UserCheck,
   Mail,
-  Settings,
   ArrowLeft,
   LogOut,
   Handshake,
@@ -51,10 +50,6 @@ const managementNavItems = [
   { key: "competitions", href: "/admin/competitions", icon: Trophy },
   { key: "sponsors", href: "/admin/sponsors", icon: Handshake },
   { key: "newsletter", href: "/admin/newsletter", icon: Mail },
-] as const;
-
-const systemNavItems = [
-  { key: "settings", href: "/admin/settings", icon: Settings },
 ] as const;
 
 export function AdminSidebar() {
@@ -133,28 +128,6 @@ export function AdminSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {managementNavItems.map((item) => (
-                <SidebarMenuItem key={item.key}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive(item.href)}
-                    tooltip={content.nav[item.key].value}
-                  >
-                    <Link href={item.href}>
-                      <item.icon className="size-4" />
-                      <span>{content.nav[item.key]}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>{content.sections.system}</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {systemNavItems.map((item) => (
                 <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton
                     asChild
