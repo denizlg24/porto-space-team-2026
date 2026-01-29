@@ -2,7 +2,14 @@ import { getIntlayer } from "intlayer";
 import { ServerLink } from "@/components/locale/server-link";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import { Instagram, LogIn, Mail } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  LogIn,
+  Mail,
+  MapPin,
+} from "lucide-react";
 import logo from "@/public/logo-black.png";
 import { Button } from "@/components/ui/button";
 import { Suspense } from "react";
@@ -25,8 +32,23 @@ const socialLinks = [
   },
   {
     name: "Email",
-    href: "mailto:contact@portospaceteam.pt",
+    href: "mailto:geral@portospaceteam.pt",
     icon: Mail,
+  },
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/portospaceteam",
+    icon: Facebook,
+  },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/company/porto-space-team",
+    icon: Linkedin,
+  },
+  {
+    name: "Maps",
+    href: "https://www.google.com/maps/place/Porto+Space+Team/@41.1781163,-8.5945483,15z/data=!4m6!3m5!1s0xd24657d6bcac819:0x58ab6feb15e61d9b!8m2!3d41.1781163!4d-8.5945483!16s%2Fg%2F11tfjwlz4z?entry=ttu",
+    icon: MapPin,
   },
 ];
 
@@ -42,7 +64,11 @@ export async function ServerFooter({ locale }: ServerFooterProps) {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="md:col-span-2">
-            <ServerLink href="/" locale={locale} className="flex items-center gap-2">
+            <ServerLink
+              href="/"
+              locale={locale}
+              className="flex items-center gap-2"
+            >
               <Image
                 src={logo}
                 className="h-12 w-auto aspect-square object-contain"
