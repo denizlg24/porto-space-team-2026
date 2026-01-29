@@ -11,10 +11,12 @@ import {
   unsubscribeFromNewsletter,
   type SubscriberData,
 } from "@/lib/actions/newsletter";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type SubscribeToNewsletterButtonProps = {
   locale: string;
   initialSubscriber: SubscriberData | null;
+  loading: boolean;
 };
 
 type OptimisticState = {
@@ -25,6 +27,7 @@ type OptimisticState = {
 export function SubscribeToNewsletterButton({
   locale,
   initialSubscriber,
+  loading,
 }: SubscribeToNewsletterButtonProps) {
   const content = getIntlayer("newsletter-page", locale);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -62,6 +65,15 @@ export function SubscribeToNewsletterButton({
       }
     });
   };
+
+  if (loading) {
+    return (
+      <>
+        <Skeleton className="h-8 w-[70%]" />
+        <Skeleton className="w-[30%] h-8" />
+      </>
+    );
+  }
 
   if (optimisticState.isSubscribed && optimisticState.subscriber) {
     return (
