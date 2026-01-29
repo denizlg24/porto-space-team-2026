@@ -65,18 +65,8 @@ function transformSponsor(doc: ISponsor): SponsorItem {
 }
 
 function revalidateSponsors() {
-  // Revalidate admin pages
-  revalidatePath("/admin/sponsors", "page");
-  revalidatePath("/en/admin/sponsors", "page");
-  revalidatePath("/pt/admin/sponsors", "page");
-  // Revalidate public sponsors pages
-  revalidatePath("/sponsors", "page");
-  revalidatePath("/en/sponsors", "page");
-  revalidatePath("/pt/sponsors", "page");
-  // Revalidate homepage (for top sponsors section)
-  revalidatePath("/", "page");
-  revalidatePath("/en", "page");
-  revalidatePath("/pt", "page");
+  revalidatePath('/(main)/[locale]', 'page');
+  revalidatePath('/(main)/[locale]/sponsors', 'page');
 }
 
 export async function getCategories(): Promise<ActionResult<SponsorCategoryItem[]>> {

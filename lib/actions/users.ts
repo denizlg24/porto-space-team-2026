@@ -3,7 +3,6 @@
 import { getClient } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { revalidatePath } from "next/cache";
 import { ObjectId } from "mongodb";
 import { Resend } from "resend";
 import { env } from "@/lib/env";
@@ -55,7 +54,9 @@ function transformUser(doc: Record<string, unknown>): User {
     department: doc.department as string,
     approvalStatus: (doc.approvalStatus as User["approvalStatus"]) ?? "PENDING",
     approvedBy: doc.approvedBy as string | null,
-    approvedAt: doc.approvedAt ? new Date(doc.approvedAt as string | Date) : null,
+    approvedAt: doc.approvedAt
+      ? new Date(doc.approvedAt as string | Date)
+      : null,
   };
 }
 
@@ -133,9 +134,7 @@ export async function getPendingUsersCount(): Promise<ActionResult<number>> {
 /**
  * Approve a user account
  */
-export async function approveUser(
-  userId: string
-): Promise<ActionResult<User>> {
+export async function approveUser(userId: string): Promise<ActionResult<User>> {
   const session = await getAdminSession();
   if (!session) {
     return { success: false, error: "Unauthorized" };
@@ -155,7 +154,7 @@ export async function approveUser(
           updatedAt: new Date(),
         },
       },
-      { returnDocument: "after" }
+      { returnDocument: "after" },
     );
 
     if (!result) {
@@ -174,9 +173,6 @@ export async function approveUser(
       }),
     });
 
-    revalidatePath("/admin/users", "page");
-    revalidatePath("/admin/approvals", "page");
-
     return { success: true, data: approvedUser };
   } catch (error) {
     console.error("Error approving user:", error);
@@ -187,9 +183,7 @@ export async function approveUser(
 /**
  * Reject a user account
  */
-export async function rejectUser(
-  userId: string
-): Promise<ActionResult<User>> {
+export async function rejectUser(userId: string): Promise<ActionResult<User>> {
   const session = await getAdminSession();
   if (!session) {
     return { success: false, error: "Unauthorized" };
@@ -209,15 +203,12 @@ export async function rejectUser(
           updatedAt: new Date(),
         },
       },
-      { returnDocument: "after" }
+      { returnDocument: "after" },
     );
 
     if (!result) {
       return { success: false, error: "User not found" };
     }
-
-    revalidatePath("/admin/users", "page");
-    revalidatePath("/admin/approvals", "page");
 
     return { success: true, data: transformUser(result) };
   } catch (error) {
@@ -254,9 +245,6 @@ export async function deleteUser(userId: string): Promise<ActionResult> {
     // Also delete associated sessions
     await db.collection("session").deleteMany({ userId: new ObjectId(userId) });
 
-    revalidatePath("/admin/users", "page");
-    revalidatePath("/admin/approvals", "page");
-
     return { success: true, data: undefined };
   } catch (error) {
     console.error("Error deleting user:", error);
@@ -269,7 +257,7 @@ export async function deleteUser(userId: string): Promise<ActionResult> {
  */
 export async function updateUserDepartment(
   userId: string,
-  department: string
+  department: string,
 ): Promise<ActionResult<User>> {
   const session = await getAdminSession();
   if (!session) {
@@ -288,14 +276,12 @@ export async function updateUserDepartment(
           updatedAt: new Date(),
         },
       },
-      { returnDocument: "after" }
+      { returnDocument: "after" },
     );
 
     if (!result) {
       return { success: false, error: "User not found" };
     }
-
-    revalidatePath("/admin/users", "page");
 
     return { success: true, data: transformUser(result) };
   } catch (error) {

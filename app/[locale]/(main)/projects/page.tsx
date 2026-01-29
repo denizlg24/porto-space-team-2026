@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { ProjectsGrid } from "./_components/projects-grid";
 import { ProjectsGridSkeleton } from "./_components/projects-grid-skeleton";
 
-export const revalidate = 3600;
+export const revalidate = 604800;
 
 export const generateMetadata = async ({
   params,

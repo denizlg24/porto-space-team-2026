@@ -6,6 +6,8 @@ import { GridBackground } from "@/components/ui/grid-background";
 import { PortoSpaceTeamLogo } from "@/components/ui/logo";
 import { SignInForm } from "./_components/sign-in-form";
 
+export const revalidate = 604800;
+
 export const generateMetadata = async ({
   params,
 }: LocalPromiseParams): Promise<Metadata> => {

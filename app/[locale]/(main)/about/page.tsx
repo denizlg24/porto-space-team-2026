@@ -11,7 +11,7 @@ import { Timeline } from "./_components/timeline";
 import { TimelineSkeleton } from "./_components/timeline-skeleton";
 import { TeamPictureFrame } from "../_components/team-picture-frame";
 
-export const revalidate = 3600;
+export const revalidate = 604800;
 
 export const generateMetadata = async ({
   params,

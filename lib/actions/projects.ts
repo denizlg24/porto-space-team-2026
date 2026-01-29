@@ -14,8 +14,19 @@ import {
 import { getAdminSession, type ActionResult } from "./users";
 import { revalidatePath } from "next/cache";
 import { CompetitionSectionData } from "./competitions";
-import { ButtonBlockData, ButtonGroupBlockData, CarouselBlockData, CarouselImage, ContentBlock, ImageBlockData, ImageFrameBlockData, SectionContent, SpacerBlockData, TextBlockData, TimelineItem } from "@/models/CompetitionSection";
-
+import {
+  ButtonBlockData,
+  ButtonGroupBlockData,
+  CarouselBlockData,
+  CarouselImage,
+  ContentBlock,
+  ImageBlockData,
+  ImageFrameBlockData,
+  SectionContent,
+  SpacerBlockData,
+  TextBlockData,
+  TimelineItem,
+} from "@/models/CompetitionSection";
 
 export type ProjectDepartmentData = {
   id: string;
@@ -105,7 +116,9 @@ function transformImageBlockData(block: ImageBlockData): ImageBlockData {
   };
 }
 
-function transformImageFrameBlockData(block: ImageFrameBlockData): ImageFrameBlockData {
+function transformImageFrameBlockData(
+  block: ImageFrameBlockData,
+): ImageFrameBlockData {
   return {
     url: block.url,
     alt: transformLocalizedString(block.alt),
@@ -126,7 +139,9 @@ function transformButtonBlockData(block: ButtonBlockData): ButtonBlockData {
   };
 }
 
-function transformButtonGroupBlockData(block: ButtonGroupBlockData): ButtonGroupBlockData {
+function transformButtonGroupBlockData(
+  block: ButtonGroupBlockData,
+): ButtonGroupBlockData {
   return {
     buttons: block.buttons?.map(transformButtonBlockData) ?? [],
     align: block.align,
@@ -146,7 +161,9 @@ function transformCarouselImage(image: CarouselImage): CarouselImage {
   };
 }
 
-function transformCarouselBlockData(block: CarouselBlockData): CarouselBlockData {
+function transformCarouselBlockData(
+  block: CarouselBlockData,
+): CarouselBlockData {
   return {
     images: block.images?.map(transformCarouselImage) ?? [],
     aspectRatio: block.aspectRatio,
@@ -159,10 +176,16 @@ function transformContentBlock(block: ContentBlock): ContentBlock {
     blockType: block.blockType,
     text: block.text ? transformTextBlockData(block.text) : undefined,
     image: block.image ? transformImageBlockData(block.image) : undefined,
-    imageFrame: block.imageFrame ? transformImageFrameBlockData(block.imageFrame) : undefined,
-    carousel: block.carousel ? transformCarouselBlockData(block.carousel) : undefined,
+    imageFrame: block.imageFrame
+      ? transformImageFrameBlockData(block.imageFrame)
+      : undefined,
+    carousel: block.carousel
+      ? transformCarouselBlockData(block.carousel)
+      : undefined,
     button: block.button ? transformButtonBlockData(block.button) : undefined,
-    buttonGroup: block.buttonGroup ? transformButtonGroupBlockData(block.buttonGroup) : undefined,
+    buttonGroup: block.buttonGroup
+      ? transformButtonGroupBlockData(block.buttonGroup)
+      : undefined,
     spacer: block.spacer ? transformSpacerBlockData(block.spacer) : undefined,
   };
 }
@@ -217,7 +240,7 @@ function transformProject(doc: IProject): ProjectData {
     order: doc.order,
     visible: doc.visible,
     heroDescription: transformLocalizedString(
-      doc.heroDescription || { en: "", pt: "" }
+      doc.heroDescription || { en: "", pt: "" },
     ),
     stats: (doc.stats || []).map((stat) => ({
       value: stat.value,
@@ -225,7 +248,7 @@ function transformProject(doc: IProject): ProjectData {
     })),
     projectImage: doc.projectImage || "",
     projectImageAlt: transformLocalizedString(
-      doc.projectImageAlt || { en: "", pt: "" }
+      doc.projectImageAlt || { en: "", pt: "" },
     ),
     departments: (doc.departments || [])
       .sort((a, b) => a.order - b.order)
@@ -252,21 +275,9 @@ function transformProjectAdmin(doc: IProject): ProjectData {
 }
 
 function revalidateProjects(slug?: string) {
-  revalidatePath("/en/projects", "layout");
-  revalidatePath("/pt/projects", "layout");
-  revalidatePath("/en/admin/projects", "layout");
-  revalidatePath("/pt/admin/projects", "layout");
+  revalidatePath("/(main)/[locale]/projects", "page");
   if (slug) {
-    revalidatePath(`/projects/${slug}`, "page");
-    revalidatePath(`/en/projects/${slug}`, "page");
-    revalidatePath(`/pt/projects/${slug}`, "page");
-    revalidatePath(`/en/admin/projects/${slug}`, "page");
-    revalidatePath(`/pt/admin/projects/${slug}`, "page");
-    revalidatePath(`/projects/${slug}`, "layout");
-    revalidatePath(`/en/projects/${slug}`, "layout");
-    revalidatePath(`/pt/projects/${slug}`, "layout");
-    revalidatePath(`/en/admin/projects/${slug}`, "layout");
-    revalidatePath(`/pt/admin/projects/${slug}`, "layout");
+    revalidatePath(`/(main)/[locale]/projects/${slug}`, "page");
   }
 }
 
@@ -305,7 +316,7 @@ export async function getPublicProjects(): Promise<ProjectData[]> {
 }
 
 export async function getProjectBySlug(
-  slug: string
+  slug: string,
 ): Promise<ProjectData | null> {
   try {
     await connectDB();
@@ -319,7 +330,7 @@ export async function getProjectBySlug(
 }
 
 export async function getProjectBySlugAdmin(
-  slug: string
+  slug: string,
 ): Promise<ActionResult<ProjectData>> {
   const session = await getAdminSession();
   if (!session) {
@@ -359,7 +370,10 @@ export async function createProject(data: {
 
     const existingProject = await Projects.findOne({ slug });
     if (existingProject) {
-      return { success: false, error: "A project with this slug already exists" };
+      return {
+        success: false,
+        error: "A project with this slug already exists",
+      };
     }
 
     const project = await Projects.create({
@@ -394,7 +408,7 @@ export async function updateProject(
     description?: LocalizedString;
     logo?: string;
     visible?: boolean;
-  }
+  },
 ): Promise<ActionResult<ProjectData>> {
   const session = await getAdminSession();
   if (!session) {
@@ -420,7 +434,7 @@ export async function updateProject(
     const project = await Projects.findByIdAndUpdate(
       projectId,
       { $set: data },
-      { new: true }
+      { new: true },
     );
 
     if (!project) {
@@ -445,7 +459,7 @@ export async function updateProjectContent(
     departments?: ProjectDepartmentData[];
     media?: ProjectMediaData[];
     customSections?: CompetitionSectionData[];
-  }
+  },
 ): Promise<ActionResult<ProjectData>> {
   const session = await getAdminSession();
   if (!session) {
@@ -458,7 +472,7 @@ export async function updateProjectContent(
     const project = await Projects.findByIdAndUpdate(
       projectId,
       { $set: data },
-      { new: true }
+      { new: true },
     );
 
     if (!project) {
@@ -496,7 +510,7 @@ export async function deleteProject(projectId: string): Promise<ActionResult> {
 }
 
 export async function reorderProjects(
-  projectIds: string[]
+  projectIds: string[],
 ): Promise<ActionResult> {
   const session = await getAdminSession();
   if (!session) {
@@ -524,7 +538,7 @@ export async function reorderProjects(
 }
 
 export async function toggleProjectVisibility(
-  projectId: string
+  projectId: string,
 ): Promise<ActionResult<ProjectData>> {
   const session = await getAdminSession();
   if (!session) {

@@ -35,15 +35,8 @@ function transformContent(doc: ISiteContent): SiteContentItem {
 }
 
 function revalidateContent() {
-  revalidatePath("/", "page");
-  revalidatePath("/en", "page");
-  revalidatePath("/pt", "page");
-  revalidatePath("/about", "page");
-  revalidatePath("/en/about", "page");
-  revalidatePath("/pt/about", "page");
-  revalidatePath("/admin/content", "page");
-  revalidatePath("/en/admin/content", "page");
-  revalidatePath("/pt/admin/content", "page");
+  revalidatePath('/(main)/[locale]', 'page')
+  revalidatePath('/(main)/[locale]/about', 'page');
 }
 
 export async function getPageContent(

@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { SectionsRenderer } from "./_components/sections-renderer";
 import { SectionsSkeleton } from "./_components/sections-skeleton";
 
-export const revalidate = 3600;
+export const revalidate = 604800;
 
 export const generateMetadata = async ({
   params,

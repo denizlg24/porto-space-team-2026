@@ -7,6 +7,8 @@ import { PortoSpaceTeamLogo } from "@/components/ui/logo";
 import { VerifyEmailResult } from "./_components/verify-email-result";
 import { auth } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ token?: string }>;

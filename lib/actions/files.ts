@@ -3,7 +3,6 @@
 import { connectDB } from "@/lib/db";
 import { Files, type IFile } from "@/models/File";
 import { getAdminSession, type ActionResult } from "./users";
-import { revalidatePath } from "next/cache";
 import { pinata } from "@/lib/files";
 
 export type FileItem = {
@@ -66,7 +65,6 @@ export async function deleteFile(fileId: string): Promise<ActionResult> {
 
     await Files.findByIdAndDelete(fileId);
 
-    revalidatePath("/admin/files", "page");
     return { success: true, data: undefined };
   } catch (error) {
     console.error("Error deleting file:", error);

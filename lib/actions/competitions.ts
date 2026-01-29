@@ -161,12 +161,7 @@ function transformSection(doc: ICompetitionSection): CompetitionSectionData {
 }
 
 function revalidateCompetitions() {
-  revalidatePath("/competitions", "page");
-  revalidatePath("/en/competitions", "page");
-  revalidatePath("/pt/competitions", "page");
-  revalidatePath("/admin/competitions", "page");
-  revalidatePath("/en/admin/competitions", "page");
-  revalidatePath("/pt/admin/competitions", "page");
+  revalidatePath('/(main)/[locale]/competitions', 'page');
 }
 
 export async function getCompetitionSections(): Promise<

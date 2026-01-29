@@ -16,7 +16,7 @@ import { TeamPictureFrame } from "./_components/team-picture-frame";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { ImageFrame } from "@/components/ui/image-frame";
-export const revalidate = 3600;
+export const revalidate = 604800;
 
 export const generateMetadata = async ({
   params,
