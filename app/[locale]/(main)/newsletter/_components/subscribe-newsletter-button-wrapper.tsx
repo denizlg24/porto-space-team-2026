@@ -1,18 +1,29 @@
-import { getSubscriberByToken } from "@/lib/actions/newsletter";
-import { SubscribeToNewsletterButton } from "./subscribe-newsletter-button";
+"use client";
 
-export async function SubscribeNewsletterButtonWrapper({
+import { useEffect, useState } from "react";
+import { SubscribeToNewsletterButton } from "./subscribe-newsletter-button";
+import { getSubscriberByToken, SubscriberData } from "@/lib/actions/newsletter";
+
+export function SubscribeNewsletterButtonWrapper({
   locale,
 }: {
   locale: string;
 }) {
-  const result = await getSubscriberByToken();
-  const subscriber = result.success ? result.data : null;
+  const [subscriber, setSubscriber] = useState<SubscriberData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getSubscriberByToken().then((result) => {
+      if (result.success) setSubscriber(result.data);
+      setLoading(false);
+    });
+  }, []);
 
   return (
     <SubscribeToNewsletterButton
       locale={locale}
       initialSubscriber={subscriber}
+      loading={loading}
     />
   );
 }
