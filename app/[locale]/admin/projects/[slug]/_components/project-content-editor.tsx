@@ -18,12 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Accordion,
   AccordionContent,
@@ -39,6 +34,8 @@ import {
 import type { StatItem, MediaType } from "@/models/Project";
 import { apiClient } from "@/lib/api-client";
 import type { FileUploadRoute } from "@/app/api/files/route";
+import { ProjectCustomSectionManager } from "./project-custom-section-manager";
+import { CompetitionSectionData } from "@/lib/actions/competitions";
 
 const filesApi = apiClient<FileUploadRoute>("/api/files");
 
@@ -47,7 +44,7 @@ type Props = {
 };
 
 function generateId(prefix: string = "item"): string {
-  return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 }
 
 export function ProjectContentEditor({ project }: Props) {
@@ -58,28 +55,32 @@ export function ProjectContentEditor({ project }: Props) {
   const [uploadingDeptId, setUploadingDeptId] = useState<string | null>(null);
 
   const [heroDescriptionEn, setHeroDescriptionEn] = useState(
-    project.heroDescription.en
+    project.heroDescription.en,
   );
   const [heroDescriptionPt, setHeroDescriptionPt] = useState(
-    project.heroDescription.pt
+    project.heroDescription.pt,
   );
 
   const [stats, setStats] = useState<StatItem[]>(project.stats);
 
   const [projectImage, setProjectImage] = useState(project.projectImage);
   const [projectImageAltEn, setProjectImageAltEn] = useState(
-    project.projectImageAlt.en
+    project.projectImageAlt.en,
   );
   const [projectImageAltPt, setProjectImageAltPt] = useState(
-    project.projectImageAlt.pt
+    project.projectImageAlt.pt,
   );
 
   const [departments, setDepartments] = useState<ProjectDepartmentData[]>(
-    project.departments
+    project.departments,
   );
 
   const [media, setMedia] = useState<ProjectMediaData[]>(project.media);
   const [uploadingMediaId, setUploadingMediaId] = useState<string | null>(null);
+
+  const [customSections, setCustomSections] = useState<CompetitionSectionData[]>(
+    project.customSections,
+  );
 
   const [savedState, setSavedState] = useState(() => ({
     heroDescriptionEn: project.heroDescription.en,
@@ -90,6 +91,7 @@ export function ProjectContentEditor({ project }: Props) {
     projectImageAltPt: project.projectImageAlt.pt,
     departments: project.departments,
     media: project.media,
+    customSections: project.customSections,
   }));
 
   const hasChanges = useMemo(() => {
@@ -99,8 +101,14 @@ export function ProjectContentEditor({ project }: Props) {
     if (projectImageAltEn !== savedState.projectImageAltEn) return true;
     if (projectImageAltPt !== savedState.projectImageAltPt) return true;
     if (JSON.stringify(stats) !== JSON.stringify(savedState.stats)) return true;
-    if (JSON.stringify(departments) !== JSON.stringify(savedState.departments)) return true;
+    if (JSON.stringify(departments) !== JSON.stringify(savedState.departments))
+      return true;
     if (JSON.stringify(media) !== JSON.stringify(savedState.media)) return true;
+    if (
+      JSON.stringify(customSections) !==
+      JSON.stringify(savedState.customSections)
+    )
+      return true;
     return false;
   }, [
     heroDescriptionEn,
@@ -111,14 +119,22 @@ export function ProjectContentEditor({ project }: Props) {
     projectImageAltPt,
     departments,
     media,
+    customSections,
     savedState,
   ]);
 
   const handleSave = useCallback(() => {
     startTransition(async () => {
-      const currentDepartments = departments.map((d, i) => ({ ...d, order: i }));
+      const currentDepartments = departments.map((d, i) => ({
+        ...d,
+        order: i,
+      }));
       const currentMedia = media.map((m, i) => ({ ...m, order: i }));
-      
+      const currentSections = customSections.map((s, i) => ({
+        ...s,
+        order: i,
+      }));
+
       const result = await updateProjectContent(project.id, {
         heroDescription: { en: heroDescriptionEn, pt: heroDescriptionPt },
         stats,
@@ -126,6 +142,7 @@ export function ProjectContentEditor({ project }: Props) {
         projectImageAlt: { en: projectImageAltEn, pt: projectImageAltPt },
         departments: currentDepartments,
         media: currentMedia,
+        customSections: currentSections,
       });
 
       if (result.success) {
@@ -138,6 +155,7 @@ export function ProjectContentEditor({ project }: Props) {
           projectImageAltPt,
           departments: currentDepartments,
           media: currentMedia,
+          customSections: currentSections,
         });
         toast.success(content.toast.saveSuccess.value);
       } else {
@@ -154,6 +172,7 @@ export function ProjectContentEditor({ project }: Props) {
     projectImageAltPt,
     departments,
     media,
+    customSections,
     content.toast.saveSuccess.value,
     content.toast.saveError.value,
   ]);
@@ -187,16 +206,13 @@ export function ProjectContentEditor({ project }: Props) {
   };
 
   const addStat = () => {
-    setStats((prev) => [
-      ...prev,
-      { value: "", label: { en: "", pt: "" } },
-    ]);
+    setStats((prev) => [...prev, { value: "", label: { en: "", pt: "" } }]);
   };
 
   const updateStat = (
     index: number,
     field: "value" | "labelEn" | "labelPt",
-    value: string
+    value: string,
   ) => {
     setStats((prev) =>
       prev.map((stat, i) => {
@@ -207,7 +223,7 @@ export function ProjectContentEditor({ project }: Props) {
         if (field === "labelPt")
           return { ...stat, label: { ...stat.label, pt: value } };
         return stat;
-      })
+      }),
     );
   };
 
@@ -232,10 +248,10 @@ export function ProjectContentEditor({ project }: Props) {
   const updateDepartment = <K extends keyof ProjectDepartmentData>(
     deptId: string,
     field: K,
-    value: ProjectDepartmentData[K]
+    value: ProjectDepartmentData[K],
   ) => {
     setDepartments((prev) =>
-      prev.map((d) => (d.id === deptId ? { ...d, [field]: value } : d))
+      prev.map((d) => (d.id === deptId ? { ...d, [field]: value } : d)),
     );
   };
 
@@ -264,8 +280,8 @@ export function ProjectContentEditor({ project }: Props) {
       prev.map((d) =>
         d.id === deptId
           ? { ...d, bulletPoints: [...d.bulletPoints, { en: "", pt: "" }] }
-          : d
-      )
+          : d,
+      ),
     );
   };
 
@@ -273,7 +289,7 @@ export function ProjectContentEditor({ project }: Props) {
     deptId: string,
     bpIndex: number,
     lang: "en" | "pt",
-    value: string
+    value: string,
   ) => {
     setDepartments((prev) =>
       prev.map((d) =>
@@ -281,11 +297,11 @@ export function ProjectContentEditor({ project }: Props) {
           ? {
               ...d,
               bulletPoints: d.bulletPoints.map((bp, i) =>
-                i === bpIndex ? { ...bp, [lang]: value } : bp
+                i === bpIndex ? { ...bp, [lang]: value } : bp,
               ),
             }
-          : d
-      )
+          : d,
+      ),
     );
   };
 
@@ -297,14 +313,14 @@ export function ProjectContentEditor({ project }: Props) {
               ...d,
               bulletPoints: d.bulletPoints.filter((_, i) => i !== bpIndex),
             }
-          : d
-      )
+          : d,
+      ),
     );
   };
 
   const handleGalleryUpload = (
     deptId: string,
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -312,7 +328,7 @@ export function ProjectContentEditor({ project }: Props) {
     e.target.value = "";
 
     const validFiles = Array.from(files).filter((f) =>
-      f.type.startsWith("image/")
+      f.type.startsWith("image/"),
     );
     if (validFiles.length === 0) return;
 
@@ -327,7 +343,7 @@ export function ProjectContentEditor({ project }: Props) {
       });
 
       const urls = (await Promise.all(uploadPromises)).filter(
-        (url): url is string => url !== null
+        (url): url is string => url !== null,
       );
 
       if (urls.length > 0) {
@@ -341,8 +357,8 @@ export function ProjectContentEditor({ project }: Props) {
                     ...urls.map((url) => ({ url, alt: { en: "", pt: "" } })),
                   ],
                 }
-              : d
-          )
+              : d,
+          ),
         );
       }
 
@@ -355,14 +371,14 @@ export function ProjectContentEditor({ project }: Props) {
       prev.map((d) =>
         d.id === deptId
           ? { ...d, gallery: d.gallery.filter((_, i) => i !== imgIndex) }
-          : d
-      )
+          : d,
+      ),
     );
   };
 
   const handleMediaUpload = (
     type: MediaType,
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -370,7 +386,9 @@ export function ProjectContentEditor({ project }: Props) {
     e.target.value = "";
 
     const validFiles = Array.from(files).filter((f) =>
-      type === "image" ? f.type.startsWith("image/") : f.type.startsWith("video/")
+      type === "image"
+        ? f.type.startsWith("image/")
+        : f.type.startsWith("video/"),
     );
     if (validFiles.length === 0) return;
 
@@ -386,7 +404,7 @@ export function ProjectContentEditor({ project }: Props) {
       });
 
       const urls = (await Promise.all(uploadPromises)).filter(
-        (url): url is string => url !== null
+        (url): url is string => url !== null,
       );
 
       if (urls.length > 0) {
@@ -410,10 +428,10 @@ export function ProjectContentEditor({ project }: Props) {
   const updateMedia = <K extends keyof ProjectMediaData>(
     mediaId: string,
     field: K,
-    value: ProjectMediaData[K]
+    value: ProjectMediaData[K],
   ) => {
     setMedia((prev) =>
-      prev.map((m) => (m.id === mediaId ? { ...m, [field]: value } : m))
+      prev.map((m) => (m.id === mediaId ? { ...m, [field]: value } : m)),
     );
   };
 
@@ -430,17 +448,18 @@ export function ProjectContentEditor({ project }: Props) {
 
     const newMedia = [...media];
     const newIndex = direction === "up" ? index - 1 : index + 1;
-    [newMedia[index], newMedia[newIndex]] = [newMedia[newIndex], newMedia[index]];
+    [newMedia[index], newMedia[newIndex]] = [
+      newMedia[newIndex],
+      newMedia[index],
+    ];
     setMedia(newMedia);
   };
 
   const addMediaTag = (mediaId: string) => {
     setMedia((prev) =>
       prev.map((m) =>
-        m.id === mediaId
-          ? { ...m, tags: [...m.tags, { en: "", pt: "" }] }
-          : m
-      )
+        m.id === mediaId ? { ...m, tags: [...m.tags, { en: "", pt: "" }] } : m,
+      ),
     );
   };
 
@@ -448,7 +467,7 @@ export function ProjectContentEditor({ project }: Props) {
     mediaId: string,
     tagIndex: number,
     lang: "en" | "pt",
-    value: string
+    value: string,
   ) => {
     setMedia((prev) =>
       prev.map((m) =>
@@ -456,11 +475,11 @@ export function ProjectContentEditor({ project }: Props) {
           ? {
               ...m,
               tags: m.tags.map((tag, i) =>
-                i === tagIndex ? { ...tag, [lang]: value } : tag
+                i === tagIndex ? { ...tag, [lang]: value } : tag,
               ),
             }
-          : m
-      )
+          : m,
+      ),
     );
   };
 
@@ -469,20 +488,23 @@ export function ProjectContentEditor({ project }: Props) {
       prev.map((m) =>
         m.id === mediaId
           ? { ...m, tags: m.tags.filter((_, i) => i !== tagIndex) }
-          : m
-      )
+          : m,
+      ),
     );
   };
 
   return (
     <div className="space-y-6">
       <Tabs defaultValue="hero" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full lg:grid-cols-6 md:grid-cols-4 grid-cols-3 h-full! max-h-full!">
           <TabsTrigger value="hero">{content.tabs.hero}</TabsTrigger>
           <TabsTrigger value="stats">{content.tabs.stats}</TabsTrigger>
           <TabsTrigger value="image">{content.tabs.image}</TabsTrigger>
           <TabsTrigger value="media">{content.tabs.media}</TabsTrigger>
-          <TabsTrigger value="departments">{content.tabs.departments}</TabsTrigger>
+          <TabsTrigger value="departments">
+            {content.tabs.departments}
+          </TabsTrigger>
+          <TabsTrigger value="sections">{content.tabs.sections}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="hero" className="space-y-4 mt-6">
@@ -522,7 +544,9 @@ export function ProjectContentEditor({ project }: Props) {
 
         <TabsContent value="stats" className="space-y-4 mt-6">
           <div>
-            <h3 className="text-lg font-semibold mb-2">{content.stats.title}</h3>
+            <h3 className="text-lg font-semibold mb-2">
+              {content.stats.title}
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               {content.stats.description}
             </p>
@@ -546,7 +570,8 @@ export function ProjectContentEditor({ project }: Props) {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <Label>
-                          {content.stats.label} ({content.form.languages.english})
+                          {content.stats.label} (
+                          {content.form.languages.english})
                         </Label>
                         <Input
                           value={stat.label.en}
@@ -558,7 +583,8 @@ export function ProjectContentEditor({ project }: Props) {
                       </div>
                       <div>
                         <Label>
-                          {content.stats.label} ({content.form.languages.portuguese})
+                          {content.stats.label} (
+                          {content.form.languages.portuguese})
                         </Label>
                         <Input
                           value={stat.label.pt}
@@ -654,7 +680,8 @@ export function ProjectContentEditor({ project }: Props) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label>
-                  {content.projectImage.altLabel} ({content.form.languages.english})
+                  {content.projectImage.altLabel} (
+                  {content.form.languages.english})
                 </Label>
                 <Input
                   value={projectImageAltEn}
@@ -664,7 +691,8 @@ export function ProjectContentEditor({ project }: Props) {
               </div>
               <div>
                 <Label>
-                  {content.projectImage.altLabel} ({content.form.languages.portuguese})
+                  {content.projectImage.altLabel} (
+                  {content.form.languages.portuguese})
                 </Label>
                 <Input
                   value={projectImageAltPt}
@@ -688,7 +716,11 @@ export function ProjectContentEditor({ project }: Props) {
 
           <Accordion type="single" collapsible className="space-y-4">
             {media.map((item, index) => (
-              <AccordionItem key={item.id} value={item.id} className="border rounded-lg">
+              <AccordionItem
+                key={item.id}
+                value={item.id}
+                className="border rounded-lg"
+              >
                 <div className="flex items-center px-4">
                   <div className="flex flex-col gap-1 py-2">
                     <button
@@ -776,15 +808,19 @@ export function ProjectContentEditor({ project }: Props) {
                                       item.id,
                                       tagIndex,
                                       "en",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
-                                  placeholder={content.media.tagPlaceholderEn.value}
+                                  placeholder={
+                                    content.media.tagPlaceholderEn.value
+                                  }
                                 />
                                 <Button
                                   variant="ghost"
                                   size="icon"
-                                  onClick={() => removeMediaTag(item.id, tagIndex)}
+                                  onClick={() =>
+                                    removeMediaTag(item.id, tagIndex)
+                                  }
                                 >
                                   <X className="h-4 w-4" />
                                 </Button>
@@ -826,15 +862,19 @@ export function ProjectContentEditor({ project }: Props) {
                                       item.id,
                                       tagIndex,
                                       "pt",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
-                                  placeholder={content.media.tagPlaceholderPt.value}
+                                  placeholder={
+                                    content.media.tagPlaceholderPt.value
+                                  }
                                 />
                                 <Button
                                   variant="ghost"
                                   size="icon"
-                                  onClick={() => removeMediaTag(item.id, tagIndex)}
+                                  onClick={() =>
+                                    removeMediaTag(item.id, tagIndex)
+                                  }
                                 >
                                   <X className="h-4 w-4" />
                                 </Button>
@@ -944,7 +984,11 @@ export function ProjectContentEditor({ project }: Props) {
 
           <Accordion type="single" collapsible className="space-y-4">
             {departments.map((dept, index) => (
-              <AccordionItem key={dept.id} value={dept.id} className="border rounded-lg">
+              <AccordionItem
+                key={dept.id}
+                value={dept.id}
+                className="border rounded-lg"
+              >
                 <div className="flex items-center px-4 gap-2 w-full">
                   <div className="flex flex-col gap-1 py-2">
                     <button
@@ -966,7 +1010,9 @@ export function ProjectContentEditor({ project }: Props) {
                   </div>
                   <AccordionTrigger className="px-2 hover:no-underline w-full! max-w-full! grow flex flex-row items-center justify-between">
                     <span className="font-medium">
-                      {dept.title.en || dept.title.pt || `Department ${index + 1}`}
+                      {dept.title.en ||
+                        dept.title.pt ||
+                        `Department ${index + 1}`}
                     </span>
                   </AccordionTrigger>
                 </div>
@@ -992,12 +1038,15 @@ export function ProjectContentEditor({ project }: Props) {
                             })
                           }
                           placeholder={
-                            content.departments.departmentTitlePlaceholderEn.value
+                            content.departments.departmentTitlePlaceholderEn
+                              .value
                           }
                         />
                       </div>
                       <div>
-                        <Label>{content.departments.departmentDescription}</Label>
+                        <Label>
+                          {content.departments.departmentDescription}
+                        </Label>
                         <Textarea
                           value={dept.description.en}
                           onChange={(e) =>
@@ -1007,8 +1056,8 @@ export function ProjectContentEditor({ project }: Props) {
                             })
                           }
                           placeholder={
-                            content.departments.departmentDescriptionPlaceholderEn
-                              .value
+                            content.departments
+                              .departmentDescriptionPlaceholderEn.value
                           }
                           rows={4}
                         />
@@ -1024,17 +1073,20 @@ export function ProjectContentEditor({ project }: Props) {
                                   dept.id,
                                   bpIndex,
                                   "en",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               placeholder={
-                                content.departments.bulletPointPlaceholderEn.value
+                                content.departments.bulletPointPlaceholderEn
+                                  .value
                               }
                             />
                             <Button
                               variant="ghost"
                               size="icon"
-                              onClick={() => removeBulletPoint(dept.id, bpIndex)}
+                              onClick={() =>
+                                removeBulletPoint(dept.id, bpIndex)
+                              }
                             >
                               <X className="h-4 w-4" />
                             </Button>
@@ -1063,12 +1115,15 @@ export function ProjectContentEditor({ project }: Props) {
                             })
                           }
                           placeholder={
-                            content.departments.departmentTitlePlaceholderPt.value
+                            content.departments.departmentTitlePlaceholderPt
+                              .value
                           }
                         />
                       </div>
                       <div>
-                        <Label>{content.departments.departmentDescription}</Label>
+                        <Label>
+                          {content.departments.departmentDescription}
+                        </Label>
                         <Textarea
                           value={dept.description.pt}
                           onChange={(e) =>
@@ -1078,8 +1133,8 @@ export function ProjectContentEditor({ project }: Props) {
                             })
                           }
                           placeholder={
-                            content.departments.departmentDescriptionPlaceholderPt
-                              .value
+                            content.departments
+                              .departmentDescriptionPlaceholderPt.value
                           }
                           rows={4}
                         />
@@ -1095,17 +1150,20 @@ export function ProjectContentEditor({ project }: Props) {
                                   dept.id,
                                   bpIndex,
                                   "pt",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               placeholder={
-                                content.departments.bulletPointPlaceholderPt.value
+                                content.departments.bulletPointPlaceholderPt
+                                  .value
                               }
                             />
                             <Button
                               variant="ghost"
                               size="icon"
-                              onClick={() => removeBulletPoint(dept.id, bpIndex)}
+                              onClick={() =>
+                                removeBulletPoint(dept.id, bpIndex)
+                              }
                             >
                               <X className="h-4 w-4" />
                             </Button>
@@ -1143,7 +1201,9 @@ export function ProjectContentEditor({ project }: Props) {
                             variant="destructive"
                             size="icon"
                             className="absolute -top-2 -right-2 h-5 w-5"
-                            onClick={() => removeGalleryImage(dept.id, imgIndex)}
+                            onClick={() =>
+                              removeGalleryImage(dept.id, imgIndex)
+                            }
                           >
                             <X className="h-3 w-3" />
                           </Button>
@@ -1203,6 +1263,22 @@ export function ProjectContentEditor({ project }: Props) {
             <Plus className="h-4 w-4 mr-2" />
             {content.departments.addDepartment}
           </Button>
+        </TabsContent>
+
+        <TabsContent value="sections" className="space-y-4 mt-6">
+          <div>
+            <h3 className="text-lg font-semibold mb-2">
+              {content.sections.title}
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              {content.sections.description}
+            </p>
+          </div>
+
+          <ProjectCustomSectionManager
+            setSections={setCustomSections}
+            optimisticSections={customSections}
+          />
         </TabsContent>
       </Tabs>
 

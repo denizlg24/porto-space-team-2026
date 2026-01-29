@@ -207,6 +207,7 @@ export function ProjectsManager({ initialProjects }: Props) {
         projectImageAlt: { en: "", pt: "" },
         departments: [],
         media: [],
+        customSections: [],
         createdAt: now,
         updatedAt: now,
       };

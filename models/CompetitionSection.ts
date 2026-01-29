@@ -249,7 +249,7 @@ const sectionContentSchema = new mongoose.Schema(
   { _id: false }
 );
 
-const competitionSectionSchema = new mongoose.Schema<ICompetitionSection>(
+export const competitionSectionSchema = new mongoose.Schema<ICompetitionSection>(
   {
     type: {
       type: String,

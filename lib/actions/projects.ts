@@ -13,6 +13,9 @@ import {
 } from "@/models/Project";
 import { getAdminSession, type ActionResult } from "./users";
 import { revalidatePath } from "next/cache";
+import { CompetitionSectionData } from "./competitions";
+import { ButtonBlockData, ButtonGroupBlockData, CarouselBlockData, CarouselImage, ContentBlock, ImageBlockData, ImageFrameBlockData, SectionContent, SpacerBlockData, TextBlockData, TimelineItem } from "@/models/CompetitionSection";
+
 
 export type ProjectDepartmentData = {
   id: string;
@@ -46,6 +49,7 @@ export type ProjectData = {
   projectImageAlt: LocalizedString;
   departments: ProjectDepartmentData[];
   media: ProjectMediaData[];
+  customSections: CompetitionSectionData[];
   createdAt: string;
   updatedAt: string;
 };
@@ -79,6 +83,130 @@ function transformMedia(media: ProjectMedia): ProjectMediaData {
   };
 }
 
+function transformTextBlockData(block: TextBlockData): TextBlockData {
+  return {
+    textType: block.textType,
+    content: transformLocalizedString(block.content),
+    color: block.color,
+    size: block.size,
+    align: block.align,
+    bold: block.bold,
+  };
+}
+
+function transformImageBlockData(block: ImageBlockData): ImageBlockData {
+  return {
+    url: block.url,
+    alt: transformLocalizedString(block.alt),
+    aspectRatio: block.aspectRatio,
+    objectFit: block.objectFit,
+    maxWidth: block.maxWidth,
+    rounded: block.rounded,
+  };
+}
+
+function transformImageFrameBlockData(block: ImageFrameBlockData): ImageFrameBlockData {
+  return {
+    url: block.url,
+    alt: transformLocalizedString(block.alt),
+    aspectRatio: block.aspectRatio,
+    objectFit: block.objectFit,
+    maxWidth: block.maxWidth,
+  };
+}
+
+function transformButtonBlockData(block: ButtonBlockData): ButtonBlockData {
+  return {
+    text: transformLocalizedString(block.text),
+    url: block.url,
+    variant: block.variant,
+    size: block.size,
+    fullWidth: block.fullWidth,
+    align: block.align,
+  };
+}
+
+function transformButtonGroupBlockData(block: ButtonGroupBlockData): ButtonGroupBlockData {
+  return {
+    buttons: block.buttons?.map(transformButtonBlockData) ?? [],
+    align: block.align,
+  };
+}
+
+function transformSpacerBlockData(block: SpacerBlockData): SpacerBlockData {
+  return {
+    size: block.size,
+  };
+}
+
+function transformCarouselImage(image: CarouselImage): CarouselImage {
+  return {
+    url: image.url,
+    alt: transformLocalizedString(image.alt),
+  };
+}
+
+function transformCarouselBlockData(block: CarouselBlockData): CarouselBlockData {
+  return {
+    images: block.images?.map(transformCarouselImage) ?? [],
+    aspectRatio: block.aspectRatio,
+    maxWidth: block.maxWidth,
+  };
+}
+
+function transformContentBlock(block: ContentBlock): ContentBlock {
+  return {
+    blockType: block.blockType,
+    text: block.text ? transformTextBlockData(block.text) : undefined,
+    image: block.image ? transformImageBlockData(block.image) : undefined,
+    imageFrame: block.imageFrame ? transformImageFrameBlockData(block.imageFrame) : undefined,
+    carousel: block.carousel ? transformCarouselBlockData(block.carousel) : undefined,
+    button: block.button ? transformButtonBlockData(block.button) : undefined,
+    buttonGroup: block.buttonGroup ? transformButtonGroupBlockData(block.buttonGroup) : undefined,
+    spacer: block.spacer ? transformSpacerBlockData(block.spacer) : undefined,
+  };
+}
+
+function transformStatItem(item: StatItem): StatItem {
+  return {
+    value: item.value,
+    label: transformLocalizedString(item.label),
+  };
+}
+
+function transformTimelineItem(item: TimelineItem): TimelineItem {
+  return {
+    year: item.year,
+    title: transformLocalizedString(item.title),
+    description: transformLocalizedString(item.description),
+  };
+}
+
+function transformContent(content: SectionContent): SectionContent {
+  return {
+    blocks: content.blocks?.map(transformContentBlock) ?? [],
+    stats: content.stats?.map(transformStatItem) ?? [],
+    timelineItems: content.timelineItems?.map(transformTimelineItem) ?? [],
+    layout: content.layout,
+    leftBlocks: content.leftBlocks?.map(transformContentBlock) ?? [],
+    rightBlocks: content.rightBlocks?.map(transformContentBlock) ?? [],
+    fullWidth: content.fullWidth,
+    align: content.align,
+  };
+}
+
+function transformSection(doc: CompetitionSectionData): CompetitionSectionData {
+  return {
+    id: doc.id.toString(),
+    type: doc.type,
+    content: transformContent(doc.content),
+    order: doc.order,
+    visible: doc.visible,
+    createdAt: doc.createdAt,
+    updatedAt: doc.updatedAt,
+  };
+}
+
 function transformProject(doc: IProject): ProjectData {
   return {
     id: doc._id.toString(),
@@ -105,8 +233,21 @@ function transformProject(doc: IProject): ProjectData {
     media: (doc.media || [])
       .sort((a, b) => a.order - b.order)
       .map(transformMedia),
+    customSections: (doc.customSections || [])
+      .sort((a, b) => a.order - b.order)
+      .filter((s) => s.visible)
+      .map(transformSection),
     createdAt: doc.createdAt.toISOString(),
     updatedAt: doc.updatedAt.toISOString(),
+  };
+}
+
+function transformProjectAdmin(doc: IProject): ProjectData {
+  return {
+    ...transformProject(doc),
+    customSections: (doc.customSections || [])
+      .sort((a, b) => a.order - b.order)
+      .map(transformSection),
   };
 }
 
@@ -191,7 +332,7 @@ export async function getProjectBySlugAdmin(
     if (!project) {
       return { success: false, error: "Project not found" };
     }
-    return { success: true, data: transformProject(project) };
+    return { success: true, data: transformProjectAdmin(project) };
   } catch (error) {
     console.error("Error fetching project by slug:", error);
     return { success: false, error: "Failed to fetch project" };
@@ -234,6 +375,7 @@ export async function createProject(data: {
       projectImageAlt: { en: "", pt: "" },
       departments: [],
       media: [],
+      customSections: [],
     });
 
     revalidateProjects(slug);
@@ -302,6 +444,7 @@ export async function updateProjectContent(
     projectImageAlt?: LocalizedString;
     departments?: ProjectDepartmentData[];
     media?: ProjectMediaData[];
+    customSections?: CompetitionSectionData[];
   }
 ): Promise<ActionResult<ProjectData>> {
   const session = await getAdminSession();
@@ -323,7 +466,7 @@ export async function updateProjectContent(
     }
 
     revalidateProjects(project.slug);
-    return { success: true, data: transformProject(project) };
+    return { success: true, data: transformProjectAdmin(project) };
   } catch (error) {
     console.error("Error updating project content:", error);
     return { success: false, error: "Failed to update project content" };

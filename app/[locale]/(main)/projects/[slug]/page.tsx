@@ -12,6 +12,7 @@ import { DepartmentsSection } from "./_components/departments-section";
 import { ProjectMediaCarousel } from "./_components/project-media-carousel";
 import { connectDB } from "@/lib/db";
 import { Projects } from "@/models/Project";
+import { CustomSectionsRenderer } from "./_components/custom-sections-renderer";
 
 export const revalidate = 3600;
 
@@ -118,6 +119,16 @@ export default async function ProjectPage({ params }: PageProps) {
               <h2 className="text-2xl font-bold mb-8">{content.media.title}</h2>
               <ProjectMediaCarousel media={project.media} locale={locale} />
             </section>
+          </>
+        )}
+
+        {project.customSections.length > 0 && (
+          <>
+            <Separator className="max-w-5xl" />
+            <CustomSectionsRenderer
+              sections={project.customSections}
+              locale={locale}
+            />
           </>
         )}
       </main>

@@ -1,4 +1,6 @@
+import { CompetitionSectionData } from "@/lib/actions/competitions";
 import mongoose from "mongoose";
+import { competitionSectionSchema } from "./CompetitionSection";
 
 export interface LocalizedString {
   en: string;
@@ -48,6 +50,7 @@ export interface IProject extends mongoose.Document {
   projectImageAlt: LocalizedString;
   departments: ProjectDepartment[];
   media: ProjectMedia[];
+  customSections: CompetitionSectionData[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -120,6 +123,7 @@ const projectSchema = new mongoose.Schema<IProject>(
     },
     departments: { type: [projectDepartmentSchema], default: [] },
     media: { type: [projectMediaSchema], default: [] },
+    customSections: { type: [competitionSectionSchema], default: [] },
   },
   { timestamps: true }
 );
