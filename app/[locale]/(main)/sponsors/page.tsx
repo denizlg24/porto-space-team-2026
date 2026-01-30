@@ -88,7 +88,7 @@ async function SponsorsContent({ locale }: { locale: string }) {
           );
         })}
       {commonSponsors.length > 0 && (
-        <div className="w-full max-w-5xl mx-auto">
+        <div className="w-full max-w-5xl mx-auto mt-16">
           <h2 className="text-2xl font-bold mb-8 text-center">
             {content.commonSponsors}
           </h2>
