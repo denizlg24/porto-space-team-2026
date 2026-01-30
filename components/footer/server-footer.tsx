@@ -21,7 +21,7 @@ const navLinkKeys = [
   { key: "sponsors", href: "/sponsors" },
   { key: "competitions", href: "/competitions" },
   { key: "newsletter", href: "/newsletter" },
-  { key: "contact", href: "/contact" },
+  { key: "contact", href: "/#contact" },
 ] as const;
 
 const socialLinks = [

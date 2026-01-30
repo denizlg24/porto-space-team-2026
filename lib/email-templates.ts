@@ -188,6 +188,209 @@ export const getApprovalEmailTemplate = ({
 </html>
 `;
 
+interface ContactConfirmationEmailParams {
+  name: string;
+  ticketId: string;
+  subject: string;
+  message: string;
+}
+
+interface ContactNotificationEmailParams {
+  ticketId: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  adminUrl: string;
+}
+
+export const getContactConfirmationEmailTemplate = ({
+  name,
+  ticketId,
+  subject,
+  message,
+}: ContactConfirmationEmailParams): string => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Message Received</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; background-color: #ffffff; border: 1px solid #e5e5e5;">
+          <tr>
+            <td style="padding: 40px 32px 32px 32px; text-align: center; border-bottom: 1px solid #e5e5e5;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <img src="https://porto-space-team-2026.vercel.app/logo-black.png" alt="Porto Space Team" width="48" height="48" style="display: block; border: 0;" />
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding-top: 16px;">
+                    <span style="font-size: 14px; font-weight: 700; letter-spacing: 0.1em; color: #1a1a1a; text-transform: uppercase;">Porto Space Team</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 8px 0; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8b4513;">Message Received</p>
+                    <h1 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #1a1a1a; line-height: 1.3;">Thank You for Contacting Us</h1>
+                    <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666; line-height: 1.6;">Hello ${name},</p>
+                    <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666; line-height: 1.6;">We have received your message and will get back to you as soon as possible. Please keep your ticket ID for reference.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 16px; background-color: #fafafa; border: 1px solid #e5e5e5; margin-bottom: 24px;">
+                    <p style="margin: 0 0 8px 0; font-size: 12px; color: #666666;">Your Ticket ID:</p>
+                    <p style="margin: 0; font-size: 18px; font-weight: 700; color: #8b4513; font-family: monospace;">${ticketId}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 24px;">
+                    <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Subject:</p>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; color: #666666;">${subject}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Your Message:</p>
+                    <p style="margin: 0; font-size: 14px; color: #666666; line-height: 1.6; white-space: pre-wrap;">${message}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 24px 32px; background-color: #fafafa; border-top: 1px solid #e5e5e5;">
+              <p style="margin: 0; font-size: 12px; color: #999999; text-align: center; line-height: 1.6;">This is an automated confirmation. Please do not reply to this email.</p>
+            </td>
+          </tr>
+        </table>
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px;">
+          <tr>
+            <td style="padding: 24px 0; text-align: center;">
+              <p style="margin: 0; font-size: 11px; color: #999999;">Porto Space Team - University of Porto</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
+export const getContactNotificationEmailTemplate = ({
+  ticketId,
+  name,
+  email,
+  subject,
+  message,
+  adminUrl,
+}: ContactNotificationEmailParams): string => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>New Contact Message</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; background-color: #ffffff; border: 1px solid #e5e5e5;">
+          <tr>
+            <td style="padding: 40px 32px 32px 32px; text-align: center; border-bottom: 1px solid #e5e5e5;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <img src="https://porto-space-team-2026.vercel.app/logo-black.png" alt="Porto Space Team" width="48" height="48" style="display: block; border: 0;" />
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding-top: 16px;">
+                    <span style="font-size: 14px; font-weight: 700; letter-spacing: 0.1em; color: #1a1a1a; text-transform: uppercase;">Porto Space Team</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 8px 0; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8b4513;">New Contact</p>
+                    <h1 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #1a1a1a; line-height: 1.3;">New Contact Message Received</h1>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 16px; background-color: #fafafa; border: 1px solid #e5e5e5; margin-bottom: 24px;">
+                    <p style="margin: 0 0 8px 0; font-size: 12px; color: #666666;">Ticket ID:</p>
+                    <p style="margin: 0; font-size: 18px; font-weight: 700; color: #8b4513; font-family: monospace;">${ticketId}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 24px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td style="padding-bottom: 12px;">
+                          <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">From:</p>
+                          <p style="margin: 0; font-size: 14px; color: #666666;">${name} &lt;${email}&gt;</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-bottom: 12px;">
+                          <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Subject:</p>
+                          <p style="margin: 0; font-size: 14px; color: #666666;">${subject}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Message:</p>
+                          <p style="margin: 0; font-size: 14px; color: #666666; line-height: 1.6; white-space: pre-wrap;">${message}</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding: 24px 0 8px 0;">
+                    <a href="${adminUrl}" target="_blank" style="display: inline-block; padding: 14px 32px; background-color: #8b4513; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.025em;">View in Admin Panel</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 24px 32px; background-color: #fafafa; border-top: 1px solid #e5e5e5;">
+              <p style="margin: 0; font-size: 12px; color: #999999; text-align: center; line-height: 1.6;">This is an automated notification from the Porto Space Team website.</p>
+            </td>
+          </tr>
+        </table>
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px;">
+          <tr>
+            <td style="padding: 24px 0; text-align: center;">
+              <p style="margin: 0; font-size: 11px; color: #999999;">Porto Space Team - University of Porto</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
 export const getNewsletterEmailTemplate = ({
   name,
   title,

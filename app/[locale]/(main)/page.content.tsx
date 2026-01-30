@@ -161,6 +161,32 @@ const pageContent = {
         pt: "Oportunidades de patrocínio disponíveis",
       }),
     },
+    contact:{
+      label:t({
+        en: "// Contact",
+        pt: "// Contacto",
+      }),
+      title:t({
+        en:"Let's Talk",
+        pt:"Vamos Conversar"
+      }),
+      description:t({
+        en:" Whether you're interested in sponsorship, collaboration, or just want to talk to us, we'd love to hear from you.",
+        pt:" Quer esteja interessado em patrocínios, colaboração ou apenas queira falar connosco, adoraríamos ouvir de si.",
+      }),
+      locationTitle:t({
+        en:"Location",
+        pt:"Localização",
+      }),
+      location:t({
+        en:"Porto Space Team R&D Lab",
+        pt:"Laboratório de I&D da Porto Space Team",
+      }),
+      followUs:t({
+        en:"FOLLOW US",
+        pt:"SIGA-NOS",
+      })
+    }
   },
 } satisfies Dictionary;
 

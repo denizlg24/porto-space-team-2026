@@ -57,6 +57,10 @@ const adminSidebarContent = {
         en: "Newsletter",
         pt: "Newsletter",
       }),
+      contacts: t({
+        en: "Contacts",
+        pt: "Contactos",
+      }),
       settings: t({
         en: "Settings",
         pt: "Definicoes",

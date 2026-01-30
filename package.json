@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.1.0",
+    "@hookform/resolvers": "^5.2.2",
     "@intlayer/swc": "^8.0.0",
     "@tanstack/react-form": "^1.28.0",
     "@types/dom-view-transitions": "^1.0.6",

@@ -1,12 +1,21 @@
 import { Suspense } from "react";
-import { NextPageIntlayer } from "next-intlayer";
+import {
+  NextPageIntlayer,
+} from "next-intlayer";
 import { IntlayerServerProvider } from "next-intlayer/server";
 import { getIntlayer, getMultilingualUrls } from "intlayer";
 import type { Metadata } from "next";
 import type { LocalPromiseParams } from "next-intlayer";
 import { GridBackground } from "@/components/ui/grid-background";
 import { Link } from "@/components/locale/link";
-import { ChevronRight } from "lucide-react";
+import {
+  ChevronRight,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroTeamPhoto from "@/public/hero-team.png";
 import { CountdownCompetitionWrapper } from "./_components/countdown-to-competition-wrapper";
@@ -16,6 +25,7 @@ import { TeamPictureFrame } from "./_components/team-picture-frame";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { ImageFrame } from "@/components/ui/image-frame";
+import { ContactForm } from "./_components/contact-form";
 export const revalidate = 604800;
 
 export const generateMetadata = async ({
@@ -175,7 +185,9 @@ const Page: NextPageIntlayer = async ({ params }) => {
             </p>
           </div>
           <Suspense
-            fallback={<Skeleton className="aspect-video w-full md:order-2 order-1" />}
+            fallback={
+              <Skeleton className="aspect-video w-full md:order-2 order-1" />
+            }
           >
             <TeamPictureFrame
               alt={content.about.imageAlt}
@@ -207,6 +219,88 @@ const Page: NextPageIntlayer = async ({ params }) => {
         >
           <TopSponsors locale={locale} />
         </Suspense>
+        <Separator className="my-8 max-w-5xl" />
+        <section
+          id="contact"
+          className="w-full max-w-5xl my-8 mx-auto grid md:grid-cols-2 grid-cols-1 pb-12 gap-6"
+        >
+          <div className="col-span-1 flex flex-col gap-4 items-start text-left">
+            <p className="text-xs text-primary">{content.contact.label}</p>
+            <h1 className="md:text-4xl sm:text-3xl text-2xl font-bold">
+              {content.contact.title}
+            </h1>
+            <h2 className="text-muted-foreground sm:text-lg text-sm">
+              {content.contact.description}
+            </h2>
+            <div className="w-full flex flex-col gap-2 mt-4">
+              <div className="flex flex-row items-stretch gap-2 justify-start">
+                <div className="min-[420px]:w-12 min-[420px]:h-12 w-10 h-10 min-[420px]:p-3 p-2 border text-primary shrink-0">
+                  <Mail className="w-full h-full" />
+                </div>
+                <div className="min-[420px]:h-12 h-10 flex flex-col justify-center gap-1">
+                  <p className="text-sm text-muted-foreground">Email</p>
+                  <a
+                    target="_blank"
+                    href="mailto:operacoes@portospaceteam.pt"
+                    className="text-sm font-semibold hover:text-primary transition-colors"
+                  >
+                    operacoes@portospaceteam.pt
+                  </a>
+                </div>
+              </div>
+              <div className="flex flex-row items-stretch gap-2 justify-start">
+                <div className="min-[420px]:w-12 min-[420px]:h-12 w-10 h-10 min-[420px]:p-3 p-2 border text-primary shrink-0">
+                  <MapPin className="w-full h-full" />
+                </div>
+                <div className="min-[420px]:h-12 h-10 flex flex-col justify-center gap-1">
+                  <p className="text-sm text-muted-foreground">
+                    {content.contact.locationTitle}
+                  </p>
+                  <a
+                    target="_blank"
+                    href="https://www.google.com/maps/place/Porto+Space+Team/@41.1781163,-8.5945483,15z/data=!4m6!3m5!1s0xd24657d6bcac819:0x58ab6feb15e61d9b!8m2!3d41.1781163!4d-8.5945483!16s%2Fg%2F11tfjwlz4z?entry=ttu"
+                    className="text-sm font-semibold hover:text-primary transition-colors"
+                  >
+                    {content.contact.location}
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-2 gap-y-4 w-full max-w-3xs mt-4">
+              <p className="text-sm text-muted-foreground col-span-full">
+                {content.contact.followUs}
+              </p>
+              {[
+                {
+                  name: "Instagram",
+                  href: "https://instagram.com/portospaceteam",
+                  icon: Instagram,
+                },
+
+                {
+                  href: "https://www.facebook.com/portospaceteam",
+                  icon: Facebook,
+                },
+                {
+                  href: "https://www.linkedin.com/company/porto-space-team",
+                  icon: Linkedin,
+                },
+              ].map((social) => (
+                <a
+                  key={social.href}
+                  href={social.href}
+                  target="_blank"
+                  className="min-[420px]:w-12 min-[420px]:h-12 w-10 h-10 min-[420px]:p-3 p-2 border shrink-0"
+                >
+                  <social.icon className="w-full h-full text-muted-foreground" />
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="col-span-1 w-full bg-muted/10 sm:p-8 p-4 border">
+              <ContactForm locale={locale}/>
+          </div>
+        </section>
       </main>
     </IntlayerServerProvider>
   );

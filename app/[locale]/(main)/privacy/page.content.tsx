@@ -15,11 +15,11 @@ const privacyPageContent = {
       }),
       description: t({
         en: "Your privacy matters to us. This policy explains how we handle your data.",
-        pt: "A sua privacidade e importante para nos. Esta politica explica como tratamos os seus dados.",
+        pt: "A sua privacidade é importante para nós. Esta política explica como tratamos os seus dados.",
       }),
       lastUpdated: t({
         en: "Last updated: January 2025",
-        pt: "Ultima atualizacao: Janeiro 2025",
+        pt: "Última atualização: Janeiro 2025",
       }),
     },
     overview: {
@@ -33,11 +33,11 @@ const privacyPageContent = {
       }),
       paragraph1: t({
         en: "Porto Space Team is committed to protecting your privacy. We collect minimal data and only when necessary to provide our services.",
-        pt: "A Porto Space Team esta comprometida em proteger a sua privacidade. Recolhemos dados minimos e apenas quando necessario para fornecer os nossos servicos.",
+        pt: "A Porto Space Team está comprometida em proteger a sua privacidade. Recolhemos dados mínimos e apenas quando necessário para fornecer os nossos serviços.",
       }),
       paragraph2: t({
         en: "By default, browsing our website does not require any personal data collection. We do not use tracking cookies or analytics that identify individual users.",
-        pt: "Por defeito, navegar no nosso website nao requer qualquer recolha de dados pessoais. Nao utilizamos cookies de rastreamento ou analiticas que identifiquem utilizadores individuais.",
+        pt: "Por defeito, navegar no nosso website não requer qualquer recolha de dados pessoais. Não utilizamos cookies de tracking ou analíticas que identifiquem utilizadores individuais.",
       }),
     },
     dataCollection: {
@@ -51,12 +51,12 @@ const privacyPageContent = {
       }),
       intro: t({
         en: "We only collect personal data when you voluntarily provide it through specific services:",
-        pt: "Apenas recolhemos dados pessoais quando os fornece voluntariamente atraves de servicos especificos:",
+        pt: "Apenas recolhemos dados pessoais quando os fornece voluntariamente através de serviços específicos:",
       }),
       newsletter: {
         title: t({
           en: "Newsletter Subscription",
-          pt: "Subscricao da Newsletter",
+          pt: "Subscrição da Newsletter",
         }),
         description: t({
           en: "When you subscribe to our newsletter, we collect:",
@@ -69,7 +69,7 @@ const privacyPageContent = {
           }),
           email: t({
             en: "Your email address",
-            pt: "O seu endereco de email",
+            pt: "O seu endereço de email",
           }),
           dob: t({
             en: "Your date of birth",
@@ -78,7 +78,7 @@ const privacyPageContent = {
         },
         purpose: t({
           en: "This information is used solely to send you updates about Porto Space Team activities, events, and news.",
-          pt: "Esta informacao e utilizada exclusivamente para lhe enviar atualizacoes sobre atividades, eventos e noticias da Porto Space Team.",
+          pt: "Esta informação é utilizada exclusivamente para lhe enviar atualizações sobre atividades, eventos e notícias da Porto Space Team.",
         }),
       },
       contact: {
@@ -88,7 +88,7 @@ const privacyPageContent = {
         }),
         description: t({
           en: "When you submit a message through our contact form, we store your message and contact details to respond to your inquiry.",
-          pt: "Quando envia uma mensagem atraves do nosso formulario de contacto, armazenamos a sua mensagem e dados de contacto para responder a sua consulta.",
+          pt: "Quando envia uma mensagem através do nosso formulário de contacto, armazenamos a sua mensagem e dados de contacto para responder à sua consulta.",
         }),
       },
       join: {
@@ -98,7 +98,7 @@ const privacyPageContent = {
         }),
         description: t({
           en: "When you apply to join Porto Space Team, we collect and store your application information to process your membership request.",
-          pt: "Quando se candidata a membro da Porto Space Team, recolhemos e armazenamos as informacoes da sua candidatura para processar o seu pedido de adesao.",
+          pt: "Quando se candidata a membro da Porto Space Team, recolhemos e armazenamos as informações da sua candidatura para processar o seu pedido de adesão.",
         }),
       },
     },
@@ -113,16 +113,16 @@ const privacyPageContent = {
       }),
       intro: t({
         en: "We use only essential cookies that are necessary for the website to function properly:",
-        pt: "Utilizamos apenas cookies essenciais que sao necessarios para o funcionamento correto do website:",
+        pt: "Utilizamos apenas cookies essenciais que são necessários para o funcionamento correto do website:",
       }),
       theme: {
         title: t({
           en: "Theme Preference",
-          pt: "Preferencia de Tema",
+          pt: "Preferência de Tema",
         }),
         description: t({
           en: "Stores your light/dark mode preference for a consistent browsing experience.",
-          pt: "Armazena a sua preferencia de modo claro/escuro para uma experiencia de navegacao consistente.",
+          pt: "Armazena a sua preferência de modo claro/escuro para uma experiência de navegação consistente.",
         }),
       },
       token: {
@@ -132,12 +132,12 @@ const privacyPageContent = {
         }),
         description: t({
           en: "If you are subscribed to our newsletter, a token is stored to verify your subscription status.",
-          pt: "Se estiver subscrito na nossa newsletter, e armazenado um token para verificar o estado da sua subscricao.",
+          pt: "Se estiver subscrito na nossa newsletter, é armazenado um token para verificar o estado da sua subscrição.",
         }),
       },
       noCookies: t({
         en: "We do not use advertising cookies, tracking cookies, or third-party analytics cookies.",
-        pt: "Nao utilizamos cookies de publicidade, cookies de rastreamento ou cookies de analitica de terceiros.",
+        pt: "Não utilizamos cookies de publicidade, cookies de tracking ou cookies de analítica de terceiros.",
       }),
     },
     rights: {
@@ -151,7 +151,7 @@ const privacyPageContent = {
       }),
       intro: t({
         en: "Under GDPR and applicable data protection laws, you have the right to:",
-        pt: "Ao abrigo do RGPD e das leis de protecao de dados aplicaveis, tem o direito de:",
+        pt: "Ao abrigo do RGPD e das leis de proteção de dados aplicáveis, tem o direito de:",
       }),
       items: {
         access: t({
@@ -160,15 +160,15 @@ const privacyPageContent = {
         }),
         rectification: t({
           en: "Request correction of inaccurate data",
-          pt: "Solicitar a correcao de dados incorretos",
+          pt: "Solicitar a correção de dados incorretos",
         }),
         erasure: t({
           en: "Request deletion of your personal data",
-          pt: "Solicitar a eliminacao dos seus dados pessoais",
+          pt: "Solicitar a eliminação dos seus dados pessoais",
         }),
         restriction: t({
           en: "Request restriction of processing",
-          pt: "Solicitar a restricao do tratamento",
+          pt: "Solicitar a restrição do tratamento",
         }),
         portability: t({
           en: "Request data portability",
@@ -181,7 +181,7 @@ const privacyPageContent = {
       },
       unsubscribe: t({
         en: "You can unsubscribe from our newsletter at any time using the unsubscribe link in any email or through the unsubscribe page on our website.",
-        pt: "Pode cancelar a subscricao da nossa newsletter a qualquer momento usando o link de cancelamento em qualquer email ou atraves da pagina de cancelamento no nosso website.",
+        pt: "Pode cancelar a subscrição da nossa newsletter a qualquer momento usando o link de cancelamento em qualquer email ou através da página de cancelamento no nosso website.",
       }),
     },
     contact: {
@@ -191,11 +191,11 @@ const privacyPageContent = {
       }),
       title: t({
         en: "Questions About Privacy",
-        pt: "Questoes sobre Privacidade",
+        pt: "Questões sobre Privacidade",
       }),
       description: t({
         en: "If you have any questions about this privacy policy or how we handle your data, please contact us.",
-        pt: "Se tiver alguma questao sobre esta politica de privacidade ou sobre como tratamos os seus dados, por favor contacte-nos.",
+        pt: "Se tiver alguma questão sobre esta política de privacidade ou sobre como tratamos os seus dados, por favor contacte-nos.",
       }),
     },
   },
