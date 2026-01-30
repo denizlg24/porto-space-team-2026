@@ -27,6 +27,10 @@ const sponsorsPageContent = {
       en: "Partners coming soon.",
       pt: "Parceiros em breve.",
     }),
+    commonSponsors: t({
+      en: "Common Sponsors",
+      pt: "Patrocinadores Gerais",
+    }),
   },
 } satisfies Dictionary;
 

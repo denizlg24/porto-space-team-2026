@@ -13,7 +13,6 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { SponsorCategoryItem, SponsorItem } from "@/lib/actions/sponsors";
-import { getLocalizedUrl } from "intlayer";
 
 interface SponsorImageProps {
   src: string;
@@ -54,7 +53,6 @@ interface SponsorsDisplayProps {
   sponsors: SponsorItem[];
   partnersLabel: string;
   visitWebsiteLabel: string;
-  locale: string;
 }
 
 const LOGO_SIZES: Record<number, number> = {
@@ -96,7 +94,6 @@ interface CategorySectionProps {
   categoryIndex: number;
   partnersLabel: string;
   visitWebsiteLabel: string;
-  locale: string;
 }
 
 function CategorySection({
@@ -105,7 +102,6 @@ function CategorySection({
   categoryIndex,
   partnersLabel,
   visitWebsiteLabel,
-  locale,
 }: CategorySectionProps) {
   const logoSize = getLogoSize(categoryIndex);
   const carouselItemClass = getCarouselItemClass(categoryIndex);
@@ -114,45 +110,20 @@ function CategorySection({
   const needsCarousel = categorySponsors.length > maxVisible;
 
   const renderSponsorLink = (sponsor: SponsorItem) => (
-    <div
+    <Link
       key={sponsor.id}
-      className={
-        "relative"
-      }
+      href={sponsor.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ width: logoSize + 24 }}
+      className="group flex flex-col items-center gap-1 p-3 transition-all hover:bg-muted/50 "
+      title={`${sponsor.name} - ${visitWebsiteLabel}`}
     >
-      <Link
-        href={sponsor.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ width: logoSize + 24 }}
-        className="group flex flex-col items-center gap-1 p-3 transition-all hover:bg-muted/50 "
-        title={`${sponsor.name} - ${visitWebsiteLabel}`}
-      >
-        <SponsorImage
-          src={sponsor.imageUrl}
-          alt={sponsor.name}
-          size={logoSize}
-        />
-        <span className="text-xs text-muted-foreground text-center break-after-all mx-auto w-full">
-          {sponsor.name}
-        </span>
-      </Link>
-      {sponsor.project && (
-        <Link
-          href={getLocalizedUrl(`/projects/${sponsor.project.slug}`, locale)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute top-1 right-1 opacity-85 hover:opacity-100 transition-opacity"
-        >
-          <Image
-            src={sponsor.project.logo}
-            alt={sponsor.project.name}
-            width={24}
-            height={24}
-          />
-        </Link>
-      )}
-    </div>
+      <SponsorImage src={sponsor.imageUrl} alt={sponsor.name} size={logoSize} />
+      <span className="text-xs text-muted-foreground text-center break-after-all mx-auto w-full">
+        {sponsor.name}
+      </span>
+    </Link>
   );
 
   return (
@@ -219,7 +190,6 @@ export function SponsorsDisplay({
   sponsors,
   partnersLabel,
   visitWebsiteLabel,
-  locale,
 }: SponsorsDisplayProps) {
   const groupedSponsors = categories
     .map((category) => ({
@@ -241,7 +211,6 @@ export function SponsorsDisplay({
             categoryIndex={index}
             partnersLabel={partnersLabel}
             visitWebsiteLabel={visitWebsiteLabel}
-            locale={locale}
           />
         ),
       )}
