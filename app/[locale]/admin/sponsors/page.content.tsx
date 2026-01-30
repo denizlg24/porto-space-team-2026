@@ -115,6 +115,18 @@ const sponsorsPageContent = {
         en: "Brief description of what they do or their contribution",
         pt: "Breve descrição do que fazem ou da sua contribuição",
       }),
+      project: t({
+        en: "Associated Project",
+        pt: "Projeto Associado",
+      }),
+      selectProject: t({
+        en: "Select a project (optional)",
+        pt: "Selecione um projeto (opcional)",
+      }),
+      noProject: t({
+        en: "No project",
+        pt: "Sem projeto",
+      }),
       titleStyle: t({
         en: "Title Style",
         pt: "Estilo do Título",

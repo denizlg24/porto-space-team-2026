@@ -142,7 +142,7 @@ const Page: NextPageIntlayer = async ({ params }) => {
             </div>
           </ImageFrame>
         </section>
-        <Separator />
+        <Separator className="max-w-5xl"/>
         <section className="w-full max-w-3xl mb-4 mt-4 mx-auto">
           <Suspense
             fallback={
@@ -165,7 +165,7 @@ const Page: NextPageIntlayer = async ({ params }) => {
             <QuickStats locale={locale} />
           </Suspense>
         </section>
-        <Separator />
+        <Separator className="max-w-5xl"/>
         <section className="w-full max-w-5xl my-8 mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="flex flex-col md:items-start md:text-left items-center text-left md:order-1 order-2">
             <h2 className="text-xs text-primary mb-4 w-full">
@@ -195,7 +195,7 @@ const Page: NextPageIntlayer = async ({ params }) => {
             />
           </Suspense>
         </section>
-        <Separator />
+        <Separator className="max-w-5xl"/>
         <Suspense
           fallback={
             <section className="w-full max-w-5xl my-8 mx-auto">

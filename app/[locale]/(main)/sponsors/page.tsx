@@ -51,6 +51,7 @@ async function SponsorsContent({ locale }: { locale: string }) {
       sponsors={data.sponsors}
       partnersLabel={String(content.partners)}
       visitWebsiteLabel={String(content.visitWebsite)}
+      locale={locale}
     />
   );
 }

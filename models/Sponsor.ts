@@ -9,6 +9,9 @@ export interface ISponsor extends mongoose.Document {
   order: number;
   createdAt: Date;
   updatedAt: Date;
+  projectLogo?: string;
+  projectName?: string;
+  projectSlug?: string;
 }
 
 const sponsorSchema = new mongoose.Schema<ISponsor>(
@@ -23,6 +26,9 @@ const sponsorSchema = new mongoose.Schema<ISponsor>(
     imageUrl: { type: String, required: true },
     description: { type: String, default: "" },
     order: { type: Number, required: true, default: 0 },
+    projectLogo: { type: String, required: false },
+    projectName: { type: String, required: false },
+    projectSlug: { type: String, required: false },
   },
   { timestamps: true }
 );

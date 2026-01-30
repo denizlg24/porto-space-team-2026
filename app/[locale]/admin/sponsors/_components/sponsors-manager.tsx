@@ -4,12 +4,14 @@ import { useIntlayer } from "next-intlayer";
 import { useState, useTransition, useOptimistic, useCallback } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { SponsorCategoryItem, SponsorItem } from "@/lib/actions/sponsors";
+import type { ProjectData } from "@/lib/actions/projects";
 import { CategoriesList } from "./categories-list";
 import { SponsorsList } from "./sponsors-list";
 
 interface SponsorsManagerProps {
   initialCategories: SponsorCategoryItem[];
   initialSponsors: SponsorItem[];
+  projects: ProjectData[];
 }
 
 type CategoryAction =
@@ -27,6 +29,7 @@ type SponsorAction =
 export function SponsorsManager({
   initialCategories,
   initialSponsors,
+  projects,
 }: SponsorsManagerProps) {
   const content = useIntlayer("admin-sponsors-page");
   const [isPending, startTransition] = useTransition();
@@ -144,6 +147,7 @@ export function SponsorsManager({
         <SponsorsList
           categories={optimisticCategories}
           sponsors={optimisticSponsors}
+          projects={projects}
           isPending={isPending}
           startTransition={startTransition}
           updateOptimistic={updateOptimisticSponsors}

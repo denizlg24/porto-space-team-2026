@@ -50,6 +50,7 @@ import {
   Upload,
 } from "lucide-react";
 import type { SponsorCategoryItem, SponsorItem } from "@/lib/actions/sponsors";
+import type { ProjectData } from "@/lib/actions/projects";
 import {
   createSponsor,
   updateSponsor,
@@ -69,6 +70,7 @@ type SponsorAction =
 interface SponsorsListProps {
   categories: SponsorCategoryItem[];
   sponsors: SponsorItem[];
+  projects: ProjectData[];
   isPending: boolean;
   startTransition: TransitionStartFunction;
   updateOptimistic: (action: SponsorAction) => void;
@@ -81,6 +83,7 @@ interface SponsorsListProps {
 export function SponsorsList({
   categories,
   sponsors,
+  projects,
   isPending,
   startTransition,
   updateOptimistic,
@@ -108,6 +111,7 @@ export function SponsorsList({
     link: "",
     imageUrl: "",
     description: "",
+    projectId: "",
   });
 
   const resetForm = () => {
@@ -117,6 +121,7 @@ export function SponsorsList({
       link: "",
       imageUrl: "",
       description: "",
+      projectId: "",
     });
     setEditingSponsor(null);
   };
@@ -164,6 +169,7 @@ export function SponsorsList({
       link: sponsor.link,
       imageUrl: sponsor.imageUrl,
       description: sponsor.description,
+      projectId: sponsor.project?.slug ?? "",
     });
     setDialogOpen(true);
   };
@@ -198,6 +204,7 @@ export function SponsorsList({
           link: formData.link,
           imageUrl: formData.imageUrl,
           description: formData.description,
+          projectId: formData.projectId || undefined,
         });
 
         if (result.success) {
@@ -218,6 +225,7 @@ export function SponsorsList({
           link: formData.link,
           imageUrl: formData.imageUrl,
           description: formData.description,
+          projectId: formData.projectId || undefined,
         });
 
         if (result.success) {
@@ -258,9 +266,6 @@ export function SponsorsList({
     filterCategory === "all"
       ? sponsors
       : sponsors.filter((s) => s.categoryId === filterCategory);
-
-  const getCategoryName = (categoryId: string) =>
-    categories.find((c) => c.id === categoryId)?.name ?? "Unknown";
 
   const groupedSponsors = categories.map((category) => ({
     category,
@@ -544,6 +549,29 @@ export function SponsorsList({
                 placeholder={content.form.descriptionPlaceholder.value}
                 rows={3}
               />
+            </div>
+            <div className="space-y-2">
+              <Label>{content.form.project}</Label>
+              <Select
+                value={formData.projectId}
+                onValueChange={(value) =>
+                  setFormData((prev) => ({ ...prev, projectId: value === "none" ? "" : value }))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={content.form.selectProject.value} />
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  <SelectItem value="none">
+                    {content.form.noProject}
+                  </SelectItem>
+                  {projects.map((project) => (
+                    <SelectItem key={project.slug} value={project.slug}>
+                      {project.name.en}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>

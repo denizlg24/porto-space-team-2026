@@ -32,6 +32,11 @@ export type SponsorItem = {
   order: number;
   createdAt: Date;
   updatedAt: Date;
+  project?: {
+    logo: string;
+    name: string;
+    slug: string;
+  };
 };
 
 function transformCategory(doc: ISponsorCategory): SponsorCategoryItem {
@@ -61,6 +66,13 @@ function transformSponsor(doc: ISponsor): SponsorItem {
     order: doc.order,
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt,
+    project: doc.projectLogo && doc.projectName && doc.projectSlug
+      ? {
+          logo: doc.projectLogo,
+          name: doc.projectName,
+          slug: doc.projectSlug,
+        }
+      : undefined,
   };
 }
 
@@ -227,6 +239,7 @@ export async function createSponsor(data: {
   link: string;
   imageUrl: string;
   description?: string;
+  projectId?:string;
 }): Promise<ActionResult<SponsorItem>> {
   const session = await getAdminSession();
   if (!session) {
@@ -241,6 +254,12 @@ export async function createSponsor(data: {
       return { success: false, error: "Category not found" };
     }
 
+    const projectData = data.projectId
+      ? await import("./projects").then(({getProjectBySlug}) =>
+          getProjectBySlug(data.projectId!)
+        )
+      : null;
+
     const maxOrder = await Sponsors.findOne({ categoryId: data.categoryId }).sort({
       order: -1,
     });
@@ -253,6 +272,9 @@ export async function createSponsor(data: {
       imageUrl: data.imageUrl,
       description: data.description ?? "",
       order,
+      projectSlug: projectData?.slug || undefined,
+      projectName: projectData?.name.en || undefined,
+      projectLogo: projectData?.logo || undefined,
     });
 
     revalidateSponsors();
@@ -271,7 +293,8 @@ export async function updateSponsor(
     link?: string;
     imageUrl?: string;
     description?: string;
-  }
+    projectId?: string;
+  },
 ): Promise<ActionResult<SponsorItem>> {
   const session = await getAdminSession();
   if (!session) {
@@ -288,9 +311,21 @@ export async function updateSponsor(
       }
     }
 
+      const projectData = data.projectId
+      ? await import("./projects").then(({getProjectBySlug}) =>
+          getProjectBySlug(data.projectId!)
+        )
+      : null;
+
+    const dataWithProject = { ...data, ...(projectData ? {
+      projectSlug: projectData.slug,
+      projectName: projectData.name.en,
+      projectLogo: projectData.logo,
+    } : {}) };
+
     const sponsor = await Sponsors.findByIdAndUpdate(
       sponsorId,
-      { $set: data },
+      { $set: dataWithProject },
       { new: true }
     );
 

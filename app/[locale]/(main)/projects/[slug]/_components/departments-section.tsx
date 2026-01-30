@@ -75,7 +75,7 @@ export function DepartmentsSection({
         className="flex flex-col lg:flex-row gap-8 lg:gap-12"
       >
         {projectImage && (
-          <div className="lg:w-1/3 lg:sticky lg:top-48 lg:self-start">
+          <div className="lg:w-1/3 lg:sticky lg:top-24 lg:self-start">
             <div className="relative mx-auto max-w-md lg:max-w-none">
               <div className="absolute -inset-3 border border-primary/20 pointer-events-none" />
               <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-primary" />
