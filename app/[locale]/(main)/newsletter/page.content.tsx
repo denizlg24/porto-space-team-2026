@@ -125,6 +125,14 @@ const newsletterPageContent = {
         en: "Published on",
         pt: "Publicado em",
       }),
+      latestTile: t({
+        en: "Enjoy our most recent newsletter!",
+        pt: "Desfrute da nossa newsletter mais recente!",
+      }),
+      readNow: t({
+        en: "// Read Now",
+        pt: "// Ler Agora",
+      }),
     },
   },
 } satisfies Dictionary;

@@ -12,9 +12,10 @@ import type {
   SubscriberData,
   UnsubscribeRoute,
 } from "@/app/api/newsletter/subscriber/route";
-import { Skeleton } from "@/components/ui/skeleton";
 
-const unsubscribeApi = apiClient<UnsubscribeRoute>("/api/newsletter/subscriber");
+const unsubscribeApi = apiClient<UnsubscribeRoute>(
+  "/api/newsletter/subscriber",
+);
 
 type SubscribeToNewsletterButtonProps = {
   locale: string;
@@ -72,8 +73,12 @@ export function SubscribeToNewsletterButton({
   if (loading) {
     return (
       <>
-        <Skeleton className="h-8 w-[70%]" />
-        <Skeleton className="w-[30%] h-8" />
+        <Input
+          placeholder={content.subscribe.emailPlaceholder}
+          readOnly
+          type="email"
+        />
+        <Button>{content.subscribe.subscribeButton}</Button>
       </>
     );
   }

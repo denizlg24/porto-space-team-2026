@@ -85,11 +85,55 @@ const Page: NextPageIntlayer = async ({ params }) => {
 
         <section className="w-full max-w-5xl mx-auto">
           <div className="text-center mb-8">
-            <h2 className="text-xs text-primary mb-4">{content.editions.label}</h2>
+            <h2 className="text-xs text-primary mb-4">
+              {content.editions.readNow}
+            </h2>
             <h3 className="text-2xl md:text-3xl font-bold">
-              {content.editions.title}
+              {content.editions.latestTile}
             </h3>
           </div>
+          {latestNewsletter && (
+            <div className="rounded-md border p-6 bg-muted/30">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs font-medium text-primary uppercase tracking-wide">
+                  {content.editions.latest}
+                </span>
+              </div>
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-md bg-primary/10">
+                    <FileText className="size-8 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold mb-1">
+                      {latestNewsletter.title[locale as "en" | "pt"]}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      {content.editions.publishedOn}{" "}
+                      {new Date(latestNewsletter.createdAt).toLocaleDateString(
+                        locale,
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        },
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <Button asChild>
+                  <a
+                    href={latestNewsletter.pdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {content.editions.viewPdf}
+                    <ExternalLink className="size-4 ml-2" />
+                  </a>
+                </Button>
+              </div>
+            </div>
+          )}
 
           {newsletters.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
@@ -97,51 +141,17 @@ const Page: NextPageIntlayer = async ({ params }) => {
             </div>
           ) : (
             <div className="space-y-8">
-              {latestNewsletter && (
-                <div className="rounded-md border p-6 bg-muted/30">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-medium text-primary uppercase tracking-wide">
-                      {content.editions.latest}
-                    </span>
-                  </div>
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-md bg-primary/10">
-                        <FileText className="size-8 text-primary" />
-                      </div>
-                      <div>
-                        <h4 className="text-xl font-semibold mb-1">
-                          {latestNewsletter.title[locale as "en" | "pt"]}
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          {content.editions.publishedOn}{" "}
-                          {new Date(latestNewsletter.createdAt).toLocaleDateString(
-                            locale,
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            }
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                    <Button asChild>
-                      <a
-                        href={latestNewsletter.pdfUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {content.editions.viewPdf}
-                        <ExternalLink className="size-4 ml-2" />
-                      </a>
-                    </Button>
-                  </div>
-                </div>
-              )}
-
               {pastNewsletters.length > 0 && (
                 <div>
+                  <Separator className="mt-12 max-w-5xl" />
+                  <div className="text-center">
+                    <h2 className="text-xs text-primary mb-4">
+                      {content.editions.label}
+                    </h2>
+                    <h3 className="text-2xl md:text-3xl font-bold">
+                      {content.editions.title}
+                    </h3>
+                  </div>
                   <h4 className="text-sm font-medium text-muted-foreground mb-4">
                     {content.editions.pastEditions}
                   </h4>
@@ -165,7 +175,7 @@ const Page: NextPageIntlayer = async ({ params }) => {
                               {
                                 year: "numeric",
                                 month: "short",
-                              }
+                              },
                             )}
                           </p>
                         </div>
