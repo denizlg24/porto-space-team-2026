@@ -241,10 +241,10 @@ const Page: NextPageIntlayer = async ({ params }) => {
                   <p className="text-sm text-muted-foreground">Email</p>
                   <a
                     target="_blank"
-                    href="mailto:operacoes@portospaceteam.pt"
+                    href="mailto:geral@portospaceteam.pt"
                     className="text-sm font-semibold hover:text-primary transition-colors"
                   >
-                    operacoes@portospaceteam.pt
+                    geral@portospaceteam.pt
                   </a>
                 </div>
               </div>

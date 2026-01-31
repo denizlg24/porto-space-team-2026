@@ -23,6 +23,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,8 +40,10 @@ import {
   Pencil,
   Trash2,
   Loader2,
+  X,
 } from "lucide-react";
 import type { DepartmentItem } from "@/lib/actions/departments";
+import type { LocalizedString } from "@/models/Department";
 import {
   createDepartment,
   updateDepartment,
@@ -55,6 +60,8 @@ type DepartmentAction =
   | { type: "update"; department: DepartmentItem }
   | { type: "delete"; departmentId: string }
   | { type: "reorder"; departments: DepartmentItem[] };
+
+const emptyLocalizedString: LocalizedString = { en: "", pt: "" };
 
 export function DepartmentsManager({
   initialDepartments,
@@ -97,10 +104,20 @@ export function DepartmentsManager({
   const [formData, setFormData] = useState({
     name: "",
     code: "",
+    description: { ...emptyLocalizedString },
+    skills: [] as LocalizedString[],
   });
 
+  const [newSkill, setNewSkill] = useState({ ...emptyLocalizedString });
+
   const resetForm = () => {
-    setFormData({ name: "", code: "" });
+    setFormData({
+      name: "",
+      code: "",
+      description: { ...emptyLocalizedString },
+      skills: [],
+    });
+    setNewSkill({ ...emptyLocalizedString });
     setEditingDepartment(null);
   };
 
@@ -114,7 +131,10 @@ export function DepartmentsManager({
     setFormData({
       name: department.name,
       code: department.code,
+      description: department.description ?? { ...emptyLocalizedString },
+      skills: department.skills ?? [],
     });
+    setNewSkill({ ...emptyLocalizedString });
     setDialogOpen(true);
   };
 
@@ -136,6 +156,22 @@ export function DepartmentsManager({
     setDepartments(newDepartments);
   }, []);
 
+  const addSkill = () => {
+    if (!newSkill.en.trim() && !newSkill.pt.trim()) return;
+    setFormData((prev) => ({
+      ...prev,
+      skills: [...prev.skills, { ...newSkill }],
+    }));
+    setNewSkill({ ...emptyLocalizedString });
+  };
+
+  const removeSkill = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      skills: prev.skills.filter((_, i) => i !== index),
+    }));
+  };
+
   const handleSubmit = async () => {
     if (!formData.name.trim() || !formData.code.trim()) return;
 
@@ -147,12 +183,16 @@ export function DepartmentsManager({
           ...editingDepartment,
           name: formData.name,
           code: formData.code.toUpperCase(),
+          description: formData.description,
+          skills: formData.skills,
         };
         updateOptimisticDepartments({ type: "update", department: tempDepartment });
 
         const result = await updateDepartment(editingDepartment.id, {
           name: formData.name,
           code: formData.code,
+          description: formData.description,
+          skills: formData.skills,
         });
 
         if (result.success) {
@@ -170,6 +210,8 @@ export function DepartmentsManager({
         const result = await createDepartment({
           name: formData.name,
           code: formData.code,
+          description: formData.description,
+          skills: formData.skills,
         });
 
         if (result.success) {
@@ -306,6 +348,20 @@ export function DepartmentsManager({
                         {department.code}
                       </span>
                       <span className="font-medium">{department.name}</span>
+                      {department.skills && department.skills.length > 0 && (
+                        <div className="hidden sm:flex gap-1">
+                          {department.skills.slice(0, 3).map((skill, i) => (
+                            <Badge key={i} variant="secondary" className="text-xs">
+                              {skill.en || skill.pt}
+                            </Badge>
+                          ))}
+                          {department.skills.length > 3 && (
+                            <Badge variant="secondary" className="text-xs">
+                              +{department.skills.length - 3}
+                            </Badge>
+                          )}
+                        </div>
+                      )}
                     </div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -341,40 +397,147 @@ export function DepartmentsManager({
       )}
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingDepartment ? content.dialog.editTitle : content.dialog.addTitle}
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>{content.form.name}</Label>
-              <Input
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, name: e.target.value }))
-                }
-                placeholder={content.form.namePlaceholder.value}
-              />
+          <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>{content.form.name}</Label>
+                <Input
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, name: e.target.value }))
+                  }
+                  placeholder={content.form.namePlaceholder.value}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{content.form.code}</Label>
+                <Input
+                  value={formData.code}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      code: e.target.value.toUpperCase(),
+                    }))
+                  }
+                  placeholder={content.form.codePlaceholder.value}
+                  maxLength={5}
+                  className="font-mono uppercase"
+                />
+                <p className="text-xs text-muted-foreground">
+                  {content.form.codeDescription}
+                </p>
+              </div>
             </div>
+
             <div className="space-y-2">
-              <Label>{content.form.code}</Label>
-              <Input
-                value={formData.code}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    code: e.target.value.toUpperCase(),
-                  }))
-                }
-                placeholder={content.form.codePlaceholder.value}
-                maxLength={5}
-                className="font-mono uppercase"
-              />
+              <Label>{content.form.description}</Label>
+              <Tabs defaultValue="en" className="w-full">
+                <TabsList className="mb-2">
+                  <TabsTrigger value="en">{content.form.english}</TabsTrigger>
+                  <TabsTrigger value="pt">{content.form.portuguese}</TabsTrigger>
+                </TabsList>
+                <TabsContent value="en">
+                  <Textarea
+                    value={formData.description.en}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        description: { ...prev.description, en: e.target.value },
+                      }))
+                    }
+                    placeholder={content.form.descriptionPlaceholder.value}
+                    rows={3}
+                  />
+                </TabsContent>
+                <TabsContent value="pt">
+                  <Textarea
+                    value={formData.description.pt}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        description: { ...prev.description, pt: e.target.value },
+                      }))
+                    }
+                    placeholder={content.form.descriptionPlaceholder.value}
+                    rows={3}
+                  />
+                </TabsContent>
+              </Tabs>
+            </div>
+
+            <div className="space-y-2">
+              <Label>{content.form.skills}</Label>
               <p className="text-xs text-muted-foreground">
-                {content.form.codeDescription}
+                {content.form.skillsDescription}
               </p>
+
+              {formData.skills.length > 0 && (
+                <div className="flex flex-wrap gap-2 py-2">
+                  {formData.skills.map((skill, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="flex items-center gap-1 pr-1"
+                    >
+                      <span>{skill.en || skill.pt}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeSkill(index)}
+                        className="ml-1 hover:bg-destructive/20 rounded p-0.5"
+                      >
+                        <X className="size-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              )}
+
+              <div className="border rounded-md p-3 space-y-3">
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1">
+                    <Label className="text-xs text-muted-foreground">
+                      {content.form.english}
+                    </Label>
+                    <Input
+                      value={newSkill.en}
+                      onChange={(e) =>
+                        setNewSkill((prev) => ({ ...prev, en: e.target.value }))
+                      }
+                      placeholder={content.form.skillPlaceholder.value}
+                      className="h-8"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs text-muted-foreground">
+                      {content.form.portuguese}
+                    </Label>
+                    <Input
+                      value={newSkill.pt}
+                      onChange={(e) =>
+                        setNewSkill((prev) => ({ ...prev, pt: e.target.value }))
+                      }
+                      placeholder={content.form.skillPlaceholder.value}
+                      className="h-8"
+                    />
+                  </div>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={addSkill}
+                  disabled={!newSkill.en.trim() && !newSkill.pt.trim()}
+                >
+                  <Plus className="size-3" />
+                  {content.form.addSkill}
+                </Button>
+              </div>
             </div>
           </div>
           <DialogFooter>

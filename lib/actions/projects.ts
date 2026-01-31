@@ -12,7 +12,7 @@ import {
   type MediaType,
 } from "@/models/Project";
 import { getAdminSession, type ActionResult } from "./users";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_noStore } from "next/cache";
 import { CompetitionSectionData } from "./competitions";
 import {
   ButtonBlockData,
@@ -279,8 +279,6 @@ function revalidateProjects(slug?: string) {
   if (slug) {
     revalidatePath(`/en/projects/${slug}`, "page");
     revalidatePath(`/pt/projects/${slug}`, "page");
-    revalidatePath(`/en/projects/${slug}`, "layout");
-    revalidatePath(`/pt/projects/${slug}`, "layout");
   }
 }
 
@@ -322,6 +320,7 @@ export async function getProjectBySlug(
   slug: string,
 ): Promise<ProjectData | null> {
   try {
+    unstable_noStore();
     await connectDB();
     const project = await Projects.findOne({ slug, visible: true });
     if (!project) return null;

@@ -391,6 +391,251 @@ export const getContactNotificationEmailTemplate = ({
 </html>
 `;
 
+interface ApplicationConfirmationEmailParams {
+  name: string;
+  applicationId: string;
+  departments: string[];
+  course: string;
+  yearOfStudy: string;
+}
+
+interface ApplicationNotificationEmailParams {
+  applicationId: string;
+  name: string;
+  email: string;
+  departments: string[];
+  course: string;
+  yearOfStudy: string;
+  linkedin?: string;
+  github?: string;
+  experience?: string;
+  adminUrl: string;
+}
+
+export const getApplicationConfirmationEmailTemplate = ({
+  name,
+  applicationId,
+  departments,
+  course,
+  yearOfStudy,
+}: ApplicationConfirmationEmailParams): string => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Application Received</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; background-color: #ffffff; border: 1px solid #e5e5e5;">
+          <tr>
+            <td style="padding: 40px 32px 32px 32px; text-align: center; border-bottom: 1px solid #e5e5e5;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <img src="https://porto-space-team-2026.vercel.app/logo-black.png" alt="Porto Space Team" width="48" height="48" style="display: block; border: 0;" />
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding-top: 16px;">
+                    <span style="font-size: 14px; font-weight: 700; letter-spacing: 0.1em; color: #1a1a1a; text-transform: uppercase;">Porto Space Team</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 8px 0; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8b4513;">Application Received</p>
+                    <h1 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #1a1a1a; line-height: 1.3;">Thank You for Applying!</h1>
+                    <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666; line-height: 1.6;">Hello ${name},</p>
+                    <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666; line-height: 1.6;">We have received your application to join Porto Space Team. Our team will carefully review your application and get back to you soon.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 16px; background-color: #fafafa; border: 1px solid #e5e5e5; margin-bottom: 24px;">
+                    <p style="margin: 0 0 8px 0; font-size: 12px; color: #666666;">Your Application ID:</p>
+                    <p style="margin: 0; font-size: 18px; font-weight: 700; color: #8b4513; font-family: monospace;">${applicationId}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 24px;">
+                    <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Applied Departments:</p>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; color: #666666;">${departments.join(", ")}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Course:</p>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; color: #666666;">${course}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Year of Study:</p>
+                    <p style="margin: 0; font-size: 14px; color: #666666;">${yearOfStudy}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 24px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #fafafa; border: 1px solid #e5e5e5;">
+                      <tr>
+                        <td style="padding: 16px;">
+                          <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">What's Next?</p>
+                          <p style="margin: 0; font-size: 13px; color: #666666; line-height: 1.6;">1. Our team will review your application<br/>2. We may contact you for an interview<br/>3. You'll receive our decision via email</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 24px 32px; background-color: #fafafa; border-top: 1px solid #e5e5e5;">
+              <p style="margin: 0; font-size: 12px; color: #999999; text-align: center; line-height: 1.6;">This is an automated confirmation. Please do not reply to this email.</p>
+            </td>
+          </tr>
+        </table>
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px;">
+          <tr>
+            <td style="padding: 24px 0; text-align: center;">
+              <p style="margin: 0; font-size: 11px; color: #999999;">Porto Space Team - University of Porto</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
+export const getApplicationNotificationEmailTemplate = ({
+  applicationId,
+  name,
+  email,
+  departments,
+  course,
+  yearOfStudy,
+  linkedin,
+  github,
+  experience,
+  adminUrl,
+}: ApplicationNotificationEmailParams): string => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>New Application</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; background-color: #ffffff; border: 1px solid #e5e5e5;">
+          <tr>
+            <td style="padding: 40px 32px 32px 32px; text-align: center; border-bottom: 1px solid #e5e5e5;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <img src="https://porto-space-team-2026.vercel.app/logo-black.png" alt="Porto Space Team" width="48" height="48" style="display: block; border: 0;" />
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding-top: 16px;">
+                    <span style="font-size: 14px; font-weight: 700; letter-spacing: 0.1em; color: #1a1a1a; text-transform: uppercase;">Porto Space Team</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 8px 0; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8b4513;">New Application</p>
+                    <h1 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #1a1a1a; line-height: 1.3;">New Application Received</h1>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 16px; background-color: #fafafa; border: 1px solid #e5e5e5; margin-bottom: 24px;">
+                    <p style="margin: 0 0 8px 0; font-size: 12px; color: #666666;">Application ID:</p>
+                    <p style="margin: 0; font-size: 18px; font-weight: 700; color: #8b4513; font-family: monospace;">${applicationId}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 24px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td style="padding-bottom: 12px;">
+                          <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Applicant:</p>
+                          <p style="margin: 0; font-size: 14px; color: #666666;">${name} &lt;${email}&gt;</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-bottom: 12px;">
+                          <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Departments:</p>
+                          <p style="margin: 0; font-size: 14px; color: #666666;">${departments.join(", ")}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-bottom: 12px;">
+                          <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Course:</p>
+                          <p style="margin: 0; font-size: 14px; color: #666666;">${course} (${yearOfStudy})</p>
+                        </td>
+                      </tr>
+                      ${linkedin ? `<tr>
+                        <td style="padding-bottom: 12px;">
+                          <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">LinkedIn:</p>
+                          <p style="margin: 0; font-size: 14px; color: #8b4513;"><a href="${linkedin}" style="color: #8b4513;">${linkedin}</a></p>
+                        </td>
+                      </tr>` : ""}
+                      ${github ? `<tr>
+                        <td style="padding-bottom: 12px;">
+                          <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">GitHub/Portfolio:</p>
+                          <p style="margin: 0; font-size: 14px; color: #8b4513;"><a href="${github}" style="color: #8b4513;">${github}</a></p>
+                        </td>
+                      </tr>` : ""}
+                      ${experience ? `<tr>
+                        <td>
+                          <p style="margin: 0 0 4px 0; font-size: 12px; font-weight: 600; color: #1a1a1a;">Relevant Experience:</p>
+                          <p style="margin: 0; font-size: 14px; color: #666666; line-height: 1.6; white-space: pre-wrap;">${experience}</p>
+                        </td>
+                      </tr>` : ""}
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding: 24px 0 8px 0;">
+                    <a href="${adminUrl}" target="_blank" style="display: inline-block; padding: 14px 32px; background-color: #8b4513; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.025em;">View in Admin Panel</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 24px 32px; background-color: #fafafa; border-top: 1px solid #e5e5e5;">
+              <p style="margin: 0; font-size: 12px; color: #999999; text-align: center; line-height: 1.6;">This is an automated notification from the Porto Space Team website.</p>
+            </td>
+          </tr>
+        </table>
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px;">
+          <tr>
+            <td style="padding: 24px 0; text-align: center;">
+              <p style="margin: 0; font-size: 11px; color: #999999;">Porto Space Team - University of Porto</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
 export const getNewsletterEmailTemplate = ({
   name,
   title,

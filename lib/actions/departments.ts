@@ -1,7 +1,7 @@
 "use server";
 
 import { connectDB } from "@/lib/db";
-import { Departments, type IDepartment } from "@/models/Department";
+import { Departments, type IDepartment, type LocalizedString } from "@/models/Department";
 import { getAdminSession, type ActionResult } from "./users";
 import { revalidatePath } from "next/cache";
 
@@ -12,9 +12,30 @@ export type DepartmentItem = {
   order: number;
   createdAt: Date;
   updatedAt: Date;
+  description: LocalizedString;
+  skills: LocalizedString[];
 };
 
 function transformDepartment(doc: IDepartment): DepartmentItem {
+  let description: LocalizedString = { en: "", pt: "" };
+  if (doc.description) {
+    if (typeof doc.description === "string") {
+      description = { en: doc.description, pt: doc.description };
+    } else {
+      description = { en: doc.description.en || "", pt: doc.description.pt || "" };
+    }
+  }
+
+  let skills: LocalizedString[] = [];
+  if (doc.skills && Array.isArray(doc.skills)) {
+    skills = doc.skills.map((skill) => {
+      if (typeof skill === "string") {
+        return { en: skill, pt: skill };
+      }
+      return { en: skill.en || "", pt: skill.pt || "" };
+    });
+  }
+
   return {
     id: doc._id.toString(),
     name: doc.name,
@@ -22,11 +43,13 @@ function transformDepartment(doc: IDepartment): DepartmentItem {
     order: doc.order,
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt,
+    description,
+    skills,
   };
 }
 
 function revalidateDepartments() {
-  revalidatePath('/[locale]/(main)/register', 'page')
+  revalidatePath('/[locale]/(main)/register', 'page');
 }
 
 export async function getDepartments(): Promise<ActionResult<DepartmentItem[]>> {
@@ -59,6 +82,8 @@ export async function getPublicDepartments(): Promise<ActionResult<DepartmentIte
 export async function createDepartment(data: {
   name: string;
   code: string;
+  description: LocalizedString;
+  skills: LocalizedString[];
 }): Promise<ActionResult<DepartmentItem>> {
   const session = await getAdminSession();
   if (!session) {
@@ -80,6 +105,8 @@ export async function createDepartment(data: {
       name: data.name,
       code: data.code.toUpperCase(),
       order,
+      description: data.description,
+      skills: data.skills,
     });
 
     revalidateDepartments();
@@ -95,6 +122,8 @@ export async function updateDepartment(
   data: {
     name?: string;
     code?: string;
+    description?: LocalizedString;
+    skills?: LocalizedString[];
   }
 ): Promise<ActionResult<DepartmentItem>> {
   const session = await getAdminSession();

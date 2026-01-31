@@ -74,6 +74,38 @@ const pageContent = {
         en: "A short code (2-5 characters) to identify the department",
         pt: "Um codigo curto (2-5 caracteres) para identificar o departamento",
       }),
+      description: t({
+        en: "Description",
+        pt: "Descricao",
+      }),
+      descriptionPlaceholder: t({
+        en: "Describe what this department does...",
+        pt: "Descreva o que este departamento faz...",
+      }),
+      skills: t({
+        en: "Skills",
+        pt: "Competencias",
+      }),
+      skillsDescription: t({
+        en: "Add skills or technologies used in this department",
+        pt: "Adicione competencias ou tecnologias usadas neste departamento",
+      }),
+      addSkill: t({
+        en: "Add Skill",
+        pt: "Adicionar Competencia",
+      }),
+      skillPlaceholder: t({
+        en: "e.g. Python, CAD, Simulation",
+        pt: "ex. Python, CAD, Simulacao",
+      }),
+      english: t({
+        en: "English",
+        pt: "Ingles",
+      }),
+      portuguese: t({
+        en: "Portuguese",
+        pt: "Portugues",
+      }),
       cancel: t({
         en: "Cancel",
         pt: "Cancelar",

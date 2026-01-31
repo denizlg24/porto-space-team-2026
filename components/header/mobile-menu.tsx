@@ -120,7 +120,7 @@ export function MobileMenu({
 
           <div className="p-4">
             <Button asChild className="w-full justify-center group">
-              <ClientLink href="/join" locale={locale} onClick={() => setIsOpen(false)}>
+              <ClientLink href="/apply" locale={locale} onClick={() => setIsOpen(false)}>
                 {ctaLabel}
                 <ArrowRight className="ml-1 size-3 transition-transform group-hover:translate-x-0.5" />
               </ClientLink>

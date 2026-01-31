@@ -189,7 +189,7 @@ export function IdentityForm({
                         className={`p-3 border text-left transition-all ${
                           field.state.value === dept.id
                             ? "border-primary bg-primary/10"
-                            : "border-border bg-secondary hover:border-muted-foreground"
+                            : "border-border bg-muted/10 hover:border-muted-foreground"
                         }`}
                       >
                         <div className="font-mono text-xs text-primary">

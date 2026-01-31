@@ -67,7 +67,7 @@ export async function ServerHeader({ locale }: ServerHeaderProps) {
             <ThemeSwitcher />
 
             <Button asChild className="ml-2 group">
-              <ServerLink href="/join" locale={locale}>
+              <ServerLink href="/apply" locale={locale}>
                 {content.cta}
                 <ArrowRight className="ml-1 size-3 transition-transform group-hover:translate-x-0.5" />
               </ServerLink>
