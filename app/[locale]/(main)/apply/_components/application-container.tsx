@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import { StepDisplay } from "./step-display";
 import { DepartmentSelection } from "./department-selection";
 import { Separator } from "@/components/ui/separator";
-import {
-  DepartmentItem,
-  getPublicDepartments,
-} from "@/lib/actions/departments";
+import { apiClient } from "@/lib/api-client";
+import type { DepartmentItem, GetDepartmentsRoute } from "@/app/api/departments/route";
 import { FileUpload } from "./file-upload";
 import { PersonalInfoForm } from "./personal-info-form";
 import { ApplicationReview } from "./application-review";
 import { getIntlayer } from "next-intlayer";
+
+const departmentsApi = apiClient<GetDepartmentsRoute>("/api/departments");
 
 type PersonalInfoData = {
   name: string;
@@ -30,7 +30,7 @@ export const ApplicationContainer = ({ locale }: { locale: "pt" | "en" }) => {
 
   useEffect(() => {
     const fetchDepartments = async () => {
-      const result = await getPublicDepartments();
+      const result = await departmentsApi.get();
       if (result.success) {
         setDepartments(result.data);
       }

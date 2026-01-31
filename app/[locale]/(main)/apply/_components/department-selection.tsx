@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DepartmentItem } from "@/lib/actions/departments";
+import type { DepartmentItem } from "@/app/api/departments/route";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
 import { useState } from "react";

@@ -14,7 +14,7 @@ import { connectDB } from "@/lib/db";
 import { Projects } from "@/models/Project";
 import { CustomSectionsRenderer } from "./_components/custom-sections-renderer";
 
-export const revalidate = 604800;
+export const dynamic = 'force-dynamic';
 
 type PageProps = {
   params: Promise<{ locale: string; slug: string }>;

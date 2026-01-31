@@ -12,7 +12,7 @@ import {
   type MediaType,
 } from "@/models/Project";
 import { getAdminSession, type ActionResult } from "./users";
-import { revalidatePath, unstable_noStore } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { CompetitionSectionData } from "./competitions";
 import {
   ButtonBlockData,
@@ -320,7 +320,6 @@ export async function getProjectBySlug(
   slug: string,
 ): Promise<ProjectData | null> {
   try {
-    unstable_noStore();
     await connectDB();
     const project = await Projects.findOne({ slug, visible: true });
     if (!project) return null;

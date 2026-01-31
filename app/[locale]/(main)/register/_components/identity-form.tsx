@@ -18,7 +18,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Link } from "@/components/locale/link";
 import { MoveRight } from "lucide-react";
-import { getPublicDepartments, type DepartmentItem } from "@/lib/actions/departments";
+import { apiClient } from "@/lib/api-client";
+import type { DepartmentItem, GetDepartmentsRoute } from "@/app/api/departments/route";
+
+const departmentsApi = apiClient<GetDepartmentsRoute>("/api/departments");
 
 export function IdentityForm({
   className,
@@ -47,7 +50,7 @@ export function IdentityForm({
 
   React.useEffect(() => {
     const fetchDepartments = async () => {
-      const result = await getPublicDepartments();
+      const result = await departmentsApi.get();
       if (result.success) {
         setDepartments(result.data);
       }

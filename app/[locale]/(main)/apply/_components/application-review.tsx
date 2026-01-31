@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DepartmentItem } from "@/lib/actions/departments";
+import type { DepartmentItem } from "@/app/api/departments/route";
 import {
   FileText,
   CheckCircle2,
