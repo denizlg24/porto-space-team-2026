@@ -112,7 +112,6 @@ async function uploadFile(file: File, applicationId: string, type: "cv" | "lette
 export const GET = adminRoute(async () => {
   await connectDB();
   const applications = await Applications.find().sort({ createdAt: -1 });
-
   const data: ApplicationData[] = applications.map((app) => ({
     id: app._id.toString(),
     applicationId: app.applicationId,

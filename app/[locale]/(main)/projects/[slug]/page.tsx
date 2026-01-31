@@ -10,8 +10,6 @@ import { ProjectHero } from "./_components/project-hero";
 import { ProjectStats } from "./_components/project-stats";
 import { DepartmentsSection } from "./_components/departments-section";
 import { ProjectMediaCarousel } from "./_components/project-media-carousel";
-import { connectDB } from "@/lib/db";
-import { Projects } from "@/models/Project";
 import { CustomSectionsRenderer } from "./_components/custom-sections-renderer";
 
 export const dynamic = 'force-static';
@@ -23,11 +21,7 @@ type PageProps = {
 };
 
 export async function generateStaticParams() {
-  await connectDB();
-  const projects = await Projects.find({}, { slug: 1 }).lean();
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
+  return []
 }
 
 export const generateMetadata = async ({

@@ -31,6 +31,7 @@ import {
   Trophy,
   Rocket,
   MessageSquare,
+  ClipboardList,
 } from "lucide-react";
 import { authClient } from "@/lib/authClient";
 import Image from "next/image";
@@ -52,6 +53,7 @@ const managementNavItems = [
   { key: "sponsors", href: "/admin/sponsors", icon: Handshake },
   { key: "newsletter", href: "/admin/newsletter", icon: Mail },
   { key: "contacts", href: "/admin/contacts", icon: MessageSquare },
+  { key: "applications", href: "/admin/applications", icon: ClipboardList },
 ] as const;
 
 export function AdminSidebar() {

@@ -8,12 +8,16 @@ export interface IApplication extends mongoose.Document {
   name: string;
   course: string;
   yearOfStudy: number;
-  linkedIn?:string;
-  github?:string;
+  linkedIn?: string;
+  github?: string;
   relevantExperience?: string;
   cvLink: string;
   motivationLetterLink: string;
   status: ApplicationStatus;
+  interviewDate?: Date;
+  zoomLink?: string;
+  zoomMeetingId?: string;
+  zoomPassword?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -36,6 +40,10 @@ const applicationSchema = new mongoose.Schema<IApplication>(
       enum: ["new", "read", "rejected", "interview", "accepted"],
       default: "new",
     },
+    interviewDate: { type: Date },
+    zoomLink: { type: String },
+    zoomMeetingId: { type: String },
+    zoomPassword: { type: String },
   },
   { timestamps: true }
 );

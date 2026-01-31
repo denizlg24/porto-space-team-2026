@@ -61,6 +61,10 @@ const adminSidebarContent = {
         en: "Contacts",
         pt: "Contactos",
       }),
+      applications: t({
+        en: "Applications",
+        pt: "Candidaturas",
+      }),
       settings: t({
         en: "Settings",
         pt: "Definicoes",

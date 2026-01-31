@@ -636,6 +636,140 @@ export const getApplicationNotificationEmailTemplate = ({
 </html>
 `;
 
+interface ApplicationStatusUpdateEmailParams {
+  name: string;
+  applicationId: string;
+  status: "read" | "interview" | "accepted" | "rejected" | "archived";
+  interviewDate?: string;
+  zoomLink?: string;
+}
+
+export const getApplicationStatusUpdateEmailTemplate = ({
+  name,
+  applicationId,
+  status,
+  interviewDate,
+  zoomLink,
+}: ApplicationStatusUpdateEmailParams): string => {
+  const statusConfig = {
+    read: {
+      label: "Application Under Review",
+      title: "Your Application is Being Reviewed",
+      message: "Good news! Your application has been reviewed by our team and is now under consideration. We will contact you soon with updates on the next steps.",
+      color: "#eab308",
+    },
+    interview: {
+      label: "Interview Scheduled",
+      title: "You're Invited for an Interview!",
+      message: `Congratulations! We were impressed by your application and would like to invite you for an interview.${interviewDate ? `\n\nYour interview is scheduled for: ${interviewDate}` : ""}${zoomLink ? `\n\nThe interview will be conducted via Zoom.` : ""}\n\nPlease make sure to be available at this time. If you have any conflicts, please reach out to us as soon as possible.`,
+      color: "#a855f7",
+    },
+    accepted: {
+      label: "Application Accepted",
+      title: "Welcome to Porto Space Team!",
+      message: "Congratulations! We are thrilled to inform you that your application has been accepted. Welcome to Porto Space Team!\n\nWe will be in touch shortly with more details about your onboarding process and next steps. Get ready for an exciting journey ahead!",
+      color: "#22c55e",
+    },
+    rejected: {
+      label: "Application Update",
+      title: "Thank You for Your Interest",
+      message: "Thank you for taking the time to apply to Porto Space Team. After careful consideration, we regret to inform you that we are unable to offer you a position at this time.\n\nWe encourage you to continue developing your skills and consider applying again in the future. We wish you all the best in your endeavors.",
+      color: "#ef4444",
+    },
+    archived: {
+      label: "Application Archived",
+      title: "Your Application Has Been Archived",
+      message: "This is to inform you that your application to Porto Space Team has been archived and removed from our active applications.\n\nIf you believe this was done in error or would like to submit a new application, please feel free to apply again through our website.",
+      color: "#6b7280",
+    },
+  };
+
+  const config = statusConfig[status];
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>${config.title}</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; background-color: #ffffff; border: 1px solid #e5e5e5;">
+          <tr>
+            <td style="padding: 40px 32px 32px 32px; text-align: center; border-bottom: 1px solid #e5e5e5;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <img src="https://porto-space-team-2026.vercel.app/logo-black.png" alt="Porto Space Team" width="48" height="48" style="display: block; border: 0;" />
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding-top: 16px;">
+                    <span style="font-size: 14px; font-weight: 700; letter-spacing: 0.1em; color: #1a1a1a; text-transform: uppercase;">Porto Space Team</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 8px 0; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: ${config.color};">${config.label}</p>
+                    <h1 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #1a1a1a; line-height: 1.3;">${config.title}</h1>
+                    <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666; line-height: 1.6;">Hello ${name},</p>
+                    <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666; line-height: 1.6; white-space: pre-wrap;">${config.message}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 16px; background-color: #fafafa; border: 1px solid #e5e5e5; margin-bottom: 24px;">
+                    <p style="margin: 0 0 8px 0; font-size: 12px; color: #666666;">Application ID:</p>
+                    <p style="margin: 0; font-size: 18px; font-weight: 700; color: #8b4513; font-family: monospace;">${applicationId}</p>
+                  </td>
+                </tr>
+                ${status === "interview" && zoomLink ? `
+                <tr>
+                  <td align="center" style="padding: 24px 0 8px 0;">
+                    <a href="${zoomLink}" target="_blank" style="display: inline-block; padding: 14px 32px; background-color: #2D8CFF; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.025em; border-radius: 4px;">Join Zoom Meeting</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding: 8px 0;">
+                    <p style="margin: 0; font-size: 12px; color: #666666;">Or copy this link:</p>
+                    <p style="margin: 8px 0 0 0; font-size: 12px; color: #2D8CFF; word-break: break-all;">${zoomLink}</p>
+                  </td>
+                </tr>
+                ` : ""}
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 24px 32px; background-color: #fafafa; border-top: 1px solid #e5e5e5;">
+              <p style="margin: 0; font-size: 12px; color: #999999; text-align: center; line-height: 1.6;">This is an automated message from Porto Space Team. If you have any questions, please reply to this email.</p>
+            </td>
+          </tr>
+        </table>
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px;">
+          <tr>
+            <td style="padding: 24px 0; text-align: center;">
+              <p style="margin: 0; font-size: 11px; color: #999999;">Porto Space Team - University of Porto</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+};
+
 export const getNewsletterEmailTemplate = ({
   name,
   title,
