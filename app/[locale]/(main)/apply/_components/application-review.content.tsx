@@ -93,15 +93,15 @@ const applicationReviewContent = {
       }),
       description: t({
         en: "Thank you for applying to Porto Space Team. We have received your application and will review it carefully.",
-        pt: "Obrigado por se candidatar à Porto Space Team. Recebemos a sua candidatura e iremos analisá-la cuidadosamente.",
+        pt: "Obrigado por te candidatares à Porto Space Team. Recebemos a tua candidatura e iremos analisá-la cuidadosamente.",
       }),
       applicationIdLabel: t({
         en: "Your application ID:",
-        pt: "O seu ID de candidatura:",
+        pt: "O teu ID de candidatura:",
       }),
       emailNote: t({
         en: "A confirmation email has been sent to your inbox.",
-        pt: "Um email de confirmação foi enviado para a sua caixa de entrada.",
+        pt: "Um email de confirmação foi enviado para a tua caixa de entrada.",
       }),
       nextSteps: {
         title: t({
@@ -110,15 +110,15 @@ const applicationReviewContent = {
         }),
         step1: t({
           en: "Our team will review your application",
-          pt: "A nossa equipa irá analisar a sua candidatura",
+          pt: "A nossa equipa irá analisar a tua candidatura",
         }),
         step2: t({
           en: "We may contact you for an interview",
-          pt: "Poderemos contactá-lo para uma entrevista",
+          pt: "Poderemos contactar-te para uma entrevista",
         }),
         step3: t({
           en: "You'll receive our decision via email",
-          pt: "Receberá a nossa decisão por email",
+          pt: "Receberás a nossa decisão por email",
         }),
       },
       applyAgain: t({
@@ -133,7 +133,7 @@ const applicationReviewContent = {
       }),
       description: t({
         en: "We could not submit your application. Please try again.",
-        pt: "Não foi possível submeter a sua candidatura. Por favor tente novamente.",
+        pt: "Não foi possível submeter a tua candidatura. Por favor tenta novamente.",
       }),
       tryAgain: t({
         en: "Try Again",

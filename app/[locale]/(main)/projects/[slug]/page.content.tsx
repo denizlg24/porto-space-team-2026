@@ -41,7 +41,7 @@ const projectDetailPageContent = {
       }),
       description: t({
         en: "The project you're looking for doesn't exist or has been removed.",
-        pt: "O projeto que procura nao existe ou foi removido.",
+        pt: "O projeto que procuras não existe ou foi removido.",
       }),
     },
   },

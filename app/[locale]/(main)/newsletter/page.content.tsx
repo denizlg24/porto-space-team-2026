@@ -21,11 +21,11 @@ const newsletterPageContent = {
     subscribe: {
       label: t({
         en: "Join many subscribers to stay informed",
-        pt: "Junte-se a vários subscritores para se manter informado",
+        pt: "Junta-te a vários subscritores para te manteres informado",
       }),
       cta: t({
         en: "Get mission updates delivered to your inbox. No spam, just rockets.",
-        pt: "Receba atualizações da missão diretamente na sua caixa de entrada. Sem spam, só foguetes.",
+        pt: "Recebe atualizações da missão diretamente na tua caixa de entrada. Sem spam, só foguetes.",
       }),
       subscribeButton: t({
         en: "Subscribe",
@@ -33,7 +33,7 @@ const newsletterPageContent = {
       }),
       emailPlaceholder: t({
         en: "Your email address",
-        pt: "O seu endereço de email",
+        pt: "O teu endereço de email",
       }),
       unsubscribeButton: t({
         en: "Unsubscribe",
@@ -43,11 +43,11 @@ const newsletterPageContent = {
     dialog: {
       title: t({
         en: "Join Our Newsletter",
-        pt: "Junte-se à Nossa Newsletter",
+        pt: "Junta-te à Nossa Newsletter",
       }),
       description: t({
         en: "Stay updated with the latest news from Porto Space Team.",
-        pt: "Fique atualizado com as últimas novidades da Porto Space Team.",
+        pt: "Fica atualizado com as últimas novidades da Porto Space Team.",
       }),
       nameLabel: t({
         en: "Name",
@@ -55,7 +55,7 @@ const newsletterPageContent = {
       }),
       namePlaceholder: t({
         en: "Your name",
-        pt: "O seu nome",
+        pt: "O teu nome",
       }),
       emailLabel: t({
         en: "Email",
@@ -67,7 +67,7 @@ const newsletterPageContent = {
       }),
       dateOfBirthPlaceholder: t({
         en: "Select your date of birth",
-        pt: "Selecione a sua data de nascimento",
+        pt: "Seleciona a tua data de nascimento",
       }),
       submitButton: t({
         en: "Subscribe",
@@ -89,7 +89,7 @@ const newsletterPageContent = {
       }),
       error: t({
         en: "Something went wrong. Please try again.",
-        pt: "Algo correu mal. Por favor, tente novamente.",
+        pt: "Algo correu mal. Por favor, tenta novamente.",
       }),
     },
     editions: {
@@ -119,7 +119,7 @@ const newsletterPageContent = {
       }),
       noNewsletters: t({
         en: "No newsletters published yet. Subscribe to be notified when our first edition is released!",
-        pt: "Ainda não foram publicadas newsletters. Subscreva para ser notificado quando a primeira edição for lançada!",
+        pt: "Ainda não foram publicadas newsletters. Subscreve para seres notificado quando a primeira edição for lançada!",
       }),
       publishedOn: t({
         en: "Published on",
@@ -127,7 +127,7 @@ const newsletterPageContent = {
       }),
       latestTile: t({
         en: "Enjoy our most recent newsletter!",
-        pt: "Desfrute da nossa newsletter mais recente!",
+        pt: "Desfruta da nossa newsletter mais recente!",
       }),
       readNow: t({
         en: "// Read Now",

@@ -12,7 +12,7 @@ const personalInfoFormContent = {
         }),
         placeholder: t({
           en: "Your full name",
-          pt: "O seu nome completo",
+          pt: "O teu nome completo",
         }),
       },
       email: {
@@ -22,7 +22,7 @@ const personalInfoFormContent = {
         }),
         placeholder: t({
           en: "your@email.com",
-          pt: "o-seu@email.com",
+          pt: "o-teu@email.com",
         }),
       },
       course: {
@@ -42,7 +42,7 @@ const personalInfoFormContent = {
         }),
         placeholder: t({
           en: "Select your year",
-          pt: "Selecione o seu ano",
+          pt: "Seleciona o teu ano",
         }),
         options: {
           "1st": t({
@@ -82,7 +82,7 @@ const personalInfoFormContent = {
         }),
         placeholder: t({
           en: "https://linkedin.com/in/yourprofile",
-          pt: "https://linkedin.com/in/o-seu-perfil",
+          pt: "https://linkedin.com/in/o-teu-perfil",
         }),
       },
       github: {
@@ -92,7 +92,7 @@ const personalInfoFormContent = {
         }),
         placeholder: t({
           en: "https://github.com/yourusername",
-          pt: "https://github.com/o-seu-utilizador",
+          pt: "https://github.com/o-teu-utilizador",
         }),
       },
       experience: {
@@ -102,7 +102,7 @@ const personalInfoFormContent = {
         }),
         placeholder: t({
           en: "Describe any relevant projects, skills, or experience that might be useful for the team...",
-          pt: "Descreva quaisquer projetos, competências ou experiência relevantes que possam ser úteis para a equipa...",
+          pt: "Descreve quaisquer projetos, competências ou experiência relevantes que possam ser úteis para a equipa...",
         }),
         counter: t({
           en: "characters",
@@ -121,7 +121,7 @@ const personalInfoFormContent = {
       }),
       emailInvalid: t({
         en: "Please enter a valid email address",
-        pt: "Por favor insira um endereço de email válido",
+        pt: "Por favor insere um endereço de email válido",
       }),
       courseMin: t({
         en: "Course/Degree must be at least 2 characters",
@@ -133,11 +133,11 @@ const personalInfoFormContent = {
       }),
       yearRequired: t({
         en: "Please select your year of study",
-        pt: "Por favor selecione o seu ano de estudo",
+        pt: "Por favor seleciona o teu ano de estudo",
       }),
       urlInvalid: t({
         en: "Please enter a valid URL",
-        pt: "Por favor insira um URL válido",
+        pt: "Por favor insere um URL válido",
       }),
       experienceMax: t({
         en: "Experience must be at most 2000 characters",

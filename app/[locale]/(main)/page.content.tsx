@@ -100,7 +100,7 @@ const pageContent = {
       }),
       noCompetition: t({
         en: "Stay tuned for updates",
-        pt: "Fique atento para novidades",
+        pt: "Fica atento para novidades",
       }),
     },
     stats: {
@@ -172,7 +172,7 @@ const pageContent = {
       }),
       description:t({
         en:" Whether you're interested in sponsorship, collaboration, or just want to talk to us, we'd love to hear from you.",
-        pt:" Quer esteja interessado em patrocínios, colaboração ou apenas queira falar connosco, adoraríamos ouvir de si.",
+        pt:" Quer estejas interessado em patrocínios, colaboração ou apenas queiras falar connosco, adoraríamos ouvir de ti.",
       }),
       locationTitle:t({
         en:"Location",
@@ -184,7 +184,7 @@ const pageContent = {
       }),
       followUs:t({
         en:"FOLLOW US",
-        pt:"SIGA-NOS",
+        pt:"SEGUE-NOS",
       })
     }
   },

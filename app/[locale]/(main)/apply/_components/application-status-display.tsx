@@ -118,7 +118,7 @@ export function ApplicationStatusDisplay({
       onUpdate({
         ...application,
         interviewDate: result.data.interviewDate,
-        zoomLink: result.data.zoomLink,
+        meetLink: result.data.meetLink,
       });
     } else {
       toast.error(result.error.message);
@@ -300,17 +300,17 @@ export function ApplicationStatusDisplay({
               </p>
             </div>
 
-            {application.zoomLink && (
+            {application.meetLink && (
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  {content.statusPage.interview.zoomLink}
+                  {content.statusPage.interview.meetLink}
                 </p>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(application.zoomLink!);
+                      navigator.clipboard.writeText(application.meetLink!);
                       toast.success(content.statusPage.interview.linkCopied);
                     }}
                   >
@@ -319,7 +319,7 @@ export function ApplicationStatusDisplay({
                   </Button>
                   <Button
                     size="sm"
-                    onClick={() => window.open(application.zoomLink, "_blank")}
+                    onClick={() => window.open(application.meetLink, "_blank")}
                   >
                     <ExternalLink className="size-4 mr-2" />
                     {content.statusPage.interview.joinMeeting}

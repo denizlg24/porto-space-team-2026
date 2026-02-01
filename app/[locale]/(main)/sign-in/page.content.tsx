@@ -13,7 +13,7 @@ const pageContent = {
     }),
     description: t({
       en: "Enter your credentials to access the admin panel",
-      pt: "Insira as suas credenciais para aceder ao painel de administração",
+      pt: "Insere as tuas credenciais para aceder ao painel de administração",
     }),
     form: {
       emailLabel: t({
@@ -42,7 +42,7 @@ const pageContent = {
       }),
       forgotPassword: t({
         en: "Forgot Password?",
-        pt: "Esqueceu a palavra-passe?",
+        pt: "Esqueceste a palavra-passe?",
       }),
       submitButton: t({
         en: "Sign In",
@@ -72,19 +72,19 @@ const pageContent = {
       }),
       accountNotApproved: t({
         en: "Your account is pending approval. Please wait for an administrator to approve your access request.",
-        pt: "A sua conta esta pendente de aprovacao. Por favor aguarde que um administrador aprove o seu pedido de acesso.",
+        pt: "A tua conta está pendente de aprovação. Por favor aguarda que um administrador aprove o teu pedido de acesso.",
       }),
       emailNotVerified: t({
         en: "Please verify your email address before signing in",
-        pt: "Por favor verifique o seu endereco de email antes de entrar",
+        pt: "Por favor verifica o teu endereço de email antes de entrar",
       }),
       genericError: t({
         en: "An error occurred. Please try again.",
-        pt: "Ocorreu um erro. Por favor tente novamente.",
+        pt: "Ocorreu um erro. Por favor tenta novamente.",
       }),
       resendFailed: t({
         en: "Failed to resend verification email. Please try again.",
-        pt: "Falha ao reenviar email de verificacao. Por favor tente novamente.",
+        pt: "Falha ao reenviar email de verificação. Por favor tenta novamente.",
       }),
     },
     resend: {
@@ -98,7 +98,7 @@ const pageContent = {
       }),
       success: t({
         en: "Verification email sent! Please check your inbox.",
-        pt: "Email de verificacao enviado! Por favor verifique a sua caixa de entrada.",
+        pt: "Email de verificação enviado! Por favor verifica a tua caixa de entrada.",
       }),
     },
   },

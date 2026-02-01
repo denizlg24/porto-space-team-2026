@@ -24,7 +24,7 @@ const pageContent = {
       }),
       description: t({
         en: "Fill in your details to request admin access",
-        pt: "Preencha os seus dados para pedir acesso de administrador",
+        pt: "Preenche os teus dados para pedir acesso de administrador",
       }),
     },
     step2: {
@@ -38,7 +38,7 @@ const pageContent = {
       }),
       description: t({
         en: "Create your secure login credentials",
-        pt: "Crie as suas credenciais de acesso seguras",
+        pt: "Cria as tuas credenciais de acesso seguras",
       }),
     },
     identityForm: {
@@ -52,7 +52,7 @@ const pageContent = {
       }),
       fullNameError: t({
         en: "Please provide your full name",
-        pt: "Por favor, forneça o seu nome completo",
+        pt: "Por favor, fornece o teu nome completo",
       }),
       emailLabel: t({
         en: "Institutional Email",
@@ -80,7 +80,7 @@ const pageContent = {
       }),
       noDepartments: t({
         en: "No departments available. Please contact an administrator.",
-        pt: "Nenhum departamento disponivel. Por favor contacte um administrador.",
+        pt: "Nenhum departamento disponível. Por favor contacta um administrador.",
       }),
       continueButton: t({
         en: "Continue",
@@ -92,7 +92,7 @@ const pageContent = {
       }),
       alreadyHaveAccess: t({
         en: "Already have access?",
-        pt: "Já tem acesso?",
+        pt: "Já tens acesso?",
       }),
       signIn: t({
         en: "Sign-In",
@@ -126,7 +126,7 @@ const pageContent = {
       }),
       confirmPasswordError: t({
         en: "Please confirm your password",
-        pt: "Por favor, confirme a sua palavra-passe",
+        pt: "Por favor, confirma a tua palavra-passe",
       }),
       passwordsMustMatch: t({
         en: "Passwords must match",
@@ -150,7 +150,7 @@ const pageContent = {
       }),
       alreadyHaveAccess: t({
         en: "Already have access?",
-        pt: "Já tem acesso?",
+        pt: "Já tens acesso?",
       }),
       signIn: t({
         en: "Sign-In",
@@ -168,7 +168,7 @@ const pageContent = {
       }),
       genericError: t({
         en: "An error occurred. Please try again.",
-        pt: "Ocorreu um erro. Por favor tente novamente.",
+        pt: "Ocorreu um erro. Por favor tenta novamente.",
       }),
     },
     success: {
@@ -178,15 +178,15 @@ const pageContent = {
       }),
       title: t({
         en: "Check Your Email",
-        pt: "Verifique o Seu Email",
+        pt: "Verifica o Teu Email",
       }),
       description: t({
         en: "We've sent a verification link to your email address. Please verify your email to complete the registration process.",
-        pt: "Enviámos um link de verificação para o seu endereço de email. Por favor verifique o seu email para completar o processo de registo.",
+        pt: "Enviámos um link de verificação para o teu endereço de email. Por favor verifica o teu email para completar o processo de registo.",
       }),
       pendingApproval: t({
         en: "After verifying your email, your account will be pending approval by an administrator.",
-        pt: "Após verificar o seu email, a sua conta ficará pendente de aprovação por um administrador.",
+        pt: "Após verificares o teu email, a tua conta ficará pendente de aprovação por um administrador.",
       }),
       backToSignIn: t({
         en: "Back to Sign In",

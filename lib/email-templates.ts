@@ -659,7 +659,7 @@ export const getApplicationStatusUpdateEmailTemplate = ({
     interview: {
       label: "Interview Invitation",
       title: "You're Invited for an Interview!",
-      message: `Congratulations! We were impressed by your application and would like to invite you for an interview.\n\nTo schedule your interview, please visit our application page and enter your Application ID. You'll be able to select a time slot that works best for you from our available options.\n\nOnce you book a slot, you'll receive a confirmation email with the Zoom meeting link.`,
+      message: `Congratulations! We were impressed by your application and would like to invite you for an interview.\n\nTo schedule your interview, please visit our application page and enter your Application ID. You'll be able to select a time slot that works best for you from our available options.\n\nOnce you book a slot, you'll receive a confirmation email with the Google Meet link.`,
       color: "#8b4513",
     },
     accepted: {
@@ -849,14 +849,14 @@ interface InterviewBookedEmailParams {
   name: string;
   applicationId: string;
   interviewDate: string;
-  zoomLink: string;
+  meetLink: string;
 }
 
 export const getInterviewBookedEmailTemplate = ({
   name,
   applicationId,
   interviewDate,
-  zoomLink,
+  meetLink,
 }: InterviewBookedEmailParams): string => `
 <!DOCTYPE html>
 <html lang="en">
@@ -908,13 +908,13 @@ export const getInterviewBookedEmailTemplate = ({
                 </tr>
                 <tr>
                   <td align="center" style="padding: 24px 0 8px 0;">
-                    <a href="${zoomLink}" target="_blank" style="display: inline-block; padding: 14px 32px; background-color: #8b4513; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.025em;">Join Zoom Meeting</a>
+                    <a href="${meetLink}" target="_blank" style="display: inline-block; padding: 14px 32px; background-color: #8b4513; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.025em;">Join Meet</a>
                   </td>
                 </tr>
                 <tr>
                   <td align="center" style="padding: 8px 0 24px 0;">
                     <p style="margin: 0; font-size: 12px; color: #666666;">Or copy this link:</p>
-                    <p style="margin: 8px 0 0 0; font-size: 12px; color: #8b4513; word-break: break-all;">${zoomLink}</p>
+                    <p style="margin: 8px 0 0 0; font-size: 12px; color: #8b4513; word-break: break-all;">${meetLink}</p>
                   </td>
                 </tr>
                 <tr>
@@ -943,7 +943,7 @@ interface InterviewBookedAdminEmailParams {
   applicantEmail: string;
   applicationId: string;
   interviewDate: string;
-  zoomLink: string;
+  meetLink: string;
 }
 
 export const getInterviewBookedAdminEmailTemplate = ({
@@ -951,7 +951,7 @@ export const getInterviewBookedAdminEmailTemplate = ({
   applicantEmail,
   applicationId,
   interviewDate,
-  zoomLink,
+  meetLink,
 }: InterviewBookedAdminEmailParams): string => `
 <!DOCTYPE html>
 <html lang="en">
@@ -983,7 +983,7 @@ export const getInterviewBookedAdminEmailTemplate = ({
                 <p style="margin: 12px 0 0 0; font-size: 16px; font-weight: 700; color: #1a1a1a;">${interviewDate}</p>
               </div>
               <p style="margin: 24px 0 0 0; text-align: center;">
-                <a href="${zoomLink}" target="_blank" style="display: inline-block; padding: 12px 24px; background-color: #8b4513; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600;">Join Zoom</a>
+                <a href="${meetLink}" target="_blank" style="display: inline-block; padding: 12px 24px; background-color: #8b4513; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600;">Join Meet</a>
               </p>
             </td>
           </tr>

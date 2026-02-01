@@ -24,9 +24,9 @@ export type ApplicationData = {
   motivationLetterLink: string;
   status: ApplicationStatus;
   interviewDate?: string;
-  zoomLink?: string;
-  zoomMeetingId?: string;
-  zoomPassword?: string;
+  meetLink?: string;
+  meetEventId?: string;
+  calendarLink?: string;
   createdAt: string;
 };
 
@@ -44,9 +44,9 @@ function mapApplicationToData(application: {
   motivationLetterLink: string;
   status: ApplicationStatus;
   interviewDate?: Date;
-  zoomLink?: string;
-  zoomMeetingId?: string;
-  zoomPassword?: string;
+  meetLink?: string;
+  meetEventId?: string;
+  calendarLink?: string;
   createdAt: Date;
 }): ApplicationData {
   return {
@@ -63,9 +63,9 @@ function mapApplicationToData(application: {
     motivationLetterLink: application.motivationLetterLink,
     status: application.status,
     interviewDate: application.interviewDate?.toISOString(),
-    zoomLink: application.zoomLink,
-    zoomMeetingId: application.zoomMeetingId,
-    zoomPassword: application.zoomPassword,
+    meetLink: application.meetLink,
+    meetEventId: application.meetEventId,
+    calendarLink: application.calendarLink,
     createdAt: application.createdAt.toISOString(),
   };
 }

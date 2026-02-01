@@ -11,7 +11,7 @@ const unsubscribePageContent = {
       }),
       description: t({
         en: "You have been unsubscribed from our newsletter. You will no longer receive emails from us.",
-        pt: "A sua subscrição foi cancelada. Não receberá mais emails nossos.",
+        pt: "A tua subscrição foi cancelada. Não receberás mais emails nossos.",
       }),
     },
     error: {
@@ -29,7 +29,7 @@ const unsubscribePageContent = {
       }),
       serverError: t({
         en: "An error occurred while processing your request. Please try again later.",
-        pt: "Ocorreu um erro ao processar o seu pedido. Por favor, tente novamente mais tarde.",
+        pt: "Ocorreu um erro ao processar o teu pedido. Por favor, tenta novamente mais tarde.",
       }),
     },
     backToHome: t({

@@ -8,9 +8,6 @@ const envSchema = z.object({
     PINATA_JWT_TOKEN: z.string().min(1),
     RESEND_API_KEY: z.string().min(1),
     EMAIL_FROM: z.string().min(1),
-    ZOOM_ACCOUNT_ID: z.string().min(1),
-    ZOOM_CLIENT_ID: z.string().min(1),
-    ZOOM_CLIENT_SECRET: z.string().min(1),
 })
 
 export const env = envSchema.parse(process.env);

@@ -17,7 +17,7 @@ const notFoundContent = {
     }),
     description: t({
       en: "Sorry, we couldn't find the page you're looking for.",
-      pt: "Desculpe, não conseguimos encontrar a página que procura.",
+      pt: "Desculpa, não conseguimos encontrar a página que procuras.",
     }),
     backHome: t({
       en: "Back to Home",

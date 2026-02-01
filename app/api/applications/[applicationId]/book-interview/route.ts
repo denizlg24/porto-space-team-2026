@@ -2,7 +2,7 @@ import { connectDB } from "@/lib/db";
 import { Applications } from "@/models/Application";
 import { InterviewSlots } from "@/models/InterviewSlot";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { createZoomMeeting } from "@/lib/zoom";
+import { createGoogleMeetMeeting } from "@/lib/google-meet";
 import { Resend } from "resend";
 import { env } from "@/lib/env";
 import {
@@ -35,7 +35,7 @@ const errors = createErrors({
     message:
       "You can only book an interview when your application is in interview stage",
   },
-  ZOOM_FAILED: {
+  MEET_FAILED: {
     status: 500,
     message: "Failed to create meeting. Please try again.",
   },
@@ -47,7 +47,7 @@ export type BookInterviewInput = {
 
 export type BookInterviewResponse = {
   interviewDate: string;
-  zoomLink: string;
+  meetLink: string;
 };
 
 export type BookInterviewRoute = RouteDefinition<
@@ -55,7 +55,7 @@ export type BookInterviewRoute = RouteDefinition<
   | "SLOT_UNAVAILABLE"
   | "INTERVIEW_EXISTS"
   | "NOT_IN_INTERVIEW_STAGE"
-  | "ZOOM_FAILED",
+  | "MEET_FAILED",
   BookInterviewInput
 >;
 
@@ -130,9 +130,9 @@ export const POST = publicRoute(async (ctx) => {
     return errors.throw("SLOT_UNAVAILABLE");
   }
 
-  let zoomData: { joinUrl: string; meetingId: string; password: string };
+  let meetData: { meetLink: string; eventId: string; calendarLink: string };
   try {
-    zoomData = await createZoomMeeting({
+    meetData = await createGoogleMeetMeeting({
       topic: `Porto Space Team Interview - ${application.name}`,
       startTime: slot.startTime.toISOString(),
       duration: Math.round(
@@ -141,20 +141,20 @@ export const POST = publicRoute(async (ctx) => {
       agenda: `Interview for application ${application.applicationId}`,
     });
   } catch (error) {
-    console.error("Failed to create Zoom meeting:", error);
+    console.error("Failed to create Google Meet meeting:", error);
 
     await InterviewSlots.findByIdAndUpdate(slotId, {
       isBooked: false,
       bookedBy: null,
     });
-    return errors.throw("ZOOM_FAILED");
+    return errors.throw("MEET_FAILED");
   }
 
   await Applications.findByIdAndUpdate(application._id, {
     interviewDate: slot.startTime,
-    zoomLink: zoomData.joinUrl,
-    zoomMeetingId: zoomData.meetingId,
-    zoomPassword: zoomData.password,
+    meetLink: meetData.meetLink,
+    meetEventId: meetData.eventId,
+    calendarLink: meetData.calendarLink,
   });
 
   const formattedDate = slot.startTime.toLocaleString("en-US", {
@@ -176,7 +176,7 @@ export const POST = publicRoute(async (ctx) => {
         name: application.name,
         applicationId: application.applicationId,
         interviewDate: formattedDate,
-        zoomLink: zoomData.joinUrl,
+        meetLink: meetData.meetLink,
       }),
     });
   } catch (error) {
@@ -193,7 +193,7 @@ export const POST = publicRoute(async (ctx) => {
         applicantEmail: application.email,
         applicationId: application.applicationId,
         interviewDate: formattedDate,
-        zoomLink: zoomData.joinUrl,
+        meetLink: meetData.meetLink,
       }),
     });
   } catch (error) {
@@ -202,6 +202,6 @@ export const POST = publicRoute(async (ctx) => {
 
   return success<BookInterviewResponse>({
     interviewDate: slot.startTime.toISOString(),
-    zoomLink: zoomData.joinUrl,
+    meetLink: meetData.meetLink,
   });
 });

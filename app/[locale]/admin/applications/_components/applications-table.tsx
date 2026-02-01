@@ -211,19 +211,19 @@ export function ApplicationsTable({
                         </span>
                       )}
                     {application.status === "interview" &&
-                      application.zoomLink && (
+                      application.meetLink && (
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             navigator.clipboard.writeText(
-                              application.zoomLink!,
+                              application.meetLink!,
                             );
-                            toast.success(content.toasts.zoomLinkCopied);
+                            toast.success(content.toasts.meetLinkCopied);
                           }}
                           className="text-xs flex items-center gap-1 cursor-pointer"
                         >
                           <Copy className="size-3" />
-                          Zoom
+                          Meet
                         </button>
                       )}
                   </div>
@@ -382,22 +382,16 @@ export function ApplicationsTable({
               </div>
 
               {selectedApplication.status === "interview" &&
-                selectedApplication.zoomLink && (
+                selectedApplication.meetLink && (
                   <div className="p-4 rounded-md border">
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium">
-                          {content.dialog.zoomMeeting}
+                          {content.dialog.meetMeeting}
                         </p>
                         <p className="text-xs truncate mt-1">
-                          {selectedApplication.zoomLink}
+                          {selectedApplication.meetLink}
                         </p>
-                        {selectedApplication.zoomPassword && (
-                          <p className="text-xs mt-1">
-                            {content.dialog.zoomPassword}:{" "}
-                            {selectedApplication.zoomPassword}
-                          </p>
-                        )}
                       </div>
                       <div className="flex gap-2">
                         <Button
@@ -405,22 +399,22 @@ export function ApplicationsTable({
                           size="sm"
                           onClick={() => {
                             navigator.clipboard.writeText(
-                              selectedApplication.zoomLink!,
+                              selectedApplication.meetLink!,
                             );
-                            toast.success(content.toasts.zoomLinkCopied);
+                            toast.success(content.toasts.meetLinkCopied);
                           }}
                         >
                           <Copy className="size-4" />
-                          {content.dialog.copyZoomLink}
+                          {content.dialog.copyMeetLink}
                         </Button>
                         <Button
                           size="sm"
                           onClick={() =>
-                            window.open(selectedApplication.zoomLink, "_blank")
+                            window.open(selectedApplication.meetLink, "_blank")
                           }
                         >
                           <ExternalLink className="size-4" />
-                          {content.dialog.joinZoom}
+                          {content.dialog.joinMeet}
                         </Button>
                       </div>
                     </div>

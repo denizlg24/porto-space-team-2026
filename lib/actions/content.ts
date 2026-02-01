@@ -301,3 +301,38 @@ export async function getTeamPictureUrl(): Promise<string | null> {
     return null;
   }
 }
+
+export async function getApplicationsOpen(): Promise<boolean> {
+  try {
+    await connectDB();
+    const doc = await SiteContent.findOne({ page: "apply", key: "applicationsOpen" });
+    return doc?.value === true;
+  } catch (error) {
+    console.error("Error fetching applications open status:", error);
+    return false;
+  }
+}
+
+export async function setApplicationsOpen(
+  open: boolean
+): Promise<ActionResult<boolean>> {
+  const session = await getAdminSession();
+  if (!session) {
+    return { success: false, error: "Unauthorized" };
+  }
+
+  try {
+    await connectDB();
+    await SiteContent.findOneAndUpdate(
+      { page: "apply", key: "applicationsOpen" },
+      { $set: { value: open } },
+      { upsert: true }
+    );
+
+    revalidatePath('/[locale]/(main)/apply', 'page');
+    return { success: true, data: open };
+  } catch (error) {
+    console.error("Error setting applications open status:", error);
+    return { success: false, error: "Failed to update status" };
+  }
+}

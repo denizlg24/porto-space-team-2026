@@ -25,7 +25,7 @@ const competitionsPageContent = {
       }),
       description: t({
         en: "We're preparing content about our competitions. Check back soon for updates!",
-        pt: "Estamos a preparar conteúdo sobre as nossas competições. Volte em breve para atualizações!",
+        pt: "Estamos a preparar conteúdo sobre as nossas competições. Volta em breve para atualizações!",
       }),
     },
   },

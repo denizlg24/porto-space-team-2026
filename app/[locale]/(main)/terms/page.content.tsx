@@ -15,7 +15,7 @@ const termsPageContent = {
       }),
       description: t({
         en: "Please read these terms carefully before using our website and services.",
-        pt: "Por favor leia estes termos atentamente antes de utilizar o nosso website e serviços.",
+        pt: "Por favor lê estes termos atentamente antes de utilizares o nosso website e serviços.",
       }),
       lastUpdated: t({
         en: "Last updated: January 2025",
@@ -33,7 +33,7 @@ const termsPageContent = {
       }),
       paragraph1: t({
         en: "By accessing and using the Porto Space Team website, you accept and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our website.",
-        pt: "Ao aceder e utilizar o website da Porto Space Team, aceita e concorda em ficar vinculado a estes Termos de Serviço. Se não concordar com estes termos, por favor não utilize o nosso website.",
+        pt: "Ao acederes e utilizares o website da Porto Space Team, aceitas e concordas em ficar vinculado a estes Termos de Serviço. Se não concordares com estes termos, por favor não utilizes o nosso website.",
       }),
       paragraph2: t({
         en: "We reserve the right to modify these terms at any time. Continued use of the website after changes constitutes acceptance of the new terms.",
@@ -51,7 +51,7 @@ const termsPageContent = {
       }),
       intro: t({
         en: "You agree to use this website only for lawful purposes and in a way that does not:",
-        pt: "Concorda em utilizar este website apenas para fins legais e de forma que não:",
+        pt: "Concordas em utilizar este website apenas para fins legais e de forma que não:",
       }),
       items: {
         rights: t({
@@ -64,7 +64,7 @@ const termsPageContent = {
         }),
         harm: t({
           en: "Attempt to harm, disrupt, or damage the website or its infrastructure",
-          pt: "Tente prejudicar, perturbar ou danificar o website ou a sua infraestrutura",
+          pt: "Tentes prejudicar, perturbar ou danificar o website ou a sua infraestrutura",
         }),
         illegal: t({
           en: "Violate any applicable laws or regulations",
@@ -87,7 +87,7 @@ const termsPageContent = {
       }),
       paragraph2: t({
         en: "You may not reproduce, distribute, modify, or create derivative works from any content without our prior written consent.",
-        pt: "Não pode reproduzir, distribuir, modificar ou criar obras derivadas de qualquer conteúdo sem o nosso consentimento prévio por escrito.",
+        pt: "Não podes reproduzir, distribuir, modificar ou criar obras derivadas de qualquer conteúdo sem o nosso consentimento prévio por escrito.",
       }),
     },
     services: {
@@ -106,7 +106,7 @@ const termsPageContent = {
         }),
         description: t({
           en: "By subscribing to our newsletter, you consent to receive periodic emails about Porto Space Team activities, events, and news. You can unsubscribe at any time.",
-          pt: "Ao subscrever a nossa newsletter, consente em receber emails periódicos sobre atividades, eventos e notícias da Porto Space Team. Pode cancelar a subscrição a qualquer momento.",
+          pt: "Ao subscreveres a nossa newsletter, consentes em receber emails periódicos sobre atividades, eventos e notícias da Porto Space Team. Podes cancelar a subscrição a qualquer momento.",
         }),
       },
       contact: {
@@ -116,7 +116,7 @@ const termsPageContent = {
         }),
         description: t({
           en: "When submitting inquiries through our contact form, you agree to provide accurate information and understand that we may use this information to respond to your inquiry.",
-          pt: "Ao submeter consultas através do nosso formulário de contacto, concorda em fornecer informações precisas e compreende que podemos utilizar estas informações para responder a sua consulta.",
+          pt: "Ao submeteres consultas através do nosso formulário de contacto, concordas em fornecer informações precisas e compreendes que podemos utilizar estas informações para responder à tua consulta.",
         }),
       },
       membership: {
@@ -187,7 +187,7 @@ const termsPageContent = {
       }),
       description: t({
         en: "If you have any questions about these Terms of Service, please contact us.",
-        pt: "Se tiver alguma questão sobre estes Termos de Serviço, por favor contacte-nos.",
+        pt: "Se tiveres alguma questão sobre estes Termos de Serviço, por favor contacta-nos.",
       }),
     },
   },

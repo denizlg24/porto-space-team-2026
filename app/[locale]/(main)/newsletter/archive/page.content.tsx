@@ -11,7 +11,7 @@ const archivePageContent = {
       }),
       description: t({
         en: "Browse all past editions of the Porto Space Team newsletter.",
-        pt: "Navegue por todas as edições anteriores da newsletter da Porto Space Team.",
+        pt: "Navega por todas as edições anteriores da newsletter da Porto Space Team.",
       }),
     },
     hero: {
@@ -25,7 +25,7 @@ const archivePageContent = {
       }),
       description: t({
         en: "Browse through all our past newsletter editions. Each edition captures our team's journey, technical achievements, and mission updates.",
-        pt: "Navegue por todas as nossas edições anteriores. Cada edição captura a jornada da nossa equipa, conquistas técnicas e atualizações da missão.",
+        pt: "Navega por todas as nossas edições anteriores. Cada edição captura a jornada da nossa equipa, conquistas técnicas e atualizações da missão.",
       }),
     },
     backToNewsletter: t({

@@ -15,9 +15,9 @@ export interface IApplication extends mongoose.Document {
   motivationLetterLink: string;
   status: ApplicationStatus;
   interviewDate?: Date;
-  zoomLink?: string;
-  zoomMeetingId?: string;
-  zoomPassword?: string;
+  meetLink?: string;
+  meetEventId?: string;
+  calendarLink?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -41,9 +41,9 @@ const applicationSchema = new mongoose.Schema<IApplication>(
       default: "new",
     },
     interviewDate: { type: Date },
-    zoomLink: { type: String },
-    zoomMeetingId: { type: String },
-    zoomPassword: { type: String },
+    meetLink: { type: String },
+    meetEventId: { type: String },
+    calendarLink: { type: String },
   },
   { timestamps: true }
 );

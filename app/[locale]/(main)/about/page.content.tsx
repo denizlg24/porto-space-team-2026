@@ -51,7 +51,7 @@ const aboutPageContent = {
       }),
       empty: t({
         en: "Our journey is just beginning. Check back soon for updates!",
-        pt: "A nossa jornada está apenas a começar. Volte em breve para atualizações!",
+        pt: "A nossa jornada está apenas a começar. Volta em breve para atualizações!",
       }),
     },
     team: {
@@ -61,7 +61,7 @@ const aboutPageContent = {
       }),
       title: t({
         en: "Meet the Team",
-        pt: "Conheça a Equipa",
+        pt: "Conhece a Equipa",
       }),
       imageAlt: t({
         en: "Porto Space Team group photo",

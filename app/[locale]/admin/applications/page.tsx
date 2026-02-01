@@ -1,13 +1,18 @@
 import { NextPageIntlayer } from "next-intlayer";
 import { getIntlayer } from "intlayer";
 import { getApplications } from "@/lib/actions/applications";
+import { getApplicationsOpen } from "@/lib/actions/content";
 import { ApplicationsTable } from "./_components/applications-table";
+import { ApplicationsToggle } from "./_components/applications-toggle";
 
 const ApplicationsPage: NextPageIntlayer = async ({ params }) => {
   const { locale } = await params;
   const content = getIntlayer("admin-applications-page", locale);
 
-  const applicationsResult = await getApplications();
+  const [applicationsResult, applicationsOpen] = await Promise.all([
+    getApplications(),
+    getApplicationsOpen(),
+  ]);
   const applications = applicationsResult.success
     ? applicationsResult.data
     : [];
@@ -30,6 +35,8 @@ const ApplicationsPage: NextPageIntlayer = async ({ params }) => {
         <h1 className="text-2xl font-bold">{content.title}</h1>
         <p className="text-muted-foreground">{content.description}</p>
       </div>
+
+      <ApplicationsToggle initialOpen={applicationsOpen} />
 
       <div className="grid gap-4 md:grid-cols-6">
         <div className="rounded-md border p-4">

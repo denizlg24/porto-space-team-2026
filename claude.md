@@ -13,7 +13,7 @@ A Next.js 16 web application for the Porto Space Team, built with TypeScript, Ta
 - **UI Components**: shadcn/ui (Radix primitives)
 - **Email**: Resend
 - **File Storage**: Pinata (IPFS)
-- **Video Conferencing**: Zoom API (Server-to-Server OAuth)
+- **Video Conferencing**: Jitsi Meet (free, no API keys required)
 
 ## Project Structure
 
@@ -43,7 +43,7 @@ A Next.js 16 web application for the Porto Space Team, built with TypeScript, Ta
 │   ├── email-templates.ts      # Email HTML templates
 │   ├── env.ts                  # Environment validation (Zod)
 │   ├── rate-limit.ts           # MongoDB-based rate limiting
-│   ├── zoom.ts                 # Zoom API integration
+│   ├── google-meet.ts          # Jitsi Meet room generation (no API keys needed)
 │   └── utils.ts                # Utility functions
 ├── models/                     # Mongoose models
 ├── hooks/                      # React hooks
@@ -206,10 +206,8 @@ EMAIL_FROM=
 PINATA_JWT=
 NEXT_PUBLIC_GATEWAY_URL=
 
-# Zoom (Server-to-Server OAuth)
-ZOOM_ACCOUNT_ID=
-ZOOM_CLIENT_ID=
-ZOOM_CLIENT_SECRET=
+# Video Conferencing
+# Jitsi Meet is used - no API keys required!
 ```
 
 ## Application Flow
@@ -221,7 +219,7 @@ ZOOM_CLIENT_SECRET=
 4. Admin reviews and updates status (read → interview → accepted/rejected)
 5. When set to "interview", admin creates available slots
 6. Applicant books interview via calendar UI
-7. Zoom meeting auto-created, emails sent to both parties
+7. Google Meet meeting auto-created, emails sent to both parties
 
 ### Admin Authentication
 1. User registers with email/password
@@ -262,4 +260,4 @@ bunx intlayer dictionaries build # Build the dictionaries for intlayer type safe
 - All dates stored in UTC, displayed in user's locale
 - Files uploaded to Pinata IPFS
 - Rate limiting uses MongoDB with TTL indexes (serverless-compatible)
-- Zoom meetings created via Server-to-Server OAuth (no user login required)
+- Jitsi Meet rooms are generated automatically for interviews (no API keys required)

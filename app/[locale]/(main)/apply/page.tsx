@@ -6,9 +6,10 @@ import type { LocalPromiseParams } from "next-intlayer";
 import { GridBackground } from "@/components/ui/grid-background";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/components/locale/link";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, XCircle } from "lucide-react";
 import { ApplicationContainer } from "./_components/application-container";
 import { SearchApplicationForm } from "./_components/search-application-form";
+import { getApplicationsOpen } from "@/lib/actions/content";
 
 export const revalidate = 604800;
 
@@ -39,6 +40,7 @@ export const generateMetadata = async ({
 const Page: NextPageIntlayer = async ({ params }) => {
   const { locale } = await params;
   const content = getIntlayer("apply-page", locale);
+  const applicationsOpen = await getApplicationsOpen();
 
   return (
     <IntlayerServerProvider locale={locale}>
@@ -76,7 +78,21 @@ const Page: NextPageIntlayer = async ({ params }) => {
           </div>
         </section>
         <Separator className="max-w-5xl" />
-        <ApplicationContainer locale={locale as "en" | "pt"} />
+        {applicationsOpen ? (
+          <ApplicationContainer locale={locale as "en" | "pt"} />
+        ) : (
+          <section className="w-full max-w-5xl mx-auto pb-12">
+            <div className="flex flex-col items-center justify-center text-center py-16 px-6 rounded-lg border border-dashed">
+              <XCircle className="size-12 text-muted-foreground mb-4" />
+              <h2 className="text-xl font-bold mb-2">
+                {content.closed.title}
+              </h2>
+              <p className="text-muted-foreground max-w-md">
+                {content.closed.description}
+              </p>
+            </div>
+          </section>
+        )}
       </main>
     </IntlayerServerProvider>
   );

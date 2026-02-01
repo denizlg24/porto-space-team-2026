@@ -18,7 +18,7 @@ export type ApplicationData = {
   course: string;
   status: ApplicationStatus;
   interviewDate?: string;
-  zoomLink?: string;
+  meetLink?: string;
   cvLink: string;
   motivationLetterLink: string;
   createdAt: string;
@@ -76,7 +76,7 @@ export const GET = publicRoute(async (ctx) => {
     course: application.course,
     status: application.status,
     interviewDate: application.interviewDate?.toISOString(),
-    zoomLink: application.zoomLink,
+    meetLink: application.meetLink,
     cvLink: application.cvLink,
     motivationLetterLink: application.motivationLetterLink,
     createdAt: application.createdAt.toISOString(),

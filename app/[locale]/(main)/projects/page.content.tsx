@@ -29,7 +29,7 @@ const projectsPageContent = {
       }),
       empty: t({
         en: "Projects are coming soon. Stay tuned!",
-        pt: "Os projetos estão a chegar em breve. Fique atento!",
+        pt: "Os projetos estão a chegar em breve. Fica atento!",
       }),
       learnMore: t({
         en: "Learn more",

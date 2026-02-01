@@ -12,6 +12,32 @@ const adminApplicationsPageContent = {
       en: "Manage job applications and recruitment.",
       pt: "Gere candidaturas e recrutamento.",
     }),
+    toggle: {
+      label: t({
+        en: "Accept Applications",
+        pt: "Aceitar Candidaturas",
+      }),
+      statusOpen: t({
+        en: "Applications are currently open. New applicants can submit their applications.",
+        pt: "As candidaturas estão atualmente abertas. Novos candidatos podem submeter as suas candidaturas.",
+      }),
+      statusClosed: t({
+        en: "Applications are currently closed. The application form is hidden from visitors.",
+        pt: "As candidaturas estão atualmente fechadas. O formulário de candidatura está oculto para os visitantes.",
+      }),
+      openedSuccess: t({
+        en: "Applications are now open",
+        pt: "As candidaturas estão agora abertas",
+      }),
+      closedSuccess: t({
+        en: "Applications are now closed",
+        pt: "As candidaturas estão agora fechadas",
+      }),
+      error: t({
+        en: "Failed to update applications status",
+        pt: "Falha ao atualizar o estado das candidaturas",
+      }),
+    },
     stats: {
       total: t({
         en: "Total Applications",
@@ -231,19 +257,15 @@ const adminApplicationsPageContent = {
         en: "Interview scheduled",
         pt: "Entrevista agendada",
       }),
-      zoomMeeting: t({
-        en: "Zoom Meeting",
-        pt: "Reunião Zoom",
+      meetMeeting: t({
+        en: "Google Meet",
+        pt: "Google Meet",
       }),
-      zoomPassword: t({
-        en: "Password",
-        pt: "Palavra-passe",
-      }),
-      copyZoomLink: t({
+      copyMeetLink: t({
         en: "Copy Link",
         pt: "Copiar Link",
       }),
-      joinZoom: t({
+      joinMeet: t({
         en: "Join",
         pt: "Entrar",
       }),
@@ -333,9 +355,9 @@ const adminApplicationsPageContent = {
         en: "Email copied to clipboard",
         pt: "Email copiado para a área de transferência",
       }),
-      zoomLinkCopied: t({
-        en: "Zoom link copied to clipboard",
-        pt: "Link do Zoom copiado para a área de transferência",
+      meetLinkCopied: t({
+        en: "Meeting link copied to clipboard",
+        pt: "Link da reunião copiado para a área de transferência",
       }),
     },
   },

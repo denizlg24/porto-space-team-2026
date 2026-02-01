@@ -7,11 +7,11 @@ const applyPageContent = {
     hero: {
       tag: t({
         en: "// JOIN THE MISSION",
-        pt: "// JUNTE-SE À MISSÃO",
+        pt: "// JUNTA-TE À MISSÃO",
       }),
       title: t({
         en: "Launch Your",
-        pt: "Impulsione a Sua",
+        pt: "Impulsiona a Tua",
       }),
       titleHighlight: t({
         en: "Career",
@@ -19,11 +19,11 @@ const applyPageContent = {
       }),
       description: t({
         en: "No prior rocketry experience required. Just bring your curiosity, dedication, and willingness to learn.",
-        pt: "Não é necessária experiência prévia em foguetões. Traga apenas a sua curiosidade, dedicação e vontade de aprender.",
+        pt: "Não é necessária experiência prévia em foguetões. Traz apenas a tua curiosidade, dedicação e vontade de aprender.",
       }),
       contactLink: t({
         en: "Looking for the",
-        pt: "Procura o",
+        pt: "Procuras o",
       }),
       contactLinkText: t({
         en: "contact form?",
@@ -34,11 +34,11 @@ const applyPageContent = {
       step1: {
         title: t({
           en: "Choose Your Department",
-          pt: "Escolha o Seu Departamento",
+          pt: "Escolhe o Teu Departamento",
         }),
         description: t({
           en: "Select one or more departments you'd like to join. You can apply to multiple areas.",
-          pt: "Selecione um ou mais departamentos aos quais gostaria de se juntar. Pode candidatar-se a múltiplas áreas.",
+          pt: "Seleciona um ou mais departamentos aos quais gostarias de te juntar. Podes candidatar-te a múltiplas áreas.",
         }),
       },
       step2: {
@@ -48,7 +48,7 @@ const applyPageContent = {
         }),
         description: t({
           en: "Please upload your CV and a motivation letter explaining why you want to join Porto Space Team.",
-          pt: "Por favor carregue o seu CV e uma carta de motivação explicando porque quer juntar-se à Porto Space Team.",
+          pt: "Por favor carrega o teu CV e uma carta de motivação explicando porque queres juntar-te à Porto Space Team.",
         }),
       },
       step3: {
@@ -58,7 +58,7 @@ const applyPageContent = {
         }),
         description: t({
           en: "Almost there! Just a few more details about yourself.",
-          pt: "Quase lá! Apenas mais alguns detalhes sobre si.",
+          pt: "Quase lá! Apenas mais alguns detalhes sobre ti.",
         }),
       },
       step4: {
@@ -68,7 +68,7 @@ const applyPageContent = {
         }),
         description: t({
           en: "Please review your application before submitting.",
-          pt: "Por favor reveja a sua candidatura antes de submeter.",
+          pt: "Por favor revê a tua candidatura antes de submeter.",
         }),
       },
     },
@@ -93,7 +93,7 @@ const applyPageContent = {
     applicationStatus: {
       alreadyApplied: t({
         en: "Already Applied?",
-        pt: "Já se candidatou?",
+        pt: "Já te candidataste?",
       }),
       label: t({
         en: "// APPLICATION STATUS",
@@ -101,7 +101,7 @@ const applyPageContent = {
       }),
       description: t({
         en: "Check the status of your application by entering your application ID below.",
-        pt: "Verifique o estado da sua candidatura inserindo o ID da sua candidatura abaixo.",
+        pt: "Verifica o estado da tua candidatura inserindo o ID da tua candidatura abaixo.",
       }),
       search: t({
         en: "Search",
@@ -109,11 +109,11 @@ const applyPageContent = {
       }),
       notFound: t({
         en: "Application not found. Please check your application ID.",
-        pt: "Candidatura não encontrada. Por favor verifique o ID da candidatura.",
+        pt: "Candidatura não encontrada. Por favor verifica o ID da candidatura.",
       }),
       rateLimited: t({
         en: "Too many requests. Please wait before trying again.",
-        pt: "Demasiadas tentativas. Por favor aguarde antes de tentar novamente.",
+        pt: "Demasiadas tentativas. Por favor aguarda antes de tentar novamente.",
       }),
     },
     statusPage: {
@@ -160,15 +160,15 @@ const applyPageContent = {
         }),
         newDesc: t({
           en: "Your application has been received",
-          pt: "A sua candidatura foi recebida",
+          pt: "A tua candidatura foi recebida",
         }),
         readDesc: t({
           en: "Our team is reviewing your application",
-          pt: "A nossa equipa está a analisar a sua candidatura",
+          pt: "A nossa equipa está a analisar a tua candidatura",
         }),
         interviewDesc: t({
           en: "You've been selected for an interview",
-          pt: "Foi selecionado para entrevista",
+          pt: "Foste selecionado para entrevista",
         }),
         acceptedDesc: t({
           en: "Welcome to the team!",
@@ -176,7 +176,7 @@ const applyPageContent = {
         }),
         rejectedDesc: t({
           en: "Thank you for your interest",
-          pt: "Obrigado pelo seu interesse",
+          pt: "Obrigado pelo teu interesse",
         }),
       },
       interview: {
@@ -188,9 +188,9 @@ const applyPageContent = {
           en: "Date & Time",
           pt: "Data & Hora",
         }),
-        zoomLink: t({
-          en: "Zoom Link",
-          pt: "Link do Zoom",
+        meetLink: t({
+          en: "Meeting Link",
+          pt: "Link da Reunião",
         }),
         copyLink: t({
           en: "Copy Link",
@@ -201,29 +201,29 @@ const applyPageContent = {
           pt: "Entrar na Reunião",
         }),
         linkCopied: t({
-          en: "Zoom link copied to clipboard",
-          pt: "Link do Zoom copiado",
+          en: "Meeting link copied to clipboard",
+          pt: "Link da reunião copiado",
         }),
         booking: {
           title: t({
             en: "Book Your Interview",
-            pt: "Agendar a Sua Entrevista",
+            pt: "Agenda a Tua Entrevista",
           }),
           description: t({
-            en: "Select a time slot that works best for you. Once confirmed, you'll receive a Zoom link via email.",
-            pt: "Selecione um horário que lhe seja conveniente. Após confirmação, receberá um link do Zoom por email.",
+            en: "Select a time slot that works best for you. Once confirmed, you'll receive a meeting link via email.",
+            pt: "Seleciona um horário que te seja conveniente. Após confirmação, receberás um link da reunião por email.",
           }),
           noSlots: t({
             en: "No available time slots at the moment. Please check back later.",
-            pt: "Não há horários disponíveis de momento. Por favor volte mais tarde.",
+            pt: "Não há horários disponíveis de momento. Por favor volta mais tarde.",
           }),
           confirm: t({
             en: "Confirm Interview",
             pt: "Confirmar Entrevista",
           }),
           booked: t({
-            en: "Interview booked successfully! Check your email for the Zoom link.",
-            pt: "Entrevista agendada com sucesso! Verifique o seu email para o link do Zoom.",
+            en: "Interview booked successfully! Check your email for the meeting link.",
+            pt: "Entrevista agendada com sucesso! Verifica o teu email para o link da reunião.",
           }),
         },
       },
@@ -260,6 +260,16 @@ const applyPageContent = {
       backToSearch: t({
         en: "Search Another Application",
         pt: "Pesquisar Outra Candidatura",
+      }),
+    },
+    closed: {
+      title: t({
+        en: "Applications Currently Closed",
+        pt: "Candidaturas Atualmente Fechadas",
+      }),
+      description: t({
+        en: "We are not accepting applications at this time. Please check back later or follow us on social media for updates on when applications will reopen.",
+        pt: "Não estamos a aceitar candidaturas neste momento. Por favor volta mais tarde ou segue-nos nas redes sociais para atualizações sobre quando as candidaturas reabrirão.",
       }),
     },
   },

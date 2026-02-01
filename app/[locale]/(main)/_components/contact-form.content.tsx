@@ -8,21 +8,21 @@ const contactFormContent = {
       name: {
         label: t({
           en: "Your Name",
-          pt: "O Seu Nome",
+          pt: "O Teu Nome",
         }),
         placeholder: t({
           en: "Your name",
-          pt: "O seu nome",
+          pt: "O teu nome",
         }),
       },
       email: {
         label: t({
           en: "Your Email",
-          pt: "O Seu Email",
+          pt: "O Teu Email",
         }),
         placeholder: t({
           en: "Your email",
-          pt: "O seu email",
+          pt: "O teu email",
         }),
       },
       subject: {
@@ -32,7 +32,7 @@ const contactFormContent = {
         }),
         placeholder: t({
           en: "Select a subject",
-          pt: "Selecione um assunto",
+          pt: "Seleciona um assunto",
         }),
         options: {
           sponsorship: t({
@@ -60,7 +60,7 @@ const contactFormContent = {
         }),
         placeholder: t({
           en: "Tell us more...",
-          pt: "Conte-nos mais...",
+          pt: "Conta-nos mais...",
         }),
         counter: t({
           en: "characters",
@@ -83,7 +83,7 @@ const contactFormContent = {
       }),
       subjectRequired: t({
         en: "Please select a subject.",
-        pt: "Por favor selecione um assunto.",
+        pt: "Por favor seleciona um assunto.",
       }),
       messageMin: t({
         en: "Message must be at least 10 characters.",
@@ -109,15 +109,15 @@ const contactFormContent = {
       }),
       description: t({
         en: "Thank you for reaching out. We have received your message and will get back to you soon.",
-        pt: "Obrigado por nos contactar. Recebemos a sua mensagem e responderemos em breve.",
+        pt: "Obrigado por nos contactares. Recebemos a tua mensagem e responderemos em breve.",
       }),
       ticketLabel: t({
         en: "Your ticket ID:",
-        pt: "O seu ID de ticket:",
+        pt: "O teu ID de ticket:",
       }),
       ticketNote: t({
         en: "A confirmation email has been sent to your inbox.",
-        pt: "Um email de confirmação foi enviado para a sua caixa de entrada.",
+        pt: "Um email de confirmação foi enviado para a tua caixa de entrada.",
       }),
       sendAnother: t({
         en: "Send Another Message",
@@ -131,7 +131,7 @@ const contactFormContent = {
       }),
       description: t({
         en: "We could not send your message. Please try again later.",
-        pt: "Não foi possível enviar a sua mensagem. Por favor tente mais tarde.",
+        pt: "Não foi possível enviar a tua mensagem. Por favor tenta mais tarde.",
       }),
       tryAgain: t({
         en: "Try Again",
