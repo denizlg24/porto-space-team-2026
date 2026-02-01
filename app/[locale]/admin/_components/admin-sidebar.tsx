@@ -54,6 +54,7 @@ const managementNavItems = [
   { key: "newsletter", href: "/admin/newsletter", icon: Mail },
   { key: "contacts", href: "/admin/contacts", icon: MessageSquare },
   { key: "applications", href: "/admin/applications", icon: ClipboardList },
+  { key: "timeslots", href: "/admin/interview-slots", icon: Clock },
 ] as const;
 
 export function AdminSidebar() {

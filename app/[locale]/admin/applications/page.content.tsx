@@ -75,6 +75,10 @@ const adminApplicationsPageContent = {
         en: "No applications yet.",
         pt: "Ainda não há candidaturas.",
       }),
+      hasAvailability: t({
+        en: "Available",
+        pt: "Disponível",
+      }),
     },
     statuses: {
       new: t({
@@ -243,6 +247,10 @@ const adminApplicationsPageContent = {
         en: "Join",
         pt: "Entrar",
       }),
+      availabilitySubmitted: t({
+        en: "Applicant's Availability",
+        pt: "Disponibilidade do Candidato",
+      }),
     },
     interviewDialog: {
       title: t({
@@ -252,6 +260,18 @@ const adminApplicationsPageContent = {
       description: t({
         en: "Select a date and time for the interview. An email will be sent to the applicant with the interview details.",
         pt: "Selecione uma data e hora para a entrevista. Um email será enviado ao candidato com os detalhes da entrevista.",
+      }),
+      applicantAvailability: t({
+        en: "Applicant's Availability",
+        pt: "Disponibilidade do Candidato",
+      }),
+      clickToSelect: t({
+        en: "Click a time slot to select it",
+        pt: "Clique num horário para o selecionar",
+      }),
+      orCustom: t({
+        en: "or enter custom time",
+        pt: "ou insira horário personalizado",
       }),
       dateLabel: t({
         en: "Interview Date & Time",

@@ -69,6 +69,10 @@ const adminSidebarContent = {
         en: "Settings",
         pt: "Definicoes",
       }),
+      timeslots: t({
+        en: "Interview Availability",
+        pt: "Datas para Entrevistas",
+      }),
     },
     sections: {
       main: t({

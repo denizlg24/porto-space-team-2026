@@ -640,47 +640,45 @@ interface ApplicationStatusUpdateEmailParams {
   name: string;
   applicationId: string;
   status: "read" | "interview" | "accepted" | "rejected" | "archived";
-  interviewDate?: string;
-  zoomLink?: string;
+  bookingUrl?: string;
 }
 
 export const getApplicationStatusUpdateEmailTemplate = ({
   name,
   applicationId,
   status,
-  interviewDate,
-  zoomLink,
+  bookingUrl,
 }: ApplicationStatusUpdateEmailParams): string => {
   const statusConfig = {
     read: {
       label: "Application Under Review",
       title: "Your Application is Being Reviewed",
       message: "Good news! Your application has been reviewed by our team and is now under consideration. We will contact you soon with updates on the next steps.",
-      color: "#eab308",
+      color: "#8b4513",
     },
     interview: {
-      label: "Interview Scheduled",
+      label: "Interview Invitation",
       title: "You're Invited for an Interview!",
-      message: `Congratulations! We were impressed by your application and would like to invite you for an interview.${interviewDate ? `\n\nYour interview is scheduled for: ${interviewDate}` : ""}${zoomLink ? `\n\nThe interview will be conducted via Zoom.` : ""}\n\nPlease make sure to be available at this time. If you have any conflicts, please reach out to us as soon as possible.`,
-      color: "#a855f7",
+      message: `Congratulations! We were impressed by your application and would like to invite you for an interview.\n\nTo schedule your interview, please visit our application page and enter your Application ID. You'll be able to select a time slot that works best for you from our available options.\n\nOnce you book a slot, you'll receive a confirmation email with the Zoom meeting link.`,
+      color: "#8b4513",
     },
     accepted: {
       label: "Application Accepted",
       title: "Welcome to Porto Space Team!",
       message: "Congratulations! We are thrilled to inform you that your application has been accepted. Welcome to Porto Space Team!\n\nWe will be in touch shortly with more details about your onboarding process and next steps. Get ready for an exciting journey ahead!",
-      color: "#22c55e",
+      color: "#8b4513",
     },
     rejected: {
       label: "Application Update",
       title: "Thank You for Your Interest",
       message: "Thank you for taking the time to apply to Porto Space Team. After careful consideration, we regret to inform you that we are unable to offer you a position at this time.\n\nWe encourage you to continue developing your skills and consider applying again in the future. We wish you all the best in your endeavors.",
-      color: "#ef4444",
+      color: "#666666",
     },
     archived: {
       label: "Application Archived",
       title: "Your Application Has Been Archived",
       message: "This is to inform you that your application to Porto Space Team has been archived and removed from our active applications.\n\nIf you believe this was done in error or would like to submit a new application, please feel free to apply again through our website.",
-      color: "#6b7280",
+      color: "#666666",
     },
   };
 
@@ -733,16 +731,15 @@ export const getApplicationStatusUpdateEmailTemplate = ({
                     <p style="margin: 0; font-size: 18px; font-weight: 700; color: #8b4513; font-family: monospace;">${applicationId}</p>
                   </td>
                 </tr>
-                ${status === "interview" && zoomLink ? `
+                ${status === "interview" && bookingUrl ? `
                 <tr>
                   <td align="center" style="padding: 24px 0 8px 0;">
-                    <a href="${zoomLink}" target="_blank" style="display: inline-block; padding: 14px 32px; background-color: #2D8CFF; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.025em; border-radius: 4px;">Join Zoom Meeting</a>
+                    <a href="${bookingUrl}" target="_blank" style="display: inline-block; padding: 14px 32px; background-color: #8b4513; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.025em;">Book Your Interview</a>
                   </td>
                 </tr>
                 <tr>
                   <td align="center" style="padding: 8px 0;">
-                    <p style="margin: 0; font-size: 12px; color: #666666;">Or copy this link:</p>
-                    <p style="margin: 8px 0 0 0; font-size: 12px; color: #2D8CFF; word-break: break-all;">${zoomLink}</p>
+                    <p style="margin: 0; font-size: 12px; color: #666666;">Use your Application ID above to check your status and book a slot.</p>
                   </td>
                 </tr>
                 ` : ""}
@@ -838,6 +835,156 @@ export const getNewsletterEmailTemplate = ({
           <tr>
             <td style="padding: 24px 0; text-align: center;">
               <p style="margin: 0; font-size: 11px; color: #999999;">Porto Space Team - University of Porto</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
+interface InterviewBookedEmailParams {
+  name: string;
+  applicationId: string;
+  interviewDate: string;
+  zoomLink: string;
+}
+
+export const getInterviewBookedEmailTemplate = ({
+  name,
+  applicationId,
+  interviewDate,
+  zoomLink,
+}: InterviewBookedEmailParams): string => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Interview Confirmed</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; background-color: #ffffff; border: 1px solid #e5e5e5;">
+          <tr>
+            <td style="padding: 40px 32px 32px 32px; text-align: center; border-bottom: 1px solid #e5e5e5;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <img src="https://porto-space-team-2026.vercel.app/logo-black.png" alt="Porto Space Team" width="48" height="48" style="display: block; border: 0;" />
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding-top: 16px;">
+                    <span style="font-size: 14px; font-weight: 700; letter-spacing: 0.1em; color: #1a1a1a; text-transform: uppercase;">Porto Space Team</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 8px 0; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8b4513;">Interview Confirmed</p>
+                    <h1 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #1a1a1a; line-height: 1.3;">Your Interview is Scheduled!</h1>
+                    <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666; line-height: 1.6;">Hello ${name},</p>
+                    <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666; line-height: 1.6;">Great news! Your interview with Porto Space Team has been confirmed.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 16px; background-color: #fafafa; border: 1px solid #e5e5e5; margin-bottom: 24px;">
+                    <p style="margin: 0 0 8px 0; font-size: 12px; color: #666666;">Application ID:</p>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; font-weight: 700; color: #8b4513; font-family: monospace;">${applicationId}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 12px; color: #666666;">Date & Time:</p>
+                    <p style="margin: 0; font-size: 16px; font-weight: 700; color: #1a1a1a;">${interviewDate}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding: 24px 0 8px 0;">
+                    <a href="${zoomLink}" target="_blank" style="display: inline-block; padding: 14px 32px; background-color: #8b4513; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.025em;">Join Zoom Meeting</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding: 8px 0 24px 0;">
+                    <p style="margin: 0; font-size: 12px; color: #666666;">Or copy this link:</p>
+                    <p style="margin: 8px 0 0 0; font-size: 12px; color: #8b4513; word-break: break-all;">${zoomLink}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p style="margin: 0; font-size: 14px; color: #666666; line-height: 1.6;">Please join a few minutes early. We look forward to meeting you!</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 24px 32px; background-color: #fafafa; border-top: 1px solid #e5e5e5;">
+              <p style="margin: 0; font-size: 12px; color: #999999; text-align: center; line-height: 1.6;">If you need to reschedule, please reply to this email.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
+interface InterviewBookedAdminEmailParams {
+  applicantName: string;
+  applicantEmail: string;
+  applicationId: string;
+  interviewDate: string;
+  zoomLink: string;
+}
+
+export const getInterviewBookedAdminEmailTemplate = ({
+  applicantName,
+  applicantEmail,
+  applicationId,
+  interviewDate,
+  zoomLink,
+}: InterviewBookedAdminEmailParams): string => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Booked</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; background-color: #ffffff; border: 1px solid #e5e5e5;">
+          <tr>
+            <td style="padding: 40px 32px 32px 32px; text-align: center; border-bottom: 1px solid #e5e5e5;">
+              <img src="https://porto-space-team-2026.vercel.app/logo-black.png" alt="Porto Space Team" width="48" height="48" style="display: block; margin: 0 auto; border: 0;" />
+              <p style="margin: 16px 0 0 0; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; color: #1a1a1a; text-transform: uppercase;">Porto Space Team</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 32px;">
+              <p style="margin: 0 0 8px 0; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8b4513;">Admin Notification</p>
+              <h1 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #1a1a1a;">Interview Booked</h1>
+              <p style="margin: 0 0 24px 0; font-size: 14px; color: #666666;">An applicant has booked an interview slot:</p>
+              <div style="padding: 16px; background-color: #fafafa; border: 1px solid #e5e5e5;">
+                <p style="margin: 0 0 4px 0; font-size: 16px; font-weight: 700; color: #1a1a1a;">${applicantName}</p>
+                <p style="margin: 0 0 12px 0; font-size: 14px; color: #666666;">${applicantEmail}</p>
+                <p style="margin: 0 0 4px 0; font-size: 12px; color: #666666;">Application: <strong style="color: #8b4513;">${applicationId}</strong></p>
+                <p style="margin: 12px 0 0 0; font-size: 16px; font-weight: 700; color: #1a1a1a;">${interviewDate}</p>
+              </div>
+              <p style="margin: 24px 0 0 0; text-align: center;">
+                <a href="${zoomLink}" target="_blank" style="display: inline-block; padding: 12px 24px; background-color: #8b4513; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600;">Join Zoom</a>
+              </p>
             </td>
           </tr>
         </table>

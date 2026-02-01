@@ -39,18 +39,11 @@ import { toast } from "sonner";
 import { apiClient } from "@/lib/api-client";
 import type { ContactData, UpdateContactRoute } from "@/app/api/contacts/route";
 import type { ContactStatus, ContactSubject } from "@/models/Contact";
-import { cn } from "@/lib/utils";
 
 interface ContactsTableProps {
   initialContacts: ContactData[];
 }
 
-const STATUS_COLORS: Record<ContactStatus, string> = {
-  new: "bg-blue-500/10 text-blue-600 border-blue-500/20",
-  read: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20",
-  replied: "bg-green-500/10 text-green-600 border-green-500/20",
-  archived: "bg-gray-500/10 text-gray-600 border-gray-500/20",
-};
 
 export function ContactsTable({ initialContacts }: ContactsTableProps) {
   const content = useIntlayer("admin-contacts-page");
@@ -134,9 +127,6 @@ export function ContactsTable({ initialContacts }: ContactsTableProps) {
             {contacts.map((contact) => (
               <TableRow
                 key={contact.id}
-                className={cn(
-                  contact.status === "new" && "bg-blue-500/5"
-                )}
               >
                 <TableCell className="font-mono text-sm">
                   {contact.ticketId}
@@ -153,7 +143,6 @@ export function ContactsTable({ initialContacts }: ContactsTableProps) {
                 <TableCell>
                   <Badge
                     variant="outline"
-                    className={STATUS_COLORS[contact.status]}
                   >
                     {getStatusLabel(contact.status)}
                   </Badge>

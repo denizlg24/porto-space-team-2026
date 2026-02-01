@@ -11,6 +11,8 @@ import { ProjectStats } from "./_components/project-stats";
 import { DepartmentsSection } from "./_components/departments-section";
 import { ProjectMediaCarousel } from "./_components/project-media-carousel";
 import { CustomSectionsRenderer } from "./_components/custom-sections-renderer";
+import { connectDB } from "@/lib/db";
+import { Projects } from "@/models/Project";
 
 export const dynamic = 'force-static';
 export const revalidate = 604800;
@@ -21,7 +23,11 @@ type PageProps = {
 };
 
 export async function generateStaticParams() {
-  return []
+  await connectDB();
+  const projects = await Projects.find({}, { slug: 1 }).lean();
+  return projects.map((project) => ({
+    slug: project.slug,
+  }));
 }
 
 export const generateMetadata = async ({

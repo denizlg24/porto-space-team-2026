@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Link } from "@/components/locale/link";
 import { ExternalLinkIcon } from "lucide-react";
 import { ApplicationContainer } from "./_components/application-container";
+import { SearchApplicationForm } from "./_components/search-application-form";
 
 export const revalidate = 604800;
 
@@ -63,7 +64,17 @@ const Page: NextPageIntlayer = async ({ params }) => {
             </Link>
           </h3>
         </section>
-
+        <Separator className="max-w-5xl" />
+        <section className="w-full flex flex-col items-start text-left max-w-5xl mx-auto">
+          <p className="text-xs text-primary">{content.applicationStatus.label}</p>
+          <h2 className="sm:text-xl text-lg font-bold mt-2">
+            {content.applicationStatus.alreadyApplied}
+          </h2>
+          <h3 className="text-sm text-muted-foreground mt-2">{content.applicationStatus.description}</h3>
+          <div className="w-full flex flex-row items-center gap-2 mx-auto mt-6">
+            <SearchApplicationForm/>
+          </div>
+        </section>
         <Separator className="max-w-5xl" />
         <ApplicationContainer locale={locale as "en" | "pt"} />
       </main>

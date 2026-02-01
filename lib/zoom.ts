@@ -26,7 +26,6 @@ interface CreateMeetingParams {
 let cachedToken: { token: string; expiresAt: number } | null = null;
 
 async function getAccessToken(): Promise<string> {
-  // Check if we have a valid cached token
   if (cachedToken && Date.now() < cachedToken.expiresAt) {
     return cachedToken.token;
   }
@@ -53,7 +52,6 @@ async function getAccessToken(): Promise<string> {
 
   const data: ZoomTokenResponse = await response.json();
 
-  // Cache the token with a 5-minute buffer before expiry
   cachedToken = {
     token: data.access_token,
     expiresAt: Date.now() + (data.expires_in - 300) * 1000,
@@ -82,7 +80,7 @@ export async function createZoomMeeting({
     },
     body: JSON.stringify({
       topic,
-      type: 2, // Scheduled meeting
+      type: 2,
       start_time: startTime,
       duration,
       timezone: "Europe/Lisbon",

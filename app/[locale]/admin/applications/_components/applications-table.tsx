@@ -23,7 +23,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -37,8 +36,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   MoreHorizontal,
   Eye,
@@ -58,24 +55,14 @@ import {
 import { toast } from "sonner";
 import {
   updateApplicationStatus,
-  scheduleInterview,
   deleteApplication,
   type ApplicationData,
 } from "@/lib/actions/applications";
 import type { ApplicationStatus } from "@/models/Application";
-import { cn } from "@/lib/utils";
 
 interface ApplicationsTableProps {
   initialApplications: ApplicationData[];
 }
-
-const STATUS_COLORS: Record<ApplicationStatus, string> = {
-  new: "bg-blue-500/10 text-blue-600 border-blue-500/20",
-  read: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20",
-  interview: "bg-purple-500/10 text-purple-600 border-purple-500/20",
-  accepted: "bg-green-500/10 text-green-600 border-green-500/20",
-  rejected: "bg-red-500/10 text-red-600 border-red-500/20",
-};
 
 export function ApplicationsTable({
   initialApplications,
@@ -85,12 +72,8 @@ export function ApplicationsTable({
   const [selectedApplication, setSelectedApplication] =
     useState<ApplicationData | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [interviewDialogOpen, setInterviewDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [interviewDate, setInterviewDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [applicationToSchedule, setApplicationToSchedule] =
-    useState<ApplicationData | null>(null);
   const [applicationToDelete, setApplicationToDelete] =
     useState<ApplicationData | null>(null);
 
@@ -106,33 +89,6 @@ export function ApplicationsTable({
       toast.success(content.toasts.statusUpdated);
     } else {
       toast.error(content.toasts.statusUpdateFailed);
-    }
-  };
-
-  const handleScheduleInterview = async () => {
-    if (!applicationToSchedule || !interviewDate) return;
-
-    setIsLoading(true);
-    const result = await scheduleInterview(
-      applicationToSchedule.id,
-      interviewDate,
-    );
-    setIsLoading(false);
-
-    if (result.success) {
-      setApplications((prev) =>
-        prev.map((a) =>
-          a.id === applicationToSchedule.id
-            ? { ...a, status: "interview" as ApplicationStatus, interviewDate }
-            : a,
-        ),
-      );
-      toast.success(content.toasts.interviewScheduled);
-      setInterviewDialogOpen(false);
-      setInterviewDate("");
-      setApplicationToSchedule(null);
-    } else {
-      toast.error(content.toasts.interviewScheduleFailed);
     }
   };
 
@@ -157,12 +113,6 @@ export function ApplicationsTable({
     } else {
       toast.error(content.toasts.applicationDeleteFailed);
     }
-  };
-
-  const openInterviewDialog = (application: ApplicationData) => {
-    setApplicationToSchedule(application);
-    setInterviewDate("");
-    setInterviewDialogOpen(true);
   };
 
   const openDeleteDialog = (application: ApplicationData) => {
@@ -229,7 +179,6 @@ export function ApplicationsTable({
             {applications.map((application) => (
               <TableRow
                 key={application.id}
-                className={cn(application.status === "new" && "bg-blue-500/5")}
               >
                 <TableCell className="font-mono text-sm">
                   {application.applicationId}
@@ -252,7 +201,6 @@ export function ApplicationsTable({
                   <div className="flex flex-col gap-1">
                     <Badge
                       variant="outline"
-                      className={STATUS_COLORS[application.status]}
                     >
                       {getStatusLabel(application.status)}
                     </Badge>
@@ -267,10 +215,12 @@ export function ApplicationsTable({
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            navigator.clipboard.writeText(application.zoomLink!);
+                            navigator.clipboard.writeText(
+                              application.zoomLink!,
+                            );
                             toast.success(content.toasts.zoomLinkCopied);
                           }}
-                          className="text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1 cursor-pointer"
+                          className="text-xs flex items-center gap-1 cursor-pointer"
                         >
                           <Copy className="size-3" />
                           Zoom
@@ -334,10 +284,11 @@ export function ApplicationsTable({
                             {content.actions.markAsRead}
                           </DropdownMenuItem>
                         )}
-                      {application.status !== "accepted" &&
+                      {application.status !== "interview" &&
+                        application.status !== "accepted" &&
                         application.status !== "rejected" && (
                           <DropdownMenuItem
-                            onClick={() => openInterviewDialog(application)}
+                            onClick={() => updateStatus(application.id, "interview")}
                           >
                             <Calendar className="size-4" />
                             {content.actions.scheduleInterview}
@@ -416,7 +367,6 @@ export function ApplicationsTable({
                   <div className="flex flex-col gap-1">
                     <Badge
                       variant="outline"
-                      className={STATUS_COLORS[selectedApplication.status]}
                     >
                       {getStatusLabel(selectedApplication.status)}
                     </Badge>
@@ -431,21 +381,21 @@ export function ApplicationsTable({
                 </div>
               </div>
 
-              {/* Zoom Meeting Info */}
               {selectedApplication.status === "interview" &&
                 selectedApplication.zoomLink && (
-                  <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-md border border-blue-200 dark:border-blue-900">
+                  <div className="p-4 rounded-md border">
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                        <p className="text-sm font-medium">
                           {content.dialog.zoomMeeting}
                         </p>
-                        <p className="text-xs text-blue-700 dark:text-blue-300 truncate mt-1">
+                        <p className="text-xs truncate mt-1">
                           {selectedApplication.zoomLink}
                         </p>
                         {selectedApplication.zoomPassword && (
-                          <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                            {content.dialog.zoomPassword}: {selectedApplication.zoomPassword}
+                          <p className="text-xs mt-1">
+                            {content.dialog.zoomPassword}:{" "}
+                            {selectedApplication.zoomPassword}
                           </p>
                         )}
                       </div>
@@ -454,7 +404,9 @@ export function ApplicationsTable({
                           variant="outline"
                           size="sm"
                           onClick={() => {
-                            navigator.clipboard.writeText(selectedApplication.zoomLink!);
+                            navigator.clipboard.writeText(
+                              selectedApplication.zoomLink!,
+                            );
                             toast.success(content.toasts.zoomLinkCopied);
                           }}
                         >
@@ -463,8 +415,9 @@ export function ApplicationsTable({
                         </Button>
                         <Button
                           size="sm"
-                          className="bg-blue-600 hover:bg-blue-700"
-                          onClick={() => window.open(selectedApplication.zoomLink, "_blank")}
+                          onClick={() =>
+                            window.open(selectedApplication.zoomLink, "_blank")
+                          }
                         >
                           <ExternalLink className="size-4" />
                           {content.dialog.joinZoom}
@@ -613,13 +566,14 @@ export function ApplicationsTable({
                       {content.actions.reject}
                     </Button>
                   )}
-                  {selectedApplication.status !== "accepted" &&
+                  {selectedApplication.status !== "interview" &&
+                    selectedApplication.status !== "accepted" &&
                     selectedApplication.status !== "rejected" && (
                       <Button
                         variant="outline"
                         onClick={() => {
+                          updateStatus(selectedApplication.id, "interview");
                           setDialogOpen(false);
-                          openInterviewDialog(selectedApplication);
                         }}
                       >
                         <Calendar className="size-4" />
@@ -656,62 +610,6 @@ export function ApplicationsTable({
               </div>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={interviewDialogOpen} onOpenChange={setInterviewDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{content.interviewDialog.title}</DialogTitle>
-            <DialogDescription>
-              {content.interviewDialog.description}
-            </DialogDescription>
-          </DialogHeader>
-          {applicationToSchedule && (
-            <div className="space-y-4">
-              <div className="p-4 bg-muted/50 rounded-md">
-                <p className="text-sm font-medium">
-                  {applicationToSchedule.name}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {applicationToSchedule.email}
-                </p>
-                <p className="text-xs font-mono text-muted-foreground mt-1">
-                  {applicationToSchedule.applicationId}
-                </p>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="interview-date">
-                  {content.interviewDialog.dateLabel}
-                </Label>
-                <Input
-                  id="interview-date"
-                  type="datetime-local"
-                  value={interviewDate}
-                  onChange={(e) => setInterviewDate(e.target.value)}
-                  min={new Date().toISOString().slice(0, 16)}
-                />
-              </div>
-            </div>
-          )}
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setInterviewDialogOpen(false);
-                setApplicationToSchedule(null);
-              }}
-            >
-              {content.interviewDialog.cancel}
-            </Button>
-            <Button
-              onClick={handleScheduleInterview}
-              disabled={!interviewDate || isLoading}
-            >
-              {isLoading && <Loader2 className="size-4 animate-spin" />}
-              {content.interviewDialog.confirm}
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 

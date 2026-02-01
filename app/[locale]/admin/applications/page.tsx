@@ -38,17 +38,17 @@ const ApplicationsPage: NextPageIntlayer = async ({ params }) => {
         </div>
         <div className="rounded-md border p-4">
           <p className="text-sm text-muted-foreground">{content.stats.new}</p>
-          <p className="text-2xl font-bold text-blue-600">{newCount}</p>
+          <p className="text-2xl font-bold">{newCount}</p>
         </div>
         <div className="rounded-md border p-4">
           <p className="text-sm text-muted-foreground">{content.stats.read}</p>
-          <p className="text-2xl font-bold text-yellow-600">{readCount}</p>
+          <p className="text-2xl font-bold">{readCount}</p>
         </div>
         <div className="rounded-md border p-4">
           <p className="text-sm text-muted-foreground">
             {content.stats.interview}
           </p>
-          <p className="text-2xl font-bold text-purple-600">{interviewCount}</p>
+          <p className="text-2xl font-bold">{interviewCount}</p>
         </div>
         <div className="rounded-md border p-4">
           <p className="text-sm text-muted-foreground">
