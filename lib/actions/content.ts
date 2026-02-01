@@ -306,7 +306,7 @@ export async function getApplicationsOpen(): Promise<boolean> {
   try {
     await connectDB();
     const doc = await SiteContent.findOne({ page: "apply", key: "applicationsOpen" });
-    return doc?.value === true;
+    return Boolean(doc?.value) === true;
   } catch (error) {
     console.error("Error fetching applications open status:", error);
     return false;
