@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -9,10 +9,13 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { SponsorCategoryItem, SponsorItem } from "@/lib/actions/sponsors";
+
+const AUTOPLAY_DELAY = 4000;
 
 interface SponsorImageProps {
   src: string;
@@ -61,31 +64,8 @@ const LOGO_SIZES: Record<number, number> = {
   2: 96,
 };
 
-const CAROUSEL_ITEM_CLASSES: Record<number, string> = {
-  0: "basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4",
-  1: "basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5",
-  2: "basis-1/2 sm:basis-1/4 md:basis-1/5 lg:basis-1/6",
-};
-
-const MAX_VISIBLE: Record<number, number> = {
-  0: 4,
-  1: 5,
-  2: 6,
-};
-
 function getLogoSize(categoryIndex: number) {
   return LOGO_SIZES[Math.min(categoryIndex, 2)] ?? LOGO_SIZES[2];
-}
-
-function getCarouselItemClass(categoryIndex: number) {
-  return (
-    CAROUSEL_ITEM_CLASSES[Math.min(categoryIndex, 2)] ??
-    CAROUSEL_ITEM_CLASSES[2]
-  );
-}
-
-function getMaxVisible(categoryIndex: number) {
-  return MAX_VISIBLE[Math.min(categoryIndex, 2)] ?? MAX_VISIBLE[2];
 }
 
 interface CategorySectionProps {
@@ -104,27 +84,55 @@ function CategorySection({
   visitWebsiteLabel,
 }: CategorySectionProps) {
   const logoSize = getLogoSize(categoryIndex);
-  const carouselItemClass = getCarouselItemClass(categoryIndex);
-  const maxVisible = getMaxVisible(categoryIndex);
+  const itemWidth = logoSize + 48;
 
-  const needsCarousel = categorySponsors.length > maxVisible;
-
-  const renderSponsorLink = (sponsor: SponsorItem) => (
-    <Link
-      key={sponsor.id}
-      href={sponsor.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ width: logoSize + 24 }}
-      className="group flex flex-col items-center gap-1 p-3 transition-all hover:bg-muted/50 "
-      title={`${sponsor.name} - ${visitWebsiteLabel}`}
-    >
-      <SponsorImage src={sponsor.imageUrl} alt={sponsor.name} size={logoSize} />
-      <span className="text-xs text-muted-foreground text-center break-after-all mx-auto w-full">
-        {sponsor.name}
-      </span>
-    </Link>
+  const [api, setApi] = useState<CarouselApi>();
+  const [canScroll, setCanScroll] = useState(false);
+  const autoplayRef = useRef<ReturnType<typeof setInterval> | undefined>(
+    undefined,
   );
+
+  const startAutoplay = useCallback(() => {
+    if (!api || !canScroll) return;
+
+    autoplayRef.current = setInterval(() => {
+      if (api.canScrollNext()) {
+        api.scrollNext();
+      } else {
+        api.scrollTo(0);
+      }
+    }, AUTOPLAY_DELAY);
+  }, [api, canScroll]);
+
+  const stopAutoplay = useCallback(() => {
+    if (autoplayRef.current) {
+      clearInterval(autoplayRef.current);
+      autoplayRef.current = undefined;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!api) return;
+
+    const updateCanScroll = () => {
+      const scrollable = api.canScrollPrev() || api.canScrollNext();
+      setCanScroll(scrollable);
+    };
+
+    updateCanScroll();
+    api.on("reInit", updateCanScroll);
+    api.on("resize", updateCanScroll);
+
+    return () => {
+      api.off("reInit", updateCanScroll);
+      api.off("resize", updateCanScroll);
+    };
+  }, [api]);
+
+  useEffect(() => {
+    startAutoplay();
+    return stopAutoplay;
+  }, [startAutoplay, stopAutoplay]);
 
   return (
     <section className="space-y-6">
@@ -156,31 +164,62 @@ function CategorySection({
         </span>
       </h2>
 
-      {needsCarousel ? (
-        <div className="px-12">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
+      <div
+        className="px-6 relative"
+        onMouseEnter={stopAutoplay}
+        onMouseLeave={startAutoplay}
+      >
+        <Carousel
+          opts={{
+            align: "center",
+            containScroll:"keepSnaps",
+            loop: canScroll,
+          }}
+          setApi={setApi}
+          className="w-full"
+        >
+          <CarouselContent
+            className={cn("-ml-4", !canScroll && "justify-center")}
           >
-            <CarouselContent>
-              {categorySponsors.map((sponsor) => (
-                <CarouselItem key={sponsor.id} className={carouselItemClass}>
-                  {renderSponsorLink(sponsor)}
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-      ) : (
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          {categorySponsors.map(renderSponsorLink)}
-        </div>
-      )}
+            {categorySponsors.map((sponsor) => (
+              <CarouselItem
+                key={sponsor.id}
+                className="pl-4"
+                style={{ flex: `0 0 ${itemWidth}px` }}
+              >
+                <Link
+                  href={sponsor.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col items-center gap-1 p-3 transition-all hover:bg-muted/50 rounded-lg"
+                  title={`${sponsor.name} - ${visitWebsiteLabel}`}
+                >
+                  <SponsorImage
+                    src={sponsor.imageUrl}
+                    alt={sponsor.name}
+                    size={logoSize}
+                  />
+                  <span className="text-xs text-muted-foreground text-center w-full">
+                    {sponsor.name}
+                  </span>
+                </Link>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          {canScroll && (
+          <>
+            <div className="absolute left-0 top-0 bottom-0 w-6 bg-linear-to-r from-background to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-6 bg-linear-to-l from-background to-transparent z-10 pointer-events-none" />
+          </>
+        )}
+          {canScroll && (
+            <>
+              <CarouselPrevious className="-left-9"/>
+              <CarouselNext className="-right-9"/>
+            </>
+          )}
+        </Carousel>
+      </div>
     </section>
   );
 }
